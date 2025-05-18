@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require("discord.js")
-const jsonfile	= require("jsonfile")
-const fs 		= require("fs")
+const { EmbedBuilder } 	= require("discord.js")
+const jsonfile			= require("jsonfile")
+const fs 				= require("fs")
 
 async function error(interaction, e_text)
 {
