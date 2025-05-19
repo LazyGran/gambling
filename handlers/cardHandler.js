@@ -1,6 +1,6 @@
 const { EmbedBuilder }  = require("discord.js")
 const { Random }        = require("random-js")
-const jsonfile	        = require("jsonfile")
+const jsonfile          = require("jsonfile")
 const fs                = require("fs")
 
 const random            = new Random()
