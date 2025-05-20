@@ -34,6 +34,7 @@ module.exports =
 
 		const bet 			= interaction.options.getInteger('bet') || 50
 		const subcommand 	= interaction.options.getSubcommand();
+		const UID			= interaction.user.id
 		const game 			= require(`../games/${subcommand}.js`) 
 
 		if(!userStats.active_game)
@@ -44,7 +45,7 @@ module.exports =
 			userStats.chips 		= userStats.chips - bet
 
 			game.main(interaction, bet, userStats)
-        	await dh.userSave(interaction.user.id, userStats)		
+        	await dh.userSave(interaction.user.id, userStats, UID)		
         }
 		else
 		{
