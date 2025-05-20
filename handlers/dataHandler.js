@@ -15,7 +15,7 @@ function userGet(id)
 			xp: 0,
 			level: 1,
 			chips: 0,
-			active_game: 0
+			active_game: false
 			inventory: {},
 			custom: {},
 		}
