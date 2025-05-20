@@ -9,7 +9,7 @@ const deck_template     = [ "Ace", "Ace", "Ace", "Ace", 2, 2, 2, 2, 3, 3, 3, 3, 
 //create a new deck of cards 
 async function create(UID, size)
 {
-    if(fs.existsSync(`database/deck_${UID}`)) return{ success: false, reason: "Deck already exists"}
+    if(fs.existsSync(`database/deck_${UID}`)) return{ success: false, reason: "Deck already exists" }
 
     try
     {
@@ -24,7 +24,7 @@ async function create(UID, size)
     catch(err)
     {
         console.log(err)
-        return{ success: false, reason: "Failed to create new deck"}
+        return{ success: false, reason: "Failed to create new deck" }
     }
 }
 
@@ -34,7 +34,7 @@ async function draw(ID)
     try 
     { 
         const deck  = jsonfile.readFileSync(`database/deck_${ID}`)
-        if (deck.length < 1) return{success: false, reason: "No more cards remaining in deck"}
+        if (deck.length < 1) return{ success: false, reason: "No more cards remaining in deck" }
 
         const n     = random.integer(0, deck.length - 1)
         const card  = deck[n]
@@ -59,7 +59,7 @@ async function burn(ID, amount)
         for (let i = 0; i < amount; i++)
         {
             const deck  = jsonfile.readFileSync(`database/deck_${ID}`)
-            if (deck.length < 1) return{success: false, reason: "No more cards remaining in deck"}
+            if (deck.length < 1) return{ success: false, reason: "No more cards remaining in deck" }
 
             const n     = random.integer(0, deck.length - 1)
             const card  = deck[n]
