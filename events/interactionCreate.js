@@ -18,6 +18,7 @@ module.exports =
 			return; 
 		}
 
-		command.execute(interaction, client)
+		var userStats = await dh.userGet(interaction.user.id)
+		command.execute(interaction, userStats)
 	}
 }
