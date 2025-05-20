@@ -39,13 +39,13 @@ module.exports =
 
 		if(!userStats.active_game)
 		{
-			if(bet > userStats.chips) { return eh.error(interaction, "You don't have enough chips!")}
+			if(bet > userStats.chips) { return eh.error(interaction, "You don't have enough chips!") }
 
-			userStats.active_game 	= true
+			//userStats.active_game 	= true
 			userStats.chips 		= userStats.chips - bet
 
-			game.main(interaction, bet, userStats)
-        	await dh.userSave(interaction.user.id, userStats, UID)		
+			game.main(interaction, bet, userStats, UID)
+        	await dh.userSave(interaction.user.id, userStats)		
         }
 		else
 		{
