@@ -26,9 +26,8 @@ async function main(interaction, bet, userStats, UID)
 		drawn = await ch.draw(UID)
 	}
  		
-	const card	= drawn.card
-	const value = values[card] || card
-
+	const card		= drawn.card
+	const value 	= values[card] || card
 
 	const low = new ButtonBuilder()
 	.setCustomId("b_low")
@@ -70,6 +69,8 @@ async function main(interaction, bet, userStats, UID)
 
 		const dealer_card	= dealer_drawn.card
 		const dealer_value 	= values[dealer_card] || dealer_card
+		const remaining		= dealer_drawn.remaining	
+		console.log(remaining)
 
 		var chosen 	= 0
 		var final 	= 0 
@@ -78,17 +79,18 @@ async function main(interaction, bet, userStats, UID)
 		if(game.customId === "b_equal")	chosen = 2
 		if(game.customId === "b_high")	chosen = 3
 
-		if(dealer_value < value) final = 1
-		if(dealer_value === value) final = 2
-		if(dealer_value > value) final = 3 
+		if(dealer_value < value) 	final = 1
+		if(dealer_value === value) 	final = 2
+		if(dealer_value > value) 	final = 3 
+
+		if(remaining < 10)	ch.remove(UID)
 
 		played = true
 
 		low		.setDisabled(true)
 		equal	.setDisabled(true)
 		high	.setDisabled(true)
-		//row 	.addComponents(again)
-
+		
 		if(final === chosen) 	embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`)
 		else					embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`).setFooter({ text: `The house always wins...` });
 
