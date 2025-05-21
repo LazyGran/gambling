@@ -14,7 +14,8 @@ async function main(interaction, bet, userStats, UID)
 		"King": 10
 	}
 
-	var drawn = await ch.draw(UID)
+	var drawn 	= await ch.draw(UID)
+	var played 	= false
 
 	if(!drawn.success) 
 	{
@@ -56,11 +57,13 @@ async function main(interaction, bet, userStats, UID)
 	.setTitle("High or Low")
 	.setDescription(`You drew a **${card}**`)
 
-	const initial = await interaction.editReply({ embeds: [embed], components: [row] })
+	const initial	= await interaction.editReply({ embeds: [embed], components: [row] })
+	const pressed	= await initial.createMessageComponentCollector({ time: 5_000 })
 
-	try
+	pressed.on('collect', async game =>
 	{
-		const game 			= await initial.awaitMessageComponent({time: 5_000, max: 1})
+		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true })
+
 		const dealer_drawn 	= await ch.draw(UID)
 
 		if(!dealer_drawn.success) return eh.error(interaction, dealer_drawn.reason)
@@ -79,21 +82,32 @@ async function main(interaction, bet, userStats, UID)
 		if(dealer_value === value) final = 2
 		if(dealer_value > value) final = 3 
 
-		console.log(chosen, final, dealer_value)
+		played = true
 
-		low.setDisabled(true)
-		equal.setDisabled(true)
-		high.setDisabled(true)
+		low		.setDisabled(true)
+		equal	.setDisabled(true)
+		high	.setDisabled(true)
+		//row 	.addComponents(again)
 
 		if(final === chosen) 	embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`)
 		else					embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`).setFooter({ text: `The house always wins...` });
 
-        await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())
-	}
-	catch(error)
+        await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	
+        pressed.stop()
+	})
+
+	pressed.on('end', collected =>
 	{
-		console.error(error)
-	}
+		if(!played)
+		{
+			low		.setDisabled(true)
+			equal	.setDisabled(true)
+			high 	.setDisabled(true)
+			embed 	.setColor('#e80400').setTitle(`You lost!`).setDescription(`You didn't react in time`).setFooter({ text: `The house gives you five seconds` });
+
+			interaction.editReply({ embeds: [embed], components: [row] })	
+		}
+	})
 }
 
 module.exports =
