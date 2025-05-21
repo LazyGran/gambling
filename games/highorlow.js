@@ -85,7 +85,7 @@ async function main(interaction, bet, userStats, UID)
 		if(dealer_value > value) 	final = 3 
 
 		if(chosen === 2)	reward = bet + bet
-		if(remaining < 10)	ch.remove(UID)
+		if(remaining < 10)	await ch.remove(UID)
 
 		played = true
 
