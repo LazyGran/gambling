@@ -99,9 +99,6 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips 		= userStats.chips + reward
 			userStats.xp 			= userStats.xp + xp_rew
-			userStats.active_game	= false
-
-			dh.userSave(UID, userStats)
 		}
 		else 
 		{
@@ -124,6 +121,10 @@ async function main(interaction, bet, userStats, UID)
 
 			interaction.editReply({ embeds: [embed], components: [row] })	
 		}
+
+		userStats.active_game = false
+
+		dh.userSave(UID, userStats)
 	})
 }
 
