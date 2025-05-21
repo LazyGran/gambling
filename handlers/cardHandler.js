@@ -42,7 +42,7 @@ async function draw(ID)
         deck.splice(n, 1)
         jsonfile.writeFileSync(`database/deck_${ID}`, deck)
 
-        return{ success: true, card: card}
+        return{ success: true, card: card, remaining: deck.length}
     }
     catch   
     { 
