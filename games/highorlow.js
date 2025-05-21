@@ -107,7 +107,6 @@ async function main(interaction, bet, userStats, UID)
 
         await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	
 
-
         pressed.stop()
 	})
 
