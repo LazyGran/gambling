@@ -8,7 +8,7 @@ async function main(interaction, bet, userStats, UID)
 {
 	const values = 
 	{
-		"Ace": 2,
+		"Ace": 	2,
 		"Jack": 10,
 		"Queen": 10,
 		"King": 10
@@ -69,9 +69,10 @@ async function main(interaction, bet, userStats, UID)
 
 		const dealer_card	= dealer_drawn.card
 		const dealer_value 	= values[dealer_card] || dealer_card
-		const remaining		= dealer_drawn.remaining	
-		console.log(remaining)
+		const remaining		= dealer_drawn.remaining
 
+		var reward	= Math.floor(bet + (bet / 2))
+		var xp_rew	= Math.floor(bet / 7)
 		var chosen 	= 0
 		var final 	= 0 
 
@@ -83,6 +84,7 @@ async function main(interaction, bet, userStats, UID)
 		if(dealer_value === value) 	final = 2
 		if(dealer_value > value) 	final = 3 
 
+		if(chosen === 2)	reward = bet + bet
 		if(remaining < 10)	ch.remove(UID)
 
 		played = true
@@ -90,11 +92,22 @@ async function main(interaction, bet, userStats, UID)
 		low		.setDisabled(true)
 		equal	.setDisabled(true)
 		high	.setDisabled(true)
-		
-		if(final === chosen) 	embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`)
+
+		if(final === chosen) 	
+		{
+			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`)
+
+			userStats.chips 		= userStats.chips + reward
+			userStats.xp 			= userStats.xp + xp_rew
+			userStats.active_game	= false
+
+			dh.userSave(UID, userStats)
+		}
 		else					embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`).setFooter({ text: `The house always wins...` });
 
         await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	
+
+
         pressed.stop()
 	})
 
