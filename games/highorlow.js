@@ -95,7 +95,7 @@ async function main(interaction, bet, userStats, UID)
 
 		if(final === chosen) 	
 		{
-			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`)
+			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward - bet} Chips*`)
 
 			userStats.chips 		= userStats.chips + reward
 			userStats.xp 			= userStats.xp + xp_rew
@@ -103,7 +103,10 @@ async function main(interaction, bet, userStats, UID)
 
 			dh.userSave(UID, userStats)
 		}
-		else					embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}**`).setFooter({ text: `The house always wins...` });
+		else 
+		{
+			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house always wins...` });
+		}
 
         await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	
 
@@ -117,7 +120,7 @@ async function main(interaction, bet, userStats, UID)
 			low		.setDisabled(true)
 			equal	.setDisabled(true)
 			high 	.setDisabled(true)
-			embed 	.setColor('#e80400').setTitle(`You lost!`).setDescription(`You didn't react in time`).setFooter({ text: `The house gives you five seconds` });
+			embed 	.setColor('#e80400').setTitle(`You lost!`).setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house gives you five seconds` });
 
 			interaction.editReply({ embeds: [embed], components: [row] })	
 		}
