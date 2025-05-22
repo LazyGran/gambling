@@ -20,18 +20,23 @@ async function main(interaction, bet, userStats, UID)
 	if(!deck.success) return eh.error(interaction, deck.reason)
 
 	var	hand			= []
+	var hand_str 		= ""
 	var points			= 0
 	var dealer_hand		= []
+	var dealer_hand_str	= ""
 	var dealer_points	= 0
 	var played 			= false
+	var busted			= false
 
 	for(let i = 0; i < 2; i++)
 	{
-		points 			= await player_draw(UID, hand, points)
-		dealer_points 	= await dealer_draw(UID, dealer_hand, dealer_points)
+		points 			= await player_draw(UID, hand, points, hand_str)
+		dealer_points 	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_str)
 	} 
 
-	console.log("balls")
+	hand_str 		= hand.join(", ")
+	dealer_hand_str = dealer_hand.join(", ")
+
 	console.log(hand, points)
 	console.log(dealer_hand, dealer_points)
 
@@ -55,34 +60,101 @@ async function main(interaction, bet, userStats, UID)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Seventeen + Four")
-	.setDescription(`Your hand: **${hand[0]}, ${hand[1]}** \nDealer's hand: **??, ${dealer_hand[1]}**`)
+	.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
 	
 	const initial	= await interaction.editReply({ embeds: [embed], components: [row] })
 	const pressed	= await initial.createMessageComponentCollector({ time: 30_000 })
 
 	pressed.on('collect', async game =>
 	{
-		pressed.stop()
+		game.deferUpdate()
+
+		if(game.customId === "b_stand")	
+		{
+			played = true
+
+			return pressed.stop()	
+		}
+
+		points 		= await player_draw(UID, hand, points)
+		hand_str 	= hand.join(", ")
+
+		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
+		interaction.editReply({ embeds: [embed] })
+
+		if(points > 21)						
+		{
+			played = true
+			busted = true
+			pressed.stop()
+		}
 	})
 
-	pressed.on('end', collected =>
+	pressed.on('end', async collected =>
 	{
+		hit		.setDisabled(true)
+		stand	.setDisabled(true)
+
 		if(!played)
 		{
-			hit		.setDisabled(true)
-			stand	.setDisabled(true)
-			embed 	.setColor('#e80400').setTitle(`You lost!`).setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house gives you thirty seconds` });
-
-			interaction.editReply({ embeds: [embed], components: [row] })	
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house gives you thirty seconds` });
 		}
+
+		while(dealer_points < 17)
+		{
+			dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points)
+			dealer_hand_str = dealer_hand.join(", ")
+
+			console.log(dealer_hand_str, dealer_points)
+		}
+
+		if(busted)
+		{
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house always wins...` });
+		}
+		else if(dealer_points > 21)
+		{
+			embed 	
+			.setColor('#1aa32a')
+			.setTitle(`You won!`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+		}
+		else if(points > dealer_points)
+		{
+			embed 	
+			.setColor('#1aa32a')
+			.setTitle(`You won!`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+		}
+		else
+		{
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house always wins...` });
+		}
+
+		interaction.editReply({ embeds: [embed], components: [row] })	
 
 		userStats.active_game = false
 
 		ch.remove(UID)
 		dh.userSave(UID, userStats)
+
+		console.log("balls")
+		console.log(hand, points)
+		console.log(dealer_hand, dealer_points)
 	})
 }
-
 
 async function player_draw(UID, hand, points)
 {
@@ -90,7 +162,7 @@ async function player_draw(UID, hand, points)
 
 	hand.push(drawn.card)
 
-    points += values[drawn.card] || drawn.card
+    points 		+= values[drawn.card] || drawn.card
 
 	return(points)
 }
@@ -101,7 +173,7 @@ async function dealer_draw(UID, dealer_hand, dealer_points)
 
 	dealer_hand.push(drawn.card)
 
-	dealer_points += values[drawn.card] || drawn.card
+	dealer_points 	+= values[drawn.card] || drawn.card
 
 	return(dealer_points)
 }
