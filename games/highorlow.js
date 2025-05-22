@@ -27,7 +27,7 @@ async function main(interaction, bet, userStats, UID)
 	}
  		
 	const card		= drawn.card
-	const value 	= values[card] || card
+	const points 	= values[card] || card
 
 	const low = new ButtonBuilder()
 	.setCustomId("b_low")
@@ -68,7 +68,7 @@ async function main(interaction, bet, userStats, UID)
 		if(!dealer_drawn.success) return eh.error(interaction, dealer_drawn.reason)
 
 		const dealer_card	= dealer_drawn.card
-		const dealer_value 	= values[dealer_card] || dealer_card
+		const dealer_points	= values[dealer_card] || dealer_card
 		const remaining		= dealer_drawn.remaining
 
 		var reward	= Math.floor(bet + (bet / 2))
@@ -80,9 +80,9 @@ async function main(interaction, bet, userStats, UID)
 		if(game.customId === "b_equal")	chosen = 2
 		if(game.customId === "b_high")	chosen = 3
 
-		if(dealer_value < value) 	final = 1
-		if(dealer_value === value) 	final = 2
-		if(dealer_value > value) 	final = 3 
+		if(dealer_points < points) 		final = 1
+		if(dealer_points === points)	final = 2
+		if(dealer_points > points)		final = 3 
 
 		if(chosen === 2)	reward = bet + bet
 		if(remaining < 10)	await ch.remove(UID)
