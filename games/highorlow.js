@@ -4,16 +4,16 @@ const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const ch    = require('../handlers/cardHandler.js')
 
+const values = 
+{
+	"Ace": 	2,
+	"Jack": 10,
+	"Queen": 10,
+	"King": 10
+}
+
 async function main(interaction, bet, userStats, UID)
 {
-	const values = 
-	{
-		"Ace": 	2,
-		"Jack": 10,
-		"Queen": 10,
-		"King": 10
-	}
-
 	const deck = await ch.create(UID)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
