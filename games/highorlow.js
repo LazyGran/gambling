@@ -85,7 +85,6 @@ async function main(interaction, bet, userStats, UID)
 		if(dealer_points > points)		final = 3 
 
 		if(chosen === 2)	reward = bet + bet
-		if(remaining < 10)	await ch.remove(UID)
 
 		played = true
 
@@ -124,6 +123,7 @@ async function main(interaction, bet, userStats, UID)
 
 		userStats.active_game = false
 
+		ch.remove(UID)
 		dh.userSave(UID, userStats)
 	})
 }
