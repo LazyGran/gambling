@@ -83,10 +83,6 @@ async function main(interaction, bet, userStats, UID)
 
 		played = true
 
-		low		.setDisabled(true)
-		equal	.setDisabled(true)
-		high	.setDisabled(true)
-
 		if(final === chosen) 	
 		{
 			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward - bet} Chips*`)
@@ -106,15 +102,20 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('end', collected =>
 	{
+		low		.setDisabled(true)
+		equal	.setDisabled(true)
+		high 	.setDisabled(true)
+
 		if(!played)
 		{
-			low		.setDisabled(true)
-			equal	.setDisabled(true)
-			high 	.setDisabled(true)
-			embed 	.setColor('#e80400').setTitle(`You lost!`).setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house gives you five seconds` });
-
-			interaction.editReply({ embeds: [embed], components: [row] })	
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house gives you five seconds` });	
 		}
+
+		interaction.editReply({ embeds: [embed], components: [row] })
 
 		userStats.active_game = false
 
