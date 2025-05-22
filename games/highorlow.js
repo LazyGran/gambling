@@ -14,17 +14,12 @@ async function main(interaction, bet, userStats, UID)
 		"King": 10
 	}
 
-	var drawn 	= await ch.draw(UID)
+	const deck = await ch.create(UID)
+
+	if(!deck.success) return eh.error(interaction, deck.reason)
+
+	var	drawn 	= await ch.draw(UID)
 	var played 	= false
-
-	if(!drawn.success) 
-	{
-		const deck = await ch.create(UID)
-
-		if(!deck.success) return eh.error(interaction, deck.reason)
-
-		drawn = await ch.draw(UID)
-	}
  		
 	const card		= drawn.card
 	const points 	= values[card] || card
