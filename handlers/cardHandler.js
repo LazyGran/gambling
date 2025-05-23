@@ -4,18 +4,23 @@ const jsonfile          = require("jsonfile")
 const fs                = require("fs")
 
 const random            = new Random()
-const deck_template     = [ "Ace", "Ace", "Ace", "Ace", 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, "Jack", "Jack", "Jack", "Jack", "Queen", "Queen", "Queen", "Queen", "King", "King", "King", "King"]
+const deck_templates    =  
+{
+    "standard": [ "Ace", "Ace", "Ace", "Ace", 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, "Jack", "Jack", "Jack", "Jack", "Queen", "Queen", "Queen", "Queen", "King", "King", "King", "King" ],
+    "short"   : [ "Ace", "Ace", "Ace", "Ace", 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, "Jack", "Jack", "Jack", "Jack", "Queen", "Queen", "Queen", "Queen", "King", "King", "King", "King" ]
+}
 
 //create a new deck of cards 
-async function create(UID, size)
+async function create(UID, size, template)
 {
     if(fs.existsSync(`database/deck_${UID}`)) return{ success: false, reason: "Deck already exists" }
 
     try
     {
-        size = size || 1
+        size        = size || 1
+        template    = deck_templates[template] || deck_templates["standard"]
 
-        const deck = Array(size).fill(deck_template).flat()
+        const deck = Array(size).fill(template).flat()
 
         jsonfile.writeFileSync(`database/deck_${UID}`, deck)
 
