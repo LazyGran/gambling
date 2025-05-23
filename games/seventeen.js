@@ -15,7 +15,9 @@ const facecards	= [	"Jack", "Queen","King" ]
 
 async function main(interaction, bet, userStats, UID)
 {
-	const deck = await ch.create(UID)
+	const deck 		= await ch.create(UID, 1, "short")
+	const reward 	= Math.floor(bet + ((bet / 4) * 3))
+	const xp_rew	= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
 
@@ -36,9 +38,6 @@ async function main(interaction, bet, userStats, UID)
 
 	hand_str 		= hand.join(", ")
 	dealer_hand_str = dealer_hand.join(", ")
-
-	console.log(hand, points)
-	console.log(dealer_hand, dealer_points)
 
 	const hit = new ButtonBuilder()
 	.setCustomId("b_hit")
@@ -108,8 +107,6 @@ async function main(interaction, bet, userStats, UID)
 		{
 			dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points)
 			dealer_hand_str = dealer_hand.join(", ")
-
-			console.log(dealer_hand_str, dealer_points)
 		}
 
 		if(busted)
@@ -125,14 +122,20 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
+
+			userStats.chips = userStats.chips + reward
+			userStats.xp 	= userStats.xp + xp_rew
 		}
 		else if(points > dealer_points)
 		{
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
+
+			userStats.chips = userStats.chips + reward
+			userStats.xp 	= userStats.xp + xp_rewa
 		}
 		else
 		{
@@ -149,10 +152,6 @@ async function main(interaction, bet, userStats, UID)
 
 		ch.remove(UID)
 		dh.userSave(UID, userStats)
-
-		console.log("balls")
-		console.log(hand, points)
-		console.log(dealer_hand, dealer_points)
 	})
 }
 
