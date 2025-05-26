@@ -10,10 +10,12 @@ module.exports =
 	{
 		await interaction.deferReply()
 
-        const { chips, level, xp } = userStats
+        const { chips, level, xp, custom } 	= userStats
+        const thumb							= custom.thumbnail || interaction.user.displayAvatarURL({ dynamic: true }) 
         
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s info:`)
+        .setThumbnail(thumb)
         .setDescription(`**Money:** ${chips}\n**Level:** ${level}`)
 
         interaction.editReply({ embeds: [embed] })
