@@ -3,6 +3,7 @@ const { Random }														= require("random-js")
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const ch    = require('../handlers/cardHandler.js')
+const xh	= require('../handlers/xpHandler.js')
 
 const values	= 
 {
@@ -125,7 +126,7 @@ async function main(interaction, bet, userStats, UID)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
 
 			userStats.chips = userStats.chips + reward
-			userStats.xp 	= userStats.xp + xp_rew
+			await xh.leveling(userStats, xp_rew)
 		}
 		else if(points > dealer_points)
 		{
@@ -135,7 +136,7 @@ async function main(interaction, bet, userStats, UID)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
 
 			userStats.chips = userStats.chips + reward
-			userStats.xp 	= userStats.xp + xp_rewa
+			await xh.leveling(userStats, xp_rew)
 		}
 		else
 		{
