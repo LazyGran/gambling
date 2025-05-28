@@ -3,6 +3,7 @@ const { Random }														= require("random-js")
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const ch    = require('../handlers/cardHandler.js')
+const xh	= require('../handlers/xpHandler.js')
 
 const values = 
 {
@@ -88,7 +89,7 @@ async function main(interaction, bet, userStats, UID)
 			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward - bet} Chips*`)
 
 			userStats.chips 		= userStats.chips + reward
-			userStats.xp 			= userStats.xp + xp_rew
+			await xh.leveling(userStats, xp_rew)
 		}
 		else 
 		{
