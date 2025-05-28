@@ -32,7 +32,7 @@ module.exports =
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s info:`)
         .setThumbnail(thumb)
-        .setDescription(`**Money:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
+        .setDescription(`**Chips:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
 
         interaction.editReply({ embeds: [embed] })
     }
