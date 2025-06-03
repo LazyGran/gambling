@@ -1,5 +1,4 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } 	= require("discord.js")
-const { Random }														= require("random-js")
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const ch    = require('../handlers/cardHandler.js')
