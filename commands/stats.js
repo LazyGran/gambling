@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")	
+const xh    = require('../handlers/xpHandler.js')
 
 module.exports = 
 {
@@ -9,6 +10,7 @@ module.exports =
 	async execute(interaction, userStats)
 	{
 		await interaction.deferReply()
+        await xh.leveling(userStats, 0)
 
         const { chips, level, xp, custom } 	= userStats
         const xpreq                         = 20 * (level * level) 
