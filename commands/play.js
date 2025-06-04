@@ -13,6 +13,7 @@ var roulette_choices =
     { name: "1st 12", value: "1st"},
     { name: "2nd 12", value: "2nd"},
     { name: "3rd 12", value: "3rd"},
+    { name: "Zero", value: "green"},
 ]
 
 module.exports = 
