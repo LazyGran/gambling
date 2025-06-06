@@ -6,7 +6,6 @@ const xh	= require('../handlers/xpHandler.js')
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
-	console.log(chosen)
 	const wheel 	= []
 	const players 	= []	
 
@@ -43,7 +42,6 @@ async function main(interaction, bet, userStats, UID, chosen)
 	{ 
 		const field 			= await wheelspin(interaction, wheel, embed)
 		const { space, type }	= field
-		console.log(space, type)
 
 		const won 		= await checkwin(chosen, space, type)
 		const xp_rew 	= Math.floor(bet / 7)
