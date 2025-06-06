@@ -31,7 +31,8 @@ module.exports =
             .setColor("#1aa32a")
             .setDescription(`Changed your embed's image`)
 
-            interaction.editReply({ embeds: [embed] })
+            try     { await interaction.editReply({ embeds: [embed] }) }
+            catch   { console.log("Failed to respond \n cmdID: 1, Error: 1") }    
 
             userStats.custom.thumbnail = thumb
             dh.userSave(userStats)
