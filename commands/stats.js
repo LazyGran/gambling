@@ -36,6 +36,7 @@ module.exports =
         .setThumbnail(thumb)
         .setDescription(`**Chips:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
 
-        interaction.editReply({ embeds: [embed] })
+        try     { await interaction.editReply({ embeds: [embed] }) }
+        catch   { console.log("Failed to respond \n cmdID: 2, Error: 1") }
     }
 }
