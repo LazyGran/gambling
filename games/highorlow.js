@@ -20,6 +20,8 @@ async function main(interaction, bet, userStats, UID)
 
 	var	drawn 	= await ch.draw(UID)
 	var played 	= false
+
+	let initial;
  		
 	const card		= drawn.card
 	const points 	= values[card] || card
@@ -51,7 +53,9 @@ async function main(interaction, bet, userStats, UID)
 	.setTitle("High or Low")
 	.setDescription(`You drew a **${card}**`)
 
-	const initial	= await interaction.editReply({ embeds: [embed], components: [row] })
+	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
+	catch 	{ console.log("Failed to respond \n GameID: 1, Error: 1") }
+	
 	const pressed	= await initial.createMessageComponentCollector({ time: 5_000 })
 
 	pressed.on('collect', async game =>
@@ -95,12 +99,13 @@ async function main(interaction, bet, userStats, UID)
 			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house always wins...` });
 		}
 
-        await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	
+		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	 }
+		catch 	{ console.log("Failed to respond \n GameID: 1, Error: 2") }
 
         pressed.stop()
 	})
 
-	pressed.on('end', collected =>
+	pressed.on('end', async collected =>
 	{
 		low		.setDisabled(true)
 		equal	.setDisabled(true)
@@ -115,8 +120,9 @@ async function main(interaction, bet, userStats, UID)
 			.setFooter({ text: `The house gives you five seconds` });	
 		}
 
-		interaction.editReply({ embeds: [embed], components: [row] })
-
+		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
+		catch 	{ console.log("Failed to respond \n GameID: 1, Error: 3") }
+		
 		userStats.active_game = false
 
 		ch.remove(UID)
