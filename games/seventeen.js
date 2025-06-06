@@ -30,6 +30,8 @@ async function main(interaction, bet, userStats, UID)
 	var played 			= false
 	var busted			= false
 
+	let inital;
+
 	for(let i = 0; i < 2; i++)
 	{
 		points 			= await player_draw(UID, hand, points, hand_str)
@@ -61,7 +63,9 @@ async function main(interaction, bet, userStats, UID)
 	.setTitle("Seventeen + Four")
 	.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
 	
-	const initial	= await interaction.editReply({ embeds: [embed], components: [row] })
+	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
+	catch 	{ console.log("Failed to respond \n GameID: 3, Error: 1") }
+
 	const pressed	= await initial.createMessageComponentCollector({ time: 30_000 })
 
 	pressed.on('collect', async game =>
@@ -79,7 +83,8 @@ async function main(interaction, bet, userStats, UID)
 		hand_str 	= hand.join(", ")
 
 		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
-		interaction.editReply({ embeds: [embed] })
+		try 	{ await interaction.editReply({ embeds: [embed] }) }
+		catch 	{ console.log("Failed to respond \n GameID: 3, Error: 2") }
 
 		if(points > 21)						
 		{
@@ -146,7 +151,8 @@ async function main(interaction, bet, userStats, UID)
 			.setFooter({ text: `The house always wins...` });
 		}
 
-		interaction.editReply({ embeds: [embed], components: [row] })	
+		try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
+		catch 	{ console.log("Failed to respond \n GameID: 3, Error: 3") }
 
 		userStats.active_game = false
 
