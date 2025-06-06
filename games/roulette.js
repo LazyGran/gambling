@@ -10,6 +10,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	const players 	= []	
 
 	let p_names 	= ""
+	let initial;
 
 	for(i = 0; i < 37; i++)
 	{
@@ -36,7 +37,8 @@ async function main(interaction, bet, userStats, UID, chosen)
 	.setDescription(`**Players:** \n${p_names}`)
 	.setFooter({ text: `Multiplayer coming soon..` });
 
-	const initial	= await interaction.editReply({ embeds: [embed] })
+	try 	{ initial = await interaction.editReply({ embeds: [embed] }) }
+	catch 	{ console.log("Failed to respond \n GameID: 2, Error: 1") }
 
 	setTimeout(async () => 
 	{ 
@@ -64,7 +66,8 @@ async function main(interaction, bet, userStats, UID, chosen)
 			embed.setColor('#e80400').setDescription("You lost").setFooter({ text: `The house always wins...` })
 		}
 
-		interaction.editReply({ embeds: [embed] })
+		try 	{ await interaction.editReply({ embeds: [embed] }) }
+		catch 	{ console.log("Failed to respond \n GameID: 2, Error: 2") }
 	}, 2000)
 
 }
@@ -83,7 +86,8 @@ async function wheelspin(interaction, wheel, embed)
 	.setDescription(null)
 
 
-	interaction.editReply({ embeds: [embed] })
+	try 	{ await interaction.editReply({ embeds: [embed] }) }
+	catch 	{ console.log("Failed to respond \n GameID: 2, Error: 3") }
 
 	return field;
 }
