@@ -16,6 +16,7 @@ function userGet(id)
 			level: 1,
 			chips: 100,
 			active_game: false,
+			lastbeg: 0,
 			inventory: {},
 			custom: {},
 		}
