@@ -11,8 +11,8 @@ async function error(interaction, e_text)
     .setDescription(e_text + "\n\n-# If you believe this is a bug, contact <@467019235328000001>")
     .setFooter({ text: 'Please remember this is a public beta!' });
 
-    try     { await interaction.reply({ embeds: [embed], components: [] })      }   //trying to reply normaly
-    catch   { await interaction.editReply({ embeds: [embed], components: [] })  }   //if that fails, reply probably needs to be edited
+    try             { await interaction.editReply({ embeds: [embed], components: [] }) }   
+    catch(error)    { console.log(`Error handler failed to edit message! \nError message: ${e_text} \nError: \n${error}`) }  
 }
 
 module.exports =
