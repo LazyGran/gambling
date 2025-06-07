@@ -50,7 +50,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 		let reward = 0
 
-		if(["red", "black", "even", "odd"].includes(chosen))	reward = bet + bet / 2;
+		if(["red", "black", "even", "odd"].includes(chosen))	reward = Math.floor(bet + (bet / 2));
 		else if(["1st", "2nd", "3rd"].includes(chosen))			reward = bet + bet;
 		else if(chosen === "zero")								reward = bet * 10;
 
@@ -68,6 +68,10 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
 		catch 	{ console.log("Failed to respond \n GameID: 2, Error: 2") }
+
+		userStats.active_game = false
+
+		dh.userSave(UID, userStats)
 	}, 2000)
 
 }
