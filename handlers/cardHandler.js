@@ -2,6 +2,7 @@ const { EmbedBuilder }  = require("discord.js")
 const { Random }        = require("random-js")
 const jsonfile          = require("jsonfile")
 const fs                = require("fs")
+const dev               = require('../handlers/dev.js')
 
 const random            = new Random()
 const deck_templates    =  
@@ -28,7 +29,7 @@ async function create(UID, size, template)
     }
     catch(err)
     {
-        console.log(err)
+        dev.log(err)
         return{ success: false, reason: "Failed to create new deck" }
     }
 }
@@ -94,7 +95,7 @@ async function remove(ID)
     {
         if(err)
         {
-            console.log(err)
+            dev.log(err)
             return{ success: false, reason: "Unable to delete deck, error has been logged."}
         }
     })

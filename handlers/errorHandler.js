@@ -1,6 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder } 	= require("discord.js")
 const jsonfile  = require("jsonfile")
 const fs 		= require("fs")
+const dev       = require('../handlers/dev.js')
 
 async function error(interaction, e_text)
 {
@@ -12,7 +13,7 @@ async function error(interaction, e_text)
     .setFooter({ text: 'Please remember this is a public beta!' });
 
     try             { await interaction.editReply({ embeds: [embed], components: [] }) }   
-    catch(error)    { console.log(`Error handler failed to edit message! \nError message: ${e_text} \nError: \n${error}`) }  
+    catch(error)    { dev.log(`Error handler failed to edit message! \nError message: ${e_text} \nError: \n${error}`) }  
 }
 
 module.exports =

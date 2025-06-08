@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")	
 const xh    = require('../handlers/xpHandler.js')
+const dev   = require('../handlers/dev.js')
 
 module.exports = 
 {
@@ -37,6 +38,6 @@ module.exports =
         .setDescription(`**Chips:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { console.log("Failed to respond \n cmdID: 2, Error: 1") }
+        catch   { dev.log("Failed to respond \n cmdID: 2, Error: 1") }
     }
 }

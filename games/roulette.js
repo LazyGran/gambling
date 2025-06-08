@@ -3,6 +3,7 @@ const { Random }														= require("random-js")
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const xh	= require('../handlers/xpHandler.js')
+const dev   = require('../handlers/dev.js')
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
@@ -38,7 +39,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	.setFooter({ text: `Multiplayer coming soon..` });
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed] }) }
-	catch 	{ console.log("Failed to respond \n GameID: 2, Error: 1") }
+	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1") }
 
 	setTimeout(async () => 
 	{ 
@@ -67,7 +68,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
-		catch 	{ console.log("Failed to respond \n GameID: 2, Error: 2") }
+		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2") }
 
 		userStats.active_game = false
 
@@ -91,7 +92,7 @@ async function wheelspin(interaction, wheel, embed)
 
 
 	try 	{ await interaction.editReply({ embeds: [embed] }) }
-	catch 	{ console.log("Failed to respond \n GameID: 2, Error: 3") }
+	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3") }
 
 	return field;
 }

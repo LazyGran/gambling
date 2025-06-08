@@ -3,6 +3,7 @@ const { Random }                             = require("random-js")
 const xh    = require('../handlers/xpHandler.js')
 const eh    = require('../handlers/errorHandler.js')    
 const dh    = require('../handlers/dataHandler.js')
+const dev   = require('../handlers/dev.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,6 +33,6 @@ module.exports = {
         await dh.userSave(userStats)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { console.log("Failed to respond \n cmdID: 3, Error: 1") }
+        catch   { dev.log("Failed to respond \n cmdID: 3, Error: 1") }
     }
 }

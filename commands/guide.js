@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")	
 const fs	= require('fs')
 const path	= require('path')
+const dev   = require('../handlers/dev.js')
 
 const filePath      = path.join("database/", 'guide.txt')   
 const fileContent   = fs.readFileSync(filePath, 'utf-8')   
@@ -37,6 +38,6 @@ module.exports =
         .setDescription(final)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { console.log("Failed to respond \n cmdID: 4, Error: 1") }
+        catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1") }
 	}
 }

@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, MessageAttachment, ButtonBuilder, But
 const path		= require("path")
 const dh 		= require("../handlers/dataHandler.js")
 const eh 		= require("../handlers/errorHandler.js")
+const dev   	= require('../handlers/dev.js')
 
 var roulette_choices =  
 [
