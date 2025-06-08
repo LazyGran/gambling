@@ -1,9 +1,6 @@
 const { Events, ActivityType } 	= require("discord.js")
 const { Random }				= require("random-js")
-const readline	= require("readline");
-const fs		= require("fs")
-const path		= require("path")
-const dh        = require('../handlers/dataHandler.js')
+const dev        				= require('../handlers/dev.js')
 
 const random	= new Random()
 const statuses 	= 
@@ -32,12 +29,14 @@ module.exports =
 	{
 		await setStatus()
 
+		dev.devTools()
+
 		async function setStatus()
 		{
 			const n 		= random.integer(0, (statuses.length - 1))
 			const status 	= statuses[n]
 
-			console.log(status)
+			dev.log(status)
 
 			client.user.setPresence(
 	        { 
@@ -50,115 +49,11 @@ module.exports =
 		}
 
 
-		console.log(`Online`)
+		dev.log(`Online`)
 
 		setInterval(() =>
 		{
 			setStatus()
 		}, 1800000)
-
-
-
-
-		const rl = readline.createInterface(
-		{
-			input: process.stdin,
-			output: process.stdout,
-			prompt: '- '
-		});
-
-		rl.prompt();
-
-		rl.on('line', (line) => 
-		{
-			const input 	= line.trim();
-			const args		= input.split(" ")
-			const command	= args.shift()
-
-
-			switch (command) 
-			{
-				case "set":
-				{
-					const [ UID, key, value ] = args;
-					
-					if(!UID || !key || value === undefined)
-					{
-						console.log("Usage: set <id> <property> <value> \nExample: \nset 467019235328000001 money 100")
-						break;
-					}
-
-					let parsedVal;
-					if(value === "true") 		parsedVal = true
-					else if(value === "false") 	parsedVal = false
-					else if(!isNaN(value))		parsedVal = Number(value)
-					else						parsedVal = value
-				
-					const userStats = dh.devGet(UID)
-
-					if (userStats === 0) 
-					{
-						console.log("User not found!")
-						break;
-					}
-					else if(!(key in userStats))
-					{
-						console.log("Key not found!")
-						break;
-					}
-
-					userStats[key] = parsedVal
-
-					dh.userSave(userStats)
-
-					console.log(`Successfully set ${userStats.userID}.${key} to ${userStats[key]}`)
-
-				  	break;
-				}
-
-				case "get":
-				{
-					const UID = args
-
-					if(!UID)
-					{
-						console.log("Usage: get <id> \nExample: \nget 467019235328000001")
-						break;
-					}
-
-					const userStats = dh.devGet(UID)
-
-					if (userStats === 0) 
-					{
-						console.log("User not found!")
-						break;
-					}
-
-					console.log(userStats)
-
-					break;
-				}
-
-			case "backup":
-			{
-				const date	= new Date().toISOString().split('T')[0]
-				const src 	= path.join("database", "userdata.json")
-				const dest	= path.join("database", "backups", `backup_${date}.json`)
-
-				fs.copyFileSync(src, dest)
-
-				console.log("Successfully backed up Database " + date)
-
-				break;
-			}
-				default: { console.log(`Unknown command: ${input}`) }
-			}
-
-			rl.prompt();
-		}).on('close', () => 
-		{
-			console.log('Stopping bot...');
-			process.exit(0);
-		});
 	}
 }
