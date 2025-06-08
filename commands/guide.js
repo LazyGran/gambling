@@ -2,6 +2,10 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 const fs	= require('fs')
 const path	= require('path')
 
+const filePath      = path.join("database/", 'guide.txt')   
+const fileContent   = fs.readFileSync(filePath, 'utf-8')   
+const array         = fileContent.split('S P L I T')   
+
 var games =  
 [
     { name: "High or Low", value: "1"}, 
@@ -25,9 +29,8 @@ module.exports =
 	{
 		await interaction.deferReply()
 
-		const testarray = [ "all", "horl", "roul", "seven" ]
 		const chosen 	= interaction.options.getString("game") || 0
-		const final		= testarray[chosen]
+		const final		= array[chosen]
 
 		const embed = new EmbedBuilder()
         .setTitle(`Guide`)
