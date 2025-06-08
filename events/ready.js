@@ -121,7 +121,7 @@ module.exports =
 						break;
 					}
 
-					const userStats = dh.dh.devGet(UID)
+					const userStats = dh.devGet(UID)
 
 					if (userStats === 0) 
 					{
