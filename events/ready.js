@@ -88,7 +88,12 @@ module.exports =
 						break;
 					}
 
-					const parsedVal	= isNaN(value) ? value : Number(value)
+					let parsedVal;
+					if(value === "true") 		parsedVal = true
+					else if(value === "false") 	parsedVal = false
+					else if(!isNaN(value))		parsedVal = Number(value)
+					else						parsedVal = value
+				
 					const userStats = dh.devGet(UID)
 
 					if (userStats === 0) 
