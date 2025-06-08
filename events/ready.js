@@ -2,6 +2,7 @@ const { Events, ActivityType } 	= require("discord.js")
 const { Random }				= require("random-js")
 const readline	= require("readline");
 const fs		= require("fs")
+const path		= require("path")
 const dh        = require('../handlers/dataHandler.js')
 
 const random	= new Random()
@@ -133,6 +134,18 @@ module.exports =
 					break;
 				}
 
+			case "backup":
+			{
+				const date	= new Date().toISOString().split('T')[0]
+				const src 	= path.join("database", "userdata.json")
+				const dest	= path.join("database", "backups", `backup_${date}.json`)
+
+				fs.copyFileSync(src, dest)
+
+				console.log("Successfully backed up Database " + date)
+
+				break;
+			}
 				default: { console.log(`Unknown command: ${input}`) }
 			}
 
