@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")    
 const eh    = require("../handlers/errorHandler.js")
 const dh    = require("../handlers/dataHandler.js")
+const dev   = require('../handlers/dev.js')
 
 module.exports = 
 {
@@ -32,14 +33,13 @@ module.exports =
             .setDescription(`Changed your embed's image`)
 
             try     { await interaction.editReply({ embeds: [embed] }) }
-            catch   { console.log("Failed to respond \n cmdID: 1, Error: 1") }    
+            catch   { dev.log("Failed to respond \n cmdID: 1, Error: 1") }    
 
             userStats.custom.thumbnail = thumb
             dh.userSave(userStats)
         }
         catch(error)
         { 
-            console.log(error)
             eh.error(interaction, "Not a valid image-url") 
         }
     }
