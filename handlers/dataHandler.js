@@ -39,8 +39,13 @@ function userSave(id, saveStats)
 	return{ success: true }
 }
 
+function devGet(id)
+{
+	if(userdata[id] === undefined) 	return 0
+	else 							return userdata[id]
+}
 
 module.exports =
 {
-	userGet, userSave	
+	userGet, userSave, devGet	
 }
