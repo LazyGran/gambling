@@ -7,8 +7,9 @@ const dev   = require('../handlers/dev.js')
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
-	const wheel 	= []
-	const players 	= []	
+	const wheel 		= []
+	const players 		= []
+	const redNumbers 	= [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];	
 
 	let p_names 	= ""
 	let initial;
@@ -17,12 +18,14 @@ async function main(interaction, bet, userStats, UID, chosen)
 	{
 		let type 	= ""
 
-		if 		(i === 0) 		type = "green"
-		else if (i % 2 === 0)	type = "black"
-		else 					type = "red"
+		if 		(i === 0) 					type = "green"
+		else if (redNumbers.includes(i))	type = "red"
+		else 								type = "black"
 
 		wheel.push({ space: i, type: type })
 	}
+
+	dev.log(wheel)
 
 	players.push(interaction.user)
 
