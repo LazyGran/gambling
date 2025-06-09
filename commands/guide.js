@@ -37,26 +37,21 @@ module.exports =
 		.addOptions(
 			new StringSelectMenuOptionBuilder()
 			.setLabel("Overview")
-			.setDescription("General overview")
 			.setValue("0"),
-			new StringSelectMenuOptionBuilder()
-			.setLabel("High or Low")
-			.setDescription("Rules, Deck & Card values")
-			.setValue("1"),
-			new StringSelectMenuOptionBuilder()
-			.setLabel("Roulette")
-			.setDescription("Odds, Meanings, Payout")
-			.setValue("2"),
-			new StringSelectMenuOptionBuilder()
-			.setLabel("Seventeen + Four")
-			.setDescription("Rules, Deck & Card values")
-			.setValue("3"),
+			...games.map(game =>
+				new StringSelectMenuOptionBuilder()
+				.setLabel(game.name)
+				.setValue(game.value)
+			)
 		)
 
 		const row = new ActionRowBuilder().addComponents(menu)
 
 		var chosen 	= interaction.options.getString("game") || "0"
 		var final	= array[chosen]
+
+		if(chosen[0] === "2")	embed.setImage('https://cdn.discordapp.com/attachments/1242636042469642300/1381666818615410808/Chippy_board.png?ex=684858ff&is=6847077f&hm=6890eb460fd71f05b00f0379a5ab9691451b3b19c9f0f2c6e6ce9fd7633afd35&')
+		else            		embed.setImage(null)
 
 		sendEmbed()
 
@@ -66,6 +61,9 @@ module.exports =
 		{
 			selection.deferUpdate()
 			final = array[selection.values]
+
+			if(selection.values[0] === "2")	embed.setImage('https://cdn.discordapp.com/attachments/1242636042469642300/1381666818615410808/Chippy_board.png?ex=684858ff&is=6847077f&hm=6890eb460fd71f05b00f0379a5ab9691451b3b19c9f0f2c6e6ce9fd7633afd35&')
+			else            				embed.setImage(null)
 
 			sendEmbed()
 		})
@@ -81,7 +79,7 @@ module.exports =
 		async function sendEmbed()
 		{
 			embed
-		    .setTitle(`Guide`)
+		    .setAuthor({ name: "Guide", iconURL: "https://images-ext-1.discordapp.net/external/Aoodd70VFvATVx7oV-a4RChQpLYg0-MaPwLDCKMhlDw/https/cdn.discordapp.com/avatars/1373621336982949992/56f8b12a7da35ca3dee0027db483faee?format=webp" })
 		    .setDescription(final)
 
 		    try     { await interaction.editReply({ embeds: [embed], components: [row] }) }
