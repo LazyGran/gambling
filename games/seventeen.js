@@ -17,7 +17,7 @@ const facecards	= [	"Jack", "Queen","King" ]
 async function main(interaction, bet, userStats, UID)
 {
 	const deck 		= await ch.create(UID, 1, "short")
-	const reward 	= Math.floor(bet + ((bet / 4) * 3))
+	const reward 	= Math.floor(bet + bet)
 	const xp_rew	= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
