@@ -25,8 +25,6 @@ async function main(interaction, bet, userStats, UID, chosen)
 		wheel.push({ space: i, type: type })
 	}
 
-	dev.log(wheel)
-
 	players.push(interaction.user)
 
 	for(const u of players)
