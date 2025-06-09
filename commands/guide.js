@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")	
+const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require("discord.js")	
 const fs	= require('fs')
 const path	= require('path')
 const dev   = require('../handlers/dev.js')
@@ -28,16 +28,64 @@ module.exports =
 
 	async execute(interaction, userStats)
 	{
-		await interaction.deferReply()
+		const initial 	= await interaction.deferReply()
 
-		const chosen 	= interaction.options.getString("game") || 0
-		const final		= array[chosen]
+		const embed 	= new EmbedBuilder()
+		const menu 		= new StringSelectMenuBuilder()
+		.setCustomId("Switch page")
+		.setPlaceholder("Get help about something else")
+		.addOptions(
+			new StringSelectMenuOptionBuilder()
+			.setLabel("Overview")
+			.setDescription("General overview")
+			.setValue("0"),
+			new StringSelectMenuOptionBuilder()
+			.setLabel("High or Low")
+			.setDescription("Rules, Deck & Card values")
+			.setValue("1"),
+			new StringSelectMenuOptionBuilder()
+			.setLabel("Roulette")
+			.setDescription("Odds, Meanings, Payout")
+			.setValue("2"),
+			new StringSelectMenuOptionBuilder()
+			.setLabel("Seventeen + Four")
+			.setDescription("Rules, Deck & Card values")
+			.setValue("3"),
+		)
 
-		const embed = new EmbedBuilder()
-        .setTitle(`Guide`)
-        .setDescription(final)
+		const row = new ActionRowBuilder().addComponents(menu)
 
-        try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1") }
+		var chosen 	= interaction.options.getString("game") || "0"
+		var final	= array[chosen]
+
+		sendEmbed()
+
+		const selected	= await initial.createMessageComponentCollector({ time: 30_000 })
+
+		selected.on('collect', async selection =>
+		{
+			selection.deferUpdate()
+			final = array[selection.values]
+
+			sendEmbed()
+		})
+
+		selected.on('end', async collected =>
+		{
+			row.components = []
+
+		    try     { await interaction.editReply({ embeds: [embed], components: [] }) }
+		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 2") }
+		})
+
+		async function sendEmbed()
+		{
+			embed
+		    .setTitle(`Guide`)
+		    .setDescription(final)
+
+		    try     { await interaction.editReply({ embeds: [embed], components: [row] }) }
+		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1") }
+		}
 	}
 }
