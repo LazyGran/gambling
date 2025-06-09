@@ -80,7 +80,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 async function wheelspin(interaction, wheel, embed)
 {
 	const random	= new Random()
-	const n 		= random.integer(0, 37)
+	const n 		= random.integer(0, 36)
 	const field 	= wheel[n]
 
 	embed 
