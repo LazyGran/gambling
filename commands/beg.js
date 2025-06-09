@@ -14,7 +14,7 @@ module.exports = {
     {
         await interaction.deferReply()
 
-        if((Date.now() - userStats.lastbeg) < 600000) return eh.error(interaction, "Give it a bit until you can beg again");
+        if((Date.now() - userStats.lastbeg) < 300000) return eh.error(interaction, "Give it a bit until you can beg again");
 
         const random    = new Random()
         const lucky     = random.integer(1, 100)
