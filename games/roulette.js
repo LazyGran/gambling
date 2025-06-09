@@ -1,5 +1,6 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } 	= require("discord.js")
 const { Random }														= require("random-js")
+const cnvs  = require('@napi-rs/canvas');
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const xh	= require('../handlers/xpHandler.js')
@@ -54,7 +55,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 		if(["red", "black", "even", "odd"].includes(chosen))	reward = Math.floor(bet + (bet / 2));
 		else if(["1st", "2nd", "3rd"].includes(chosen))			reward = bet + bet;
-		else if(chosen === "zero")								reward = bet * 10;
+		else if(chosen === "green")								reward = bet * 10;
 
 		if(won)
 		{
@@ -83,17 +84,42 @@ async function wheelspin(interaction, wheel, embed)
 	const random	= new Random()
 	const n 		= random.integer(0, 36)
 	const field 	= wheel[n]
+    const canvas 	= cnvs.createCanvas(256, 256);
+    const context 	= canvas.getContext('2d');
+    const colors 	= 
+	{
+		"red": "#ff000a",
+		"black": "#000000",
+		"green": "#0f6329"
+	}
+    
+    context.fillStyle = colors[field.type]   
+
+    context.beginPath()
+    context.arc(128, 128, 128, 0, Math.PI * 2, true)
+    context.closePath()
+    context.fill()
+
+
+    context.fillStyle 		= '#ffffff'  
+    context.font 			= '130pt Ubuntu Sans'
+    context.textAlign 		= 'center'
+    context.textBaseline 	= 'middle'
+    context.fillText(n, 128, 128)
+
+	const b = canvas.toBuffer('image/png') 
 
 	embed 
 	.setColor("#259dd9")
 	.setTitle(`The ball landed on *${field.type} ${field.space}*`)
 	//.addFields({ name: 'Winners', value: "-# *Checking for winners*"}) //used for Multiplayer later
-	.setThumbnail(null)
+    .setThumbnail("attachment://image.png")
 	.setDescription(null)
 
 
-	try 	{ await interaction.editReply({ embeds: [embed] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3") }
+	try 	{ await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}] }) }
+	//catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3") }
+	catch(error) 	{ dev.log(error) }
 
 	return field;
 }
