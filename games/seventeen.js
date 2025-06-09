@@ -5,7 +5,7 @@ const ch    = require('../handlers/cardHandler.js')
 const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 
-const values	= 
+const values = 
 {
 	"Ace": 	1,
 	"Jack": 2,
