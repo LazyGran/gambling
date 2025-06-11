@@ -59,14 +59,16 @@ module.exports =
 	{
 		await interaction.deferReply()
 
-		const bet 			= interaction.options.getInteger('bet') || 50
+		let 		bet = interaction.options.getInteger('bet') || 50
+		if(bet < 0)	bet = 50 		
+
 		const chosen		= interaction.options.getString("fields") || "none"
 		const subcommand 	= interaction.options.getSubcommand();
 		const UID			= interaction.user.id
 		const game 			= require(`../games/${subcommand}.js`) 
 
 		if(!userStats.active_game)
-		{
+		{			
 			if(bet > userStats.chips) 	{ return eh.error(interaction, "You don't have enough chips!") }
 			if(bet > 5000)				{ return eh.error(interaction, "You can only bet up to 5.000 chips!") }
 
