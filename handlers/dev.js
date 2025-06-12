@@ -103,17 +103,28 @@ async function devTools()
     }).on('close', () => 
     {
         log('Stopping bot...');
-        
+
         process.exit(0);
     });
 }
 
 
-async function log(content)
+async function log(content, index = 0)
 {
+    const reset     = "\x1b[0m";
+    const colors    = 
+    [
+        "",         //none
+        "\x1b[31m", //red
+        "\x1b[33m", //yellow
+        "\x1b[90m", //gray
+    ]
+
+    const color = colors[index]
+
     const now       = new Date()
     const months    = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    
+
     const pad       = n => String(n).padStart(2, "0")
 
     const s     = pad(now.getSeconds())
@@ -122,13 +133,13 @@ async function log(content)
     const d     = pad(now.getDate())
     const mo    = months[now.getMonth()]
 
-    const date  = `<${d}-` + `${mo} ` + `${h}:`+ `${m}:` + `${s}> `
+    const date  = `<${d}-` + `${mo} ` + `${h}:`+ `${m}:` + `${s}>`
 
-    readline.clearLine(process.stdout, 0);       
-    readline.cursorTo(process.stdout, 0);        
+    readline.clearLine(process.stdout, 0)       
+    readline.cursorTo(process.stdout, 0)      
 
-    console.log(date, content);                        
-
+    console.log(color + date + reset, content)
+                            
     rl.prompt(true);                             
 }
 
