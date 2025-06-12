@@ -110,10 +110,23 @@ async function devTools()
 
 async function log(content)
 {
+    const now       = new Date()
+    const months    = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    
+    const pad       = n => String(n).padStart(2, "0")
+
+    const s     = pad(now.getSeconds())
+    const m     = pad(now.getMinutes())
+    const h     = pad(now.getHours())
+    const d     = pad(now.getDate())
+    const mo    = months[now.getMonth()]
+
+    const date  = `<${d}-` + `${mo} ` + `${h}:`+ `${m}:` + `${s}> `
+
     readline.clearLine(process.stdout, 0);       
     readline.cursorTo(process.stdout, 0);        
 
-    console.log(content);                        
+    console.log(date, content);                        
 
     rl.prompt(true);                             
 }
