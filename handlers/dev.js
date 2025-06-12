@@ -102,7 +102,7 @@ async function devTools()
         rl.prompt();
     }).on('close', () => 
     {
-        log('Stopping bot...');
+        log('Offline', 3);
 
         process.exit(0);
     });
