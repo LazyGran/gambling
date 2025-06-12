@@ -102,7 +102,8 @@ async function devTools()
         rl.prompt();
     }).on('close', () => 
     {
-        console.log('Stopping bot...');
+        log('Stopping bot...');
+        
         process.exit(0);
     });
 }
