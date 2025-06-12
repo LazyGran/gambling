@@ -21,6 +21,15 @@ const statuses 	=
 	{ name: "with your odds (and feelings)", 			type: ActivityType.Playing}
 ]
 
+const types		=
+{
+	0: "Playing",
+	1: "Streaming",
+	2: "Listening",
+	3: "Watching",
+	4: ""
+}
+
 module.exports = 
 {
 	name: Events.ClientReady,
@@ -35,8 +44,8 @@ module.exports =
 		{
 			const n 		= random.integer(0, (statuses.length - 1))
 			const status 	= statuses[n]
-
-			dev.log(status)
+			const s_log		= (types[status.type] + " " + status.name || status.state).trimStart()
+			
 
 			client.user.setPresence(
 	        { 
@@ -46,6 +55,8 @@ module.exports =
 	        	], 
 	        	status: 'dnd' 
 	    	});
+
+	    	dev.log("Status: " + s_log)
 		}
 
 
