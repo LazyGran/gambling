@@ -29,7 +29,7 @@ async function devTools()
                 
                 if(!UID || !key || value === undefined)
                 {
-                    console.log("Usage: set <id> <property> <value> \nExample: \nset 467019235328000001 money 100")
+                    log("Usage: set <id> <property> <value> \nExample: \nset 467019235328000001 money 100", 2)
                     break;
                 }
 
@@ -43,12 +43,12 @@ async function devTools()
 
                 if (userStats === 0) 
                 {
-                    console.log("User not found!")
+                    log("User not found!", 2)
                     break;
                 }
                 else if(!(key in userStats))
                 {
-                    console.log("Key not found!")
+                    log("Key not found!", 2)
                     break;
                 }
 
@@ -56,7 +56,7 @@ async function devTools()
 
                 dh.userSave(userStats)
 
-                console.log(`Successfully set ${userStats.userID}.${key} to ${userStats[key]}`)
+                log(`Successfully set ${userStats.userID}.${key} to ${userStats[key]}`, 3)
 
                 break;
             }
@@ -67,7 +67,7 @@ async function devTools()
 
                 if(!UID)
                 {
-                    console.log("Usage: get <id> \nExample: \nget 467019235328000001")
+                    log("Usage: get <id> \nExample: \nget 467019235328000001", 2)
                     break;
                 }
 
@@ -75,11 +75,11 @@ async function devTools()
 
                 if (userStats === 0) 
                 {
-                    console.log("User not found!")
+                    log("User not found!", 2)
                     break;
                 }
 
-                console.log(userStats)
+                log('\n' + JSON.stringify(userStats, null, 2), 3)
 
                 break;
             }
@@ -92,17 +92,17 @@ async function devTools()
 
             fs.copyFileSync(src, dest)
 
-            console.log("Successfully backed up Database " + date)
+            log("Successfully backed up Database " + date, 3)
 
             break;
         }
-            default: { console.log(`Unknown command: ${input}`) }
+            default: { log(`Unknown command: ${input}`, 5) }
         }
 
         rl.prompt();
     }).on('close', () => 
     {
-        log('Offline', 3);
+        log('Offline', 1);
 
         process.exit(0);
     });
@@ -115,9 +115,11 @@ async function log(content, index = 0)
     const colors    = 
     [
         "",         //none
-        "\x1b[31m", //red
-        "\x1b[33m", //yellow
         "\x1b[90m", //gray
+        "\x1b[31m", //red
+        "\x1b[32m", //green
+        "\x1b[36m", //cyan
+        "\x1b[35m", //magenta
     ]
 
     const color = colors[index]
