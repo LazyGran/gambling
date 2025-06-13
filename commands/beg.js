@@ -17,7 +17,7 @@ module.exports = {
         if((Date.now() - userStats.lastbeg) < 120000) return eh.error(interaction, "Give it a bit until you can beg again");
 
         const random    = new Random()
-        const lucky     = random.integer(1, 100)
+        const lucky     = random.integer(1, 10)
 
         let n               = random.integer(5, 50)
         if(lucky === 7) n   = n*2;
@@ -29,7 +29,7 @@ module.exports = {
         .setTitle(`Brokey...`)
         .setDescription(`You beg for money and someone gives you ${n} chips \nUse it to gamble.`)
 
-        await xh.leveling(userStats, 1)
+        await xh.leveling(userStats, 5)
         await dh.userSave(userStats)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
