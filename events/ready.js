@@ -56,11 +56,11 @@ module.exports =
 	        	status: 'dnd' 
 	    	});
 
-	    	dev.log("Status: " + s_log,)
+	    	dev.log("Status: " + s_log, 1)
 		}
 
 
-		dev.log(`Online`, 3)
+		dev.log(`Online`, 1)
 
 		setInterval(() =>
 		{
