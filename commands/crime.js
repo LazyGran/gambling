@@ -16,9 +16,9 @@ module.exports = {
         if((Date.now() - userStats.lastcrime) < 300000) return eh.error(interaction, "Criminal... Chill out for a while");
 
         const random    = new Random()
-        const lucky     = random.integer(1, 100)
+        const lucky     = random.integer(10, 100)
 
-        let n               = random.integer(5, 100)
+        let n               = random.integer(1, 100)
         if(lucky === 7) n   = n*2;
         
         userStats.chips     = userStats.chips + n
