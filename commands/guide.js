@@ -73,7 +73,7 @@ module.exports =
 			row.components = []
 
 		    try     { await interaction.editReply({ embeds: [embed], components: [] }) }
-		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 2") }
+		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 2", 2) }
 		})
 
 		async function sendEmbed()
@@ -83,7 +83,7 @@ module.exports =
 		    .setDescription(final)
 
 		    try     { await interaction.editReply({ embeds: [embed], components: [row] }) }
-		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1") }
+		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1", 2) }
 		}
 	}
 }

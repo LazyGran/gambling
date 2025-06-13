@@ -65,7 +65,7 @@ async function main(interaction, bet, userStats, UID)
 	.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
 	
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 1") }
+	catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 1", 2) }
 
 	const pressed	= await initial.createMessageComponentCollector({ time: 30_000 })
 
@@ -85,7 +85,7 @@ async function main(interaction, bet, userStats, UID)
 
 		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
-		catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 2") }
+		catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 2", 2) }
 
 		if(points > 21)						
 		{
@@ -153,7 +153,7 @@ async function main(interaction, bet, userStats, UID)
 		}
 
 		try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
-		catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 3") }
+		catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 3", 2) }
 
 		userStats.active_game = false
 

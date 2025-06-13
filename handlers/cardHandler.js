@@ -29,7 +29,7 @@ async function create(UID, size, template)
     }
     catch(err)
     {
-        dev.log(err)
+        dev.log(err, 2)
         return{ success: false, reason: "Failed to create new deck" }
     }
 }
@@ -95,7 +95,7 @@ async function remove(ID)
     {
         if(err)
         {
-            dev.log(err)
+            dev.log(err, 2)
             return{ success: false, reason: "Unable to delete deck, error has been logged."}
         }
     })

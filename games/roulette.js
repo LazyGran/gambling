@@ -41,7 +41,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	.setFooter({ text: `Multiplayer coming soon..` });
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1") }
+	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
 
 	setTimeout(async () => 
 	{ 
@@ -70,7 +70,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
-		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2") }
+		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2", 2) }
 
 		userStats.active_game = false
 
@@ -118,8 +118,7 @@ async function wheelspin(interaction, wheel, embed)
 
 
 	try 	{ await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}] }) }
-	//catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3") }
-	catch(error) 	{ dev.log(error) }
+	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3", 2) }
 
 	return field;
 }

@@ -33,6 +33,6 @@ module.exports = {
         await dh.userSave(userStats)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { dev.log("Failed to respond \n cmdID: 3, Error: 1") }
+        catch   { dev.log("Failed to respond \n cmdID: 3, Error: 1", 2) }
     }
 }

@@ -55,7 +55,7 @@ async function main(interaction, bet, userStats, UID)
 	.setDescription(`You drew a **${card}**`)
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 1") }
+	catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 1", 2) }
 	
 	const pressed	= await initial.createMessageComponentCollector({ time: 5_000 })
 
@@ -101,7 +101,7 @@ async function main(interaction, bet, userStats, UID)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	 }
-		catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 2") }
+		catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 2", 2) }
 
         pressed.stop()
 	})
@@ -122,7 +122,7 @@ async function main(interaction, bet, userStats, UID)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
-		catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 3") }
+		catch 	{ dev.log("Failed to respond \n GameID: 1, Error: 3", 2) }
 		
 		userStats.active_game = false
 
