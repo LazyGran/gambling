@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")    
 const { Random }                             = require("random-js")
-const xh    = require('../handlers/xpHandler.js')
 const eh    = require('../handlers/errorHandler.js')    
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
