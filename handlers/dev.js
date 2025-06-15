@@ -10,6 +10,8 @@ const rl = readline.createInterface(
     prompt: '- '
 });
     
+let errors = 0
+
 async function devTools()
 {
     rl.prompt();
@@ -84,18 +86,26 @@ async function devTools()
                 break;
             }
 
-        case "backup":
-        {
-            const date  = new Date().toISOString().split('T')[0]
-            const src   = path.join("database", "userdata.json")
-            const dest  = path.join("database", "backups", `backup_${date}.json`)
+            case "backup":
+            {
+                const date  = new Date().toISOString().split('T')[0]
+                const src   = path.join("database", "userdata.json")
+                const dest  = path.join("database", "backups", `backup_${date}.json`)
 
-            fs.copyFileSync(src, dest)
+                fs.copyFileSync(src, dest)
 
-            log("Successfully backed up Database " + date, 3)
+                log("Successfully backed up Database " + date, 3)
 
-            break;
-        }
+                break;
+            }
+
+            case "errors":
+            {
+                log("Amount of errors logged since last restart: " + errors, 3)
+
+                break;
+            }
+
             default: { log(`Unknown command: ${input}`, 5) }
         }
 
@@ -141,7 +151,13 @@ async function log(content, index = 0)
     readline.cursorTo(process.stdout, 0)      
 
     console.log(color + date + reset, content)
-                            
+
+    if(index === 2)
+    {
+        fs.appendFileSync("./database/errors.txt", date + content + "\n")
+        errors ++
+    } 
+
     rl.prompt(true);                             
 }
 
