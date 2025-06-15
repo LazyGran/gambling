@@ -43,12 +43,12 @@ async function devTools()
 
                 if (userStats === 0) 
                 {
-                    log("User not found!", 2)
+                    log("User not found!", 5)
                     break;
                 }
                 else if(!(key in userStats))
                 {
-                    log("Key not found!", 2)
+                    log("Key not found!", 5)
                     break;
                 }
 
@@ -75,7 +75,7 @@ async function devTools()
 
                 if (userStats === 0) 
                 {
-                    log("User not found!", 2)
+                    log("User not found!", 5)
                     break;
                 }
 
