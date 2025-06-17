@@ -11,7 +11,8 @@ var games =
 [
     { name: "High or Low", value: "1"}, 
     { name: "Roulette", value: "2"},
-    { name: "Seventeen + Four", value: "3"}
+    { name: "Seventeen + Four", value: "3"},
+    { name: "Blackjack", value: "4"}
 ]
 
 module.exports = 
