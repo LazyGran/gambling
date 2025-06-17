@@ -13,7 +13,7 @@ module.exports = {
     {
         await interaction.deferReply()
 
-        if((Date.now() - userStats.lastcrime) < 300000) return eh.error(interaction, "Criminal... Chill out for a while");
+        if((Date.now() - userStats.lastcrime) < 120000) return eh.error(interaction, "Criminal... Chill out for a while");
 
         const random    = new Random()
         const lucky     = random.integer(1, 100)
