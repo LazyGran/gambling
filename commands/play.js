@@ -23,7 +23,7 @@ module.exports =
 	.setDescription("Play a game")
 	.addSubcommand(subcommand => subcommand 
 		.setName("highorlow")
-		.setDescription("Play High or Low")
+		.setDescription("Which one will it be?")
 		.addIntegerOption(option => option
 			.setName("bet")
 			.setDescription("Your bet")
@@ -32,7 +32,16 @@ module.exports =
 	)
 	.addSubcommand(subcommand => subcommand
 		.setName("seventeen")
-		.setDescription("Play Seventeen + Four")
+		.setDescription("Blackjack, but different.")
+		.addIntegerOption(option => option
+			.setName("bet")
+			.setDescription("Your bet")
+			.setRequired(false)
+		)
+	)
+	.addSubcommand(subcommand => subcommand
+		.setName("blackjack")
+		.setDescription("A casino classic!")
 		.addIntegerOption(option => option
 			.setName("bet")
 			.setDescription("Your bet")
@@ -41,7 +50,7 @@ module.exports =
 	)
 	.addSubcommand(subcommand => subcommand
 		.setName("roulette")
-		.setDescription("Start a game of Roulette")
+		.setDescription("Where will the ball land?")
 		.addStringOption(option => option
 			.setName("fields")
 			.setDescription("Which field(s) are you betting on?")
