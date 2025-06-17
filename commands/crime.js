@@ -21,9 +21,6 @@ module.exports = {
         let desc    = ""
         let n       = random.integer(50, 500)
 
-        dev.log(userStats.chips)
-        dev.log(n) 
-
         if     (lucky <= 34)            
         {
             desc                = `You commit a crime for some money, exchange it for **${n} Chips** \nUse it to gamble.`
@@ -43,8 +40,6 @@ module.exports = {
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
         }
-    
-        dev.log(userStats.chips)
 
         const embed = new EmbedBuilder()
         .setTitle(`Brokey...`)
