@@ -31,7 +31,7 @@ async function devTools()
                 
                 if(!UID || !key || value === undefined)
                 {
-                    log("Usage: set <id> <property> <value> \nExample: \nset 467019235328000001 money 100", 2)
+                    log("Usage: set <id> <property> <value> \nExample: \nset 467019235328000001 chips 100", 2)
                     break;
                 }
 
