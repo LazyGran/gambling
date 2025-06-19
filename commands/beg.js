@@ -36,9 +36,6 @@ module.exports = {
         const r         = random.integer(0, array.length - 1)
         const response  = array[r]
 
-        dev.log(r)
-        dev.log(response)
-
         let n               = random.integer(10, 100)
         if(lucky === 7) n   = n*2;
         
