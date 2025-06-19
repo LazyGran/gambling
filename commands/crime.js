@@ -1,8 +1,34 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")    
 const { Random }                             = require("random-js")
+const fs    = require('fs')
+const path  = require('path')
 const eh    = require('../handlers/errorHandler.js')    
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
+
+const filePath      = path.join("database/", 'crime.txt')   
+const fileContent   = fs.readFileSync(filePath, 'utf-8')   
+const first         = fileContent.split('negative')  
+const good          = first[0].split('\n').filter(line => line.trim() !== "")
+const bad           = first[1].split('\n').filter(line => line.trim() !== "")
+const array         = []
+const array2        = []
+
+for(i = 0; i < good.length; i += 2)
+{
+    const first     = good[i]
+    const second    = good[i + 1] 
+
+    array.push(`${first}\n${second}`)
+}
+
+for(i = 0; i < bad.length; i += 2)
+{
+    const first     = bad[i]
+    const second    = bad[i + 1] 
+
+    array2.push(`${first}\n${second}`)
+}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,26 +49,35 @@ module.exports = {
 
         if     (lucky <= 34)            
         {
-            desc                = `You commit a crime for some money, exchange it for **${n} Chips** \nUse it to gamble.`
+            const r         = random.integer(0, array.length - 1)
+            const response  = array[r]
+
+            dev.log(r)
+            dev.log(response)
+
+            desc                = `${response} \n-# Gained **${n}** Chips`
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
         }
 
         else if(userStats.chips < n)    
         {
-            desc                = `You commit a crime but get caught. \nSince you're broke they just laugh and lets you go.`
+            desc                = `You commit a crime but get caught. \nSince you're broke they just laugh and let you go.`
             userStats.lastcrime = Date.now()
         }
         else            
         {
-            desc                = `You commit a crime for but get caught, they **take ${n} Chips** from you and let you go.`
+            const r         = random.integer(0, array2.length - 1)
+            const response  = array2[r]
+
+            desc                = `${response} \n-# Lost **${n}** Chips`
             n                   = n * (-1)
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
         }
 
         const embed = new EmbedBuilder()
-        .setTitle(`Brokey...`)
+        .setTitle(`Criminal...`)
         .setDescription(desc)
 
         await dh.userSave(userStats)
