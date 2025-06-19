@@ -111,9 +111,10 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 async function wheelspin(interaction, wheel, embed)
 {
+
 	const random	= new Random()
 	const n 		= random.integer(0, 36)
-	const field = wheel[13]
+	const field 	= wheel[n]
     const canvas 	= cnvs.createCanvas(256, 256);
     const context 	= canvas.getContext('2d');
     const colors 	= 
