@@ -52,9 +52,6 @@ module.exports = {
             const r         = random.integer(0, array.length - 1)
             const response  = array[r]
 
-            dev.log(r)
-            dev.log(response)
-
             desc                = `${response} \n-# Gained **${n}** Chips`
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
