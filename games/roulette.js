@@ -54,14 +54,15 @@ async function main(interaction, bet, userStats, UID, chosen)
 	const row 	= new ActionRowBuilder().addComponents(menu)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
-	.setTitle("The wheel is spinning..")
+	.setTitle("Roulette")
+	.setDescription("*The wheel is spinning*")
 	.setThumbnail('https://media.discordapp.net/attachments/1242636042469642300/1376641025606549606/roulette_spin.gif?ex=68380a9d&is=6836b91d&hm=cb8533d5df401544391aa8aaa8e4e1c45ea70cea8b07d34d04c223cdf832c687&=')
 	.setDescription(`**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`)
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
 
-	const selected	= await initial.createMessageComponentCollector({ time: 10_000 })
+	const selected	= await initial.createMessageComponentCollector({ time: 2_000 })
 
 	selected.on('collect', async selection =>
 	{
@@ -95,13 +96,13 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 	selected.on('end', async collected =>
 	{
-		row.components = []
-
 		const field = await wheelspin(interaction, wheel, embed)
 
 		await getwinners(players, field, winners)
 
-		embed.setDescription(`**Winners:** \n${winners.join(", ")}`)
+		if(winners.length === 0)	embed.setDescription(`**Winners:** \n-# *Nobody won*`)
+		else  						embed.setDescription(`**Winners:** \n${winners.join(", ")}`)
+		
 
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
 		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3", 2) }
@@ -145,7 +146,7 @@ async function wheelspin(interaction, wheel, embed)
 	.setDescription(`**Winners:** \n-# *Checking for winners*`)
     .setThumbnail("attachment://image.png")
 
-	try 	{ await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}] }) }
+	try 	{ await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}], components: [] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 4", 2) }
 
 	return field;
