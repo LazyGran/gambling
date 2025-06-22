@@ -62,7 +62,16 @@ async function main(interaction, bet, userStats, UID, chosen)
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
 
-	const selected	= await initial.createMessageComponentCollector({ time: 2_000 })
+	const selected	= await initial.createMessageComponentCollector({ time: 10_000 })
+
+	setTimeout(() => 
+	{
+		menu.setPlaceholder("Bets closed")
+		menu.setDisabled(true)
+
+		try 	{ interaction.editReply({ components: [row] }) }
+		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2", 2) }
+	}, 8000)
 
 	selected.on('collect', async selection =>
 	{
@@ -90,7 +99,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 			embed.setDescription(`**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`)
 
 			try 	{ await interaction.editReply({ embeds: [embed] }) }
-			catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2", 2) }
+			catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3", 2) }
 		}
 	})
 
@@ -105,7 +114,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 		
 
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
-		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3", 2) }
+		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 4", 2) }
 	})
 }
 
@@ -147,7 +156,7 @@ async function wheelspin(interaction, wheel, embed)
     .setThumbnail("attachment://image.png")
 
 	try 	{ await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}], components: [] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 4", 2) }
+	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 5", 2) }
 
 	return field;
 }
