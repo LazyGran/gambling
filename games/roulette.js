@@ -6,24 +6,25 @@ const eh 	= require("../handlers/errorHandler.js")
 const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 
+const redNumbers 	= [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];	
+const fields 		=  
+[
+    { name: "Red", value: "red"}, 
+    { name: "Black", value: "black"},
+    { name: "Even", value: "even"},
+    { name: "Odd", value: "odd"},
+    { name: "1st 12", value: "1st"},
+    { name: "2nd 12", value: "2nd"},
+    { name: "3rd 12", value: "3rd"},
+    { name: "Zero", value: "green"},
+]
+
 async function main(interaction, bet, userStats, UID, chosen)
 {
 	const close 		= Math.floor(Date.now() / 1000) + 8
 	const wheel 		= []
 	const winners 		= []
 	const p_names		= []
-	const redNumbers 	= [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];	
-	const fields 		=  
-	[
-	    { name: "Red", value: "red"}, 
-	    { name: "Black", value: "black"},
-	    { name: "Even", value: "even"},
-	    { name: "Odd", value: "odd"},
-	    { name: "1st 12", value: "1st"},
-	    { name: "2nd 12", value: "2nd"},
-	    { name: "3rd 12", value: "3rd"},
-	    { name: "Zero", value: "green"},
-	]
 
 	let players = {}
 	let initial;
