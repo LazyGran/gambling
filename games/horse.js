@@ -6,15 +6,17 @@ const eh 	= require("../handlers/errorHandler.js")
 const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 
+const random    = new Random()
+
 const horses =
 [
-    { name: "🟥 Jackie", value: "red"}, 
     { name: "⬛ Spades", value: "black"},
-    { name: "🟩 Hearts", value: "green"},
+    { name: "🟥 Jackie", value: "red"}, 
     { name: "🟨 Giggle", value: "yellow"},
     { name: "🟪 V", value: "purple"},
-    { name: "🟫 Dutch", value: "brown"},
-    { name: "🟧 Juan", value: "orange"}
+    { name: "🟧 Juan", value: "orange"},
+    { name: "🟩 Hearts", value: "green"},
+    { name: "🟫 Dutch", value: "brown"}
 ]
 
 const races =
@@ -54,6 +56,7 @@ async function main(interaction, bet, userStats, UID, chosen)
     const embed = new EmbedBuilder()
     .setColor("#259dd9")
     .setTitle("Horse race")
+    .setThumbnail("https://cdn.discordapp.com/attachments/1242636042469642300/1387158277120589964/horse_start.png?ex=685c5351&is=685b01d1&hm=a9f03f1900ae4945bc6c5efa25b763aacadc81fa60b50ac68b8992f6ae5c1dd9&")
     .setDescription(`*The horses are getting into starting position* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet} *(close <t:${close}:R>)*`)
 
     try     { initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
@@ -102,7 +105,8 @@ async function main(interaction, bet, userStats, UID, chosen)
 
     selected.on('end', async collected =>
     {
-        embed.setDescription(`*The race is on!* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`)
+        const r         = random.integer(0, 6)
+        embed.setDescription(`*The race is on!* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`).setThumbnail(races[r])
 
         try     { await interaction.editReply({ embeds: [embed] }) }
         catch   { dev.log("Failed to respond \n\n GameID: 5, Error: 4", 2) }
@@ -110,8 +114,6 @@ async function main(interaction, bet, userStats, UID, chosen)
         setTimeout(async ()  => 
         {
             const horse = await race(interaction, embed)
-
-            dev.log(horse)
 
             await getwinners(players, horse, winners)
 
@@ -126,12 +128,12 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 async function race(interaction, embed)
 {
-    const random    = new Random()
     const n         = random.integer(0, 3)
     const horse     = horses[n]
 
     embed 
     .setColor("#259dd9")
+    .setThumbnail(null)
     .setDescription(`**Winners:** \n-# *Checking for winners*`)
 
     try     { await interaction.editReply({embeds: [embed], components: [] }) }
