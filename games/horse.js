@@ -128,15 +128,28 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 async function race(interaction, embed)
 {
-    const n         = random.integer(0, 3)
+    const n         = random.integer(0, 6)
     const horse     = horses[n]
+    const canvas    = cnvs.createCanvas(256, 256);
+    const context   = canvas.getContext('2d');
+    const colors    = ["#000000", "#ff0000", "#ffea00", "c800ff", "#ff8800", "#00c903", "#6e4927"]
+    
+    context.fillStyle       = colors[n]    
+    context.font            = '40pt Ubuntu Sans'
+    context.textAlign       = 'center'
+    context.textBaseline    = 'middle'
+    context.fillText(`${(horse.name).slice(2)}`, 128, 64)
+
+    context.fillText("wins!", 128, 128)
+
+    const b = canvas.toBuffer('image/png') 
 
     embed 
     .setColor("#259dd9")
-    .setThumbnail(null)
+    .setThumbnail("attachment://image.png")
     .setDescription(`**Winners:** \n-# *Checking for winners*`)
 
-    try     { await interaction.editReply({embeds: [embed], components: [] }) }
+    try     { await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}], components: [] }) }
     catch   { dev.log("Failed to respond \n GameID: 5, Error: 6", 2) }
 
     return horse;
