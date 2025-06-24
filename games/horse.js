@@ -13,7 +13,8 @@ const horses =
     { name: "🟩 Hearts", value: "green"},
     { name: "🟨 Giggle", value: "yellow"},
     { name: "🟪 V", value: "purple"},
-    { name: "🟫 Dutch", value: "brown"}
+    { name: "🟫 Dutch", value: "brown"},
+    { name: "🟧 Juan", value: "orange"}
 ]
 
 async function main(interaction, bet, userStats, UID, chosen)

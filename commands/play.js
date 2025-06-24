@@ -23,7 +23,8 @@ const horse_choices =
     { name: "🟩 Hearts", value: "green"},
     { name: "🟨 Giggle", value: "yellow"},
     { name: "🟪 V", value: "purple"},
-    { name: "🟫 Dutch", value: "brown"}
+    { name: "🟫 Dutch", value: "brown"},
+    { name: "🟧 Juan", value: "orange"}
 ]
 
 module.exports = 
