@@ -15,6 +15,13 @@ var roulette_choices =
     { name: "3rd 12", value: "3rd"},
     { name: "Zero", value: "green"},
 ]
+var horse_choices 	=  
+[
+    { name: "🟥 Hr", value: "red"}, 
+    { name: "⬛ Spades", value: "black"},
+    { name: "🟩 Hearts", value: "green"},
+    { name: "Yellow", value: "yellow"},
+]
 
 module.exports = 
 {
@@ -62,6 +69,21 @@ module.exports =
 			.setDescription("Your bet")
 			.setRequired(false)
 		)
+	)
+	.addSubcommand(subcommand => subcommand
+		.setName("horse")
+		.setDescription("Which horse will win?")
+		.addStringOption(option => option
+			.setName("horse")
+			.setDescription("Which horse are you betting on?")
+			.setRequired(true)
+			.addChoices(...horse_choices)
+		)
+		.addIntegerOption(option => option
+			.setName("bet")
+			.setDescription("Your bet")
+			.setRequired(false)
+		)
 	),
 
 	async execute(interaction, userStats)
@@ -71,7 +93,7 @@ module.exports =
 		let 		bet = interaction.options.getInteger('bet') || 50
 		if(bet < 0)	bet = 50 		
 
-		const chosen		= interaction.options.getString("fields") || "none"
+		const chosen		= interaction.options.getString("fields") || interaction.options.getString("horse") || "none"
 		const subcommand 	= interaction.options.getSubcommand();
 		const UID			= interaction.user.id
 		const game 			= require(`../games/${subcommand}.js`) 
@@ -81,7 +103,7 @@ module.exports =
 			if(bet > userStats.chips) 	{ return eh.error(interaction, "You don't have enough chips!") }
 			if(bet > 5000)				{ return eh.error(interaction, "You can only bet up to 5.000 chips!") }
 
-			userStats.active_game 	= true
+			//userStats.active_game 	= true
 			userStats.chips 		= userStats.chips - bet
 
 			game.main(interaction, bet, userStats, UID, chosen)
