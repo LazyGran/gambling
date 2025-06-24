@@ -171,7 +171,7 @@ async function getwinners(players, horse, winners)
         if(won === true)
         {
             const xp_rew = Math.floor(bet / 7)
-            const reward = Math.floor(bet + (bet / 2));
+            const reward = bet * 7;
 
             s.chips += reward
 
