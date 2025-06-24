@@ -18,13 +18,13 @@ var roulette_choices =
 
 const horse_choices =
 [
+	{ name: "⬛ Spades", value: "black"},
     { name: "🟥 Jackie", value: "red"}, 
-    { name: "⬛ Spades", value: "black"},
-    { name: "🟩 Hearts", value: "green"},
     { name: "🟨 Giggle", value: "yellow"},
     { name: "🟪 V", value: "purple"},
-    { name: "🟫 Dutch", value: "brown"},
-    { name: "🟧 Juan", value: "orange"}
+    { name: "🟧 Juan", value: "orange"},
+    { name: "🟩 Hearts", value: "green"},
+    { name: "🟫 Dutch", value: "brown"}
 ]
 
 module.exports = 
