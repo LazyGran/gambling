@@ -8,6 +8,7 @@ const dev   = require('../handlers/dev.js')
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
+	const close 		= Math.floor(Date.now() / 1000) + 9
 	const wheel 		= []
 	const winners 		= []
 	const p_names		= []
@@ -57,7 +58,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	.setTitle("Roulette")
 	.setDescription("*The wheel is spinning*")
 	.setThumbnail('https://media.discordapp.net/attachments/1242636042469642300/1376641025606549606/roulette_spin.gif?ex=68380a9d&is=6836b91d&hm=cb8533d5df401544391aa8aaa8e4e1c45ea70cea8b07d34d04c223cdf832c687&=')
-	.setDescription(`**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`)
+	.setDescription(`*The wheel is spinning* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet} *(close <t:${close}:R>)*`)
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
@@ -96,7 +97,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 			selection.deferUpdate()
 
-			embed.setDescription(`**Players:** \n${p_names.join(", ")} \n\nBet: ${bet}`)
+			embed.setDescription(`*The wheel is spinning* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet} *(close <t:${close}:R>)*`)
 
 			try 	{ await interaction.editReply({ embeds: [embed] }) }
 			catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 3", 2) }
