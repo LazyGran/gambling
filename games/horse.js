@@ -8,10 +8,11 @@ const dev   = require('../handlers/dev.js')
 
 const horses =
 [
-    { name: "🟥 Hr", value: "red"}, 
+    { name: "🟥 Jackie", value: "red"}, 
     { name: "⬛ Spades", value: "black"},
     { name: "🟩 Hearts", value: "green"},
-    { name: "Yellow", value: "yellow"},
+    { name: "🟨 Giggle", value: "yellow"},
+    { name: "🟪 V", value: "purple"}
 ]
 
 async function main(interaction, bet, userStats, UID, chosen)
