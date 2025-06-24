@@ -87,7 +87,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 		}
 		else
 		{
-			//s.active_game 	= true
+			s.active_game 	= true
 			s.chips 		= s.chips - bet
 			chosen 			= selection.values[0]
 
