@@ -13,6 +13,7 @@ var games =
     { name: "Roulette", value: "2"},
     { name: "Seventeen + Four", value: "3"},
     { name: "Blackjack", value: "4"}
+    { name: "Horse races", value: "5"}
 ]
 
 module.exports = 
