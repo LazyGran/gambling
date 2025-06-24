@@ -8,7 +8,7 @@ const dev   = require('../handlers/dev.js')
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
-	const close 		= Math.floor(Date.now() / 1000) + 9
+	const close 		= Math.floor(Date.now() / 1000) + 8
 	const wheel 		= []
 	const winners 		= []
 	const p_names		= []
