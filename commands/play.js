@@ -88,6 +88,10 @@ module.exports =
 			.setDescription("Your bet")
 			.setRequired(false)
 		)
+	)
+	.addSubcommand(subcommand => subcommand
+		.setName("racer")
+		.setDescription("Don't crash!")
 	),
 
 	async execute(interaction, userStats)
