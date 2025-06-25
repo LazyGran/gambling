@@ -10,20 +10,17 @@ const random 	= new Random()
 
 async function main(interaction, bet, userStats, UID)
 {
-	let round = 0
 	let initial;
-	let obstacle;
-	let race;
+	let round = 0
+
 
 	const length 	= random.integer(7, 13)
-	const close 	= Math.floor(Date.now() / 1000) + Math.floor(length + (length / 2))
-	const reaction 	= 1000 * Math.floor(length + (length / 2))
+	const close 	= Math.floor(Date.now() / 1000) + length * 2
+	const reaction 	= 1000 * length * 2;
 
-	dev.log(reaction)
+	({ obstacle, race, round } = await lap(round))
 
-	race = await lap()
-
-	dev.log(race)
+	dev.log(round)
 
 	const up = new ButtonBuilder()
 	.setCustomId("3")
@@ -44,7 +41,7 @@ async function main(interaction, bet, userStats, UID)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Racer")
-	.setDescription(race + `\n-# Race ends <t:${close}:R>!`)
+	.setDescription(race + `\n-# Round ${round}/${length}, ends <t:${close}:R>!`)
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 6, Error: 1", 2) }
@@ -53,9 +50,26 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('collect', async game =>
 	{
-		game.deferUpdate()
+		const chosen = game.customId
 
-		dev.log(game.customId)
+		if(chosen != obstacle) 
+		{
+			return dev.log("lost")
+		}
+		if(round === length)
+		{
+			return dev.log("won")
+		}
+
+		dev.log("Game continues");
+
+		({ obstacle, race, round } = await lap(round))
+		embed.setDescription(race + `\n-# Round ${round}/${length}, ends <t:${close}:R>!`)
+
+		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
+		catch 	{ dev.log("Failed to respond \n GameID: 6, Error: 2", 2) }
+		
+		game.deferUpdate()
 	})
 
 	pressed.on('end', async collected =>
@@ -64,11 +78,16 @@ async function main(interaction, bet, userStats, UID)
 	})
 }
 
-async function lap()
+async function lap(round)
 {
-	const obstacle  = random.integer(3, 5)
+	var obstacle	= random.integer(3, 5)
+	var race 		= await track(obstacle)
+	
+	round++
 
-	return race = await track(obstacle)
+	dev.log(round)
+
+	return{ obstacle, race, round }
 }
 
 async function track(n)
