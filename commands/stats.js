@@ -33,7 +33,7 @@ module.exports =
         }
         
         const embed = new EmbedBuilder()
-        .setTitle(`${interaction.user.username}'s info:`)
+        .setTitle(`${interaction.user.username}'s stats:`)
         .setThumbnail(thumb)
         .setDescription(`**Chips:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
 
