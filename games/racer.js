@@ -13,14 +13,13 @@ async function main(interaction, bet, userStats, UID)
 	let initial;
 	let round = 0
 
+	var played 	= false;
 
 	const length 	= random.integer(7, 13)
 	const close 	= Math.floor(Date.now() / 1000) + length * 2
 	const reaction 	= 1000 * length * 2;
 
 	({ obstacle, race, round } = await lap(round))
-
-	dev.log(round)
 
 	const up = new ButtonBuilder()
 	.setCustomId("3")
@@ -50,15 +49,39 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('collect', async game =>
 	{
+		game.deferUpdate()
+
 		const chosen = game.customId
 
 		if(chosen != obstacle) 
 		{
-			return dev.log("lost")
+			played 	= true;
+
+			embed
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`You crashed! *Avoid* the obstacles. \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house always wins...` });
+
+
+			return pressed.stop()
 		}
 		if(round === length)
 		{
-			return dev.log("won")
+			played 	= true;
+
+			const reward	= bet + (5 * length)
+			const xp_rew	= Math.floor(bet / 7)
+
+			embed
+			.setColor('#1aa32a')
+			.setTitle(`You won!`)
+			.setDescription(`You've finished in time without crashing! \n\n-# *You've gained ${reward - bet} Chips*`)
+
+			userStats.chips 		= userStats.chips + reward
+			await xh.leveling(userStats, xp_rew)
+
+			return pressed.stop()
 		}
 
 		dev.log("Game continues");
@@ -68,13 +91,29 @@ async function main(interaction, bet, userStats, UID)
 
 		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 		catch 	{ dev.log("Failed to respond \n GameID: 6, Error: 2", 2) }
-		
-		game.deferUpdate()
 	})
 
 	pressed.on('end', async collected =>
 	{
-		dev.log("end")
+		up		.setDisabled(true)
+		straight.setDisabled(true)
+		down 	.setDisabled(true)
+
+		if(!played)
+		{
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `The house gives you double the race length to react` });	
+		}
+
+		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
+		catch 	{ dev.log("Failed to respond \n GameID: 6, Error: 3", 2) }
+		
+		userStats.active_game = false
+
+		dh.userSave(UID, userStats)
 	})
 }
 
