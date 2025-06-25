@@ -49,6 +49,8 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('collect', async game =>
 	{
+		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true })
+
 		game.deferUpdate()
 
 		const chosen = game.customId
