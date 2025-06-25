@@ -126,8 +126,6 @@ async function lap(round)
 	
 	round++
 
-	dev.log(round)
-
 	return{ obstacle, race, round }
 }
 
