@@ -86,8 +86,6 @@ async function main(interaction, bet, userStats, UID)
 			return pressed.stop()
 		}
 
-		dev.log("Game continues");
-
 		({ obstacle, race, round } = await lap(round))
 		embed.setDescription(race + `\n-# Round ${round}/${length}, ends <t:${close}:R>!`)
 
