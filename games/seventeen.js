@@ -17,7 +17,7 @@ const facecards	= [	"Jack", "Queen","King" ]
 async function main(interaction, bet, userStats, UID)
 {
 	const deck 		= await ch.create(UID, 1, "short")
-	const reward 	= Math.floor(bet + bet)
+	const reward 	= bet * 2
 	const xp_rew	= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
@@ -128,9 +128,9 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips = userStats.chips + reward
+			userStats.chips = userStats.chips + reward + bet
 			await xh.leveling(userStats, xp_rew)
 		}
 		else if(points > dealer_points)
@@ -138,9 +138,9 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward - bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips = userStats.chips + reward
+			userStats.chips = userStats.chips + reward + bet
 			await xh.leveling(userStats, xp_rew)
 		}
 		else

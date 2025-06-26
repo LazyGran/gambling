@@ -90,9 +90,9 @@ async function main(interaction, bet, userStats, UID)
 
 		if(final === chosen) 	
 		{
-			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward - bet} Chips*`)
+			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips 		= userStats.chips + reward
+			userStats.chips 		= userStats.chips + reward + bet
 			await xh.leveling(userStats, xp_rew)
 		}
 		else 

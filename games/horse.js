@@ -115,7 +115,7 @@ async function main(interaction, bet, userStats, UID, chosen)
         {
             const horse = await race(interaction, embed)
 
-            await getwinners(players, horse, winners)
+            await getwinners(players, horse, winners, bet)
 
             if(winners.length === 0)    embed.setDescription(`**Winners:** \n-# *Nobody won*`)
             else                        embed.setDescription(`**Winners:** \n${winners.join(", ")}`)        
@@ -155,7 +155,7 @@ async function race(interaction, embed)
     return horse;
 }
 
-async function getwinners(players, horse, winners)
+async function getwinners(players, horse, winners, bet)
 {
     for(const id in players)
     {
@@ -173,7 +173,7 @@ async function getwinners(players, horse, winners)
             const xp_rew = Math.floor(bet / 7)
             const reward = bet * 7;
 
-            s.chips += reward
+            s.chips += reward + bet
 
             winners.push(name)
 
