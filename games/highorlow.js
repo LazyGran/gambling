@@ -84,7 +84,7 @@ async function main(interaction, bet, userStats, UID)
 		if(dealer_points === points)	final = 2
 		if(dealer_points > points)		final = 3 
 
-		if(chosen === 2)	reward = bet + bet
+		if(chosen === 2)	reward = (bet * 2) + Math.floor(bet / 2);
 
 		played = true
 
