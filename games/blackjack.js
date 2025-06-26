@@ -17,7 +17,7 @@ const facecards	= [	"Jack", "Queen","King" ]
 async function main(interaction, bet, userStats, UID)
 {
 	const deck 		= await ch.create(UID)
-	const reward 	= Math.floor(bet + (bet / 2));
+	const reward 	= bet * 2
 	const xp_rew	= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
@@ -142,6 +142,16 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
+		}
+		else if(points === dealer_points)
+		{
+			embed 	
+			.setColor('#f58916')
+			.setTitle(`Push!`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
+			.setFooter({ text: `Lucky...` });
+
+			userStats.chips = userStats.chips + bet
 		}
 		else
 		{
