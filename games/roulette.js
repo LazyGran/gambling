@@ -178,8 +178,8 @@ async function getwinners(players, field, winners)
 
 			let reward = 0
 
-			if(["red", "black", "even", "odd"].includes(chosen))	reward = Math.floor(bet + (bet / 2));
-			else if(["1st", "2nd", "3rd"].includes(chosen))			reward = bet + bet;
+			if(["red", "black", "even", "odd"].includes(chosen))	reward = bet * 2;
+			else if(["1st", "2nd", "3rd"].includes(chosen))			reward = (bet * 2) + Math.floor(bet / 2);
 			else if(chosen === "green")								reward = bet * 10;
 
 			s.chips += reward
