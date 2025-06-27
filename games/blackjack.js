@@ -71,6 +71,8 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('collect', async game =>
 	{
+		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true })
+
 		game.deferUpdate()
 
 		if(game.customId === "b_stand")	
@@ -84,6 +86,7 @@ async function main(interaction, bet, userStats, UID)
 		hand_str 	= hand.join(", ")
 
 		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
+
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
 		catch 	{ dev.log("Failed to respond \n GameID: 4, Error: 2", 2) }
 
