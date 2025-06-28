@@ -33,7 +33,7 @@ module.exports =
             .setDescription(`Changed your embed's image`)
 
             try     { await interaction.editReply({ embeds: [embed] }) }
-            catch   { dev.log("Failed to respond \n cmdID: 1, Error: 1", 2) }    
+            catch   { dev.log("Failed to respond \n cmdID: 5, Error: 1", 2) }    
 
             userStats.custom.thumbnail = thumb
             dh.userSave(userStats)

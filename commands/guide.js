@@ -86,7 +86,7 @@ module.exports =
 		    .setDescription(final)
 
 		    try     { await interaction.editReply({ embeds: [embed], components: [row] }) }
-		    catch   { dev.log("Failed to respond \n cmdID: 4, Error: 1", 2) }
+		    catch   { dev.log("Failed to respond \n cmdID: 2, Error: 1", 2) }
 		}
 	}
 }

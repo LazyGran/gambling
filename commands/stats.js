@@ -38,6 +38,6 @@ module.exports =
         .setDescription(`**Chips:** ${chips} \n**Level:** ${level} \n-# Next level: ${bar}`)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
-        catch   { dev.log("Failed to respond \n cmdID: 2, Error: 1", 2) }
+        catch   { dev.log("Failed to respond \n cmdID: 1, Error: 1", 2) }
     }
 }
