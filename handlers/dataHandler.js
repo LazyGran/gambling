@@ -30,6 +30,15 @@ function userGet(id)
 	}
 }
 
+function sort(parameter)
+{
+	var sorted = Object.entries(userdata).sort(([, a], [, b]) => b[parameter] - a[parameter])
+
+	//if(sorted.length > 10) sorted = sorted.slice(0, 10)
+
+	return sorted;
+}
+
 function userSave(id, saveStats)
 {
 	userdata[id] = saveStats
@@ -47,5 +56,5 @@ function devGet(id)
 
 module.exports =
 {
-	userGet, userSave, devGet	
+	userGet, sort, userSave, devGet	
 }
