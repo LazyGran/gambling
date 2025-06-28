@@ -32,6 +32,8 @@ function userGet(id)
 
 function sort(parameter)
 {
+	if(fs.existsSync("database/userdata.json")) userdata = jsonfile.readFileSync("database/userdata.json")
+		
 	var sorted = Object.entries(userdata).sort(([, a], [, b]) => b[parameter] - a[parameter])
 
 	//if(sorted.length > 10) sorted = sorted.slice(0, 10)
