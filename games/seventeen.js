@@ -130,7 +130,7 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You won!`)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips = userStats.chips + reward + bet
+			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
 		}
 		else if(points > dealer_points)
@@ -140,7 +140,7 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You won!`)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips = userStats.chips + reward + bet
+			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
 		}
 		else

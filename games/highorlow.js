@@ -71,7 +71,7 @@ async function main(interaction, bet, userStats, UID)
 		const dealer_points	= values[dealer_card] || dealer_card
 		const remaining		= dealer_drawn.remaining
 
-		var reward	= Math.floor(bet / 2)
+		var reward	= Math.floor(bet / 2) + bet
 		var xp_rew	= Math.floor(bet / 7)
 		var chosen 	= 0
 		var final 	= 0 
@@ -92,7 +92,7 @@ async function main(interaction, bet, userStats, UID)
 		{
 			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward} Chips*`)
 
-			userStats.chips 		= userStats.chips + reward + bet
+			userStats.chips 		= userStats.chips + reward
 
 			dev.log(userStats.chips)
 
