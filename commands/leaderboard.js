@@ -50,15 +50,11 @@ module.exports =
         user_str = await api(user_arr, user_str)
         alt_str = await alternative(user_arr, alt_str)
 
-        dev.log(user_str)
-        dev.log(alt_str)
-        dev.log(val_str)
-
         const embed = new EmbedBuilder()
         .setTitle("Leaderboard")
         .addFields(
             { name: "User", value: user_str || alt_str, inline: true },
-            { name: titles[chosen] || chosen, value: val_str, inline: true },
+            { name: titles[chosen], value: val_str, inline: true },
         )
 
         try     { await interaction.editReply({ embeds: [embed] }) }
