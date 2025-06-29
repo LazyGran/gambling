@@ -120,7 +120,7 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#e80400')
 			.setTitle(`You lost!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${bet} Chips*`)
 			.setFooter({ text: `The house always wins...` });
 		}
 		else if(dealer_points > 21)
@@ -128,7 +128,7 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
 			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
@@ -138,7 +138,7 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've gained ${reward} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
 			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
@@ -148,7 +148,7 @@ async function main(interaction, bet, userStats, UID)
 			embed 	
 			.setColor('#e80400')
 			.setTitle(`You lost!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${bet} Chips*`)
 			.setFooter({ text: `The house always wins...` });
 		}
 

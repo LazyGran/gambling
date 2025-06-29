@@ -62,7 +62,7 @@ async function main(interaction, bet, userStats, UID)
 			embed
 			.setColor('#e80400')
 			.setTitle(`You lost!`)
-			.setDescription(`You crashed! *Avoid* the obstacles. \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`You crashed! *Avoid* the obstacles. \n\n-# *You lost ${bet} Chips*`)
 			.setFooter({ text: `The house always wins...` });
 
 
@@ -72,13 +72,13 @@ async function main(interaction, bet, userStats, UID)
 		{
 			played 	= true;
 
-			const reward	= bet + (5 * length)
+			const reward	= bet + (10 * length)
 			const xp_rew	= Math.floor(bet / 7)
 
 			embed
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
-			.setDescription(`You've finished in time without crashing! \n\n-# *You've gained ${reward - bet} Chips*`)
+			.setDescription(`You've finished in time without crashing! \n\n-# *You won ${reward} Chips*`)
 
 			userStats.chips 		= userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)

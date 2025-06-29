@@ -90,7 +90,7 @@ async function main(interaction, bet, userStats, UID)
 
 		if(final === chosen) 	
 		{
-			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've gained ${reward} Chips*`)
+			embed.setColor('#1aa32a').setTitle(`You won!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You won ${reward} Chips*`)
 
 			userStats.chips 		= userStats.chips + reward
 
@@ -100,7 +100,7 @@ async function main(interaction, bet, userStats, UID)
 		}
 		else 
 		{
-			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You've lost ${bet} Chips*`).setFooter({ text: `The house always wins...` });
+			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You lost ${bet} Chips*`).setFooter({ text: `The house always wins...` });
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	 }
