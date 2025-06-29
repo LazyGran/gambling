@@ -36,7 +36,7 @@ function sort(parameter)
 		
 	var sorted = Object.entries(userdata).sort(([, a], [, b]) => b[parameter] - a[parameter])
 
-	//if(sorted.length > 10) sorted = sorted.slice(0, 10)
+	if(sorted.length > 10) sorted = sorted.slice(0, 10)
 
 	return sorted;
 }
