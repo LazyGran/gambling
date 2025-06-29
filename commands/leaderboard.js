@@ -35,6 +35,7 @@ module.exports =
 
         var chosen      = interaction.options.getString("type")
         var user_arr    = []
+        var alt_str     = ""
         var user_str    = ""
         var val_str     = ""
 
@@ -47,11 +48,12 @@ module.exports =
         })
 
         user_str = await api(user_arr, user_str)
+        alt_str = await alternative(user_arr, alt_str)
 
         const embed = new EmbedBuilder()
         .setTitle("Leaderboard")
         .addFields(
-            { name: "User", value: user_str, inline: true },
+            { name: "User", value: user_str || alt_str, inline: true },
             { name: titles[chosen], value: val_str, inline: true },
         )
 
@@ -82,4 +84,14 @@ async function api(user_arr, user_str)
     }
 
     return user_str
+}
+
+async function alternative(user_arr, alt_str)
+{
+    for(const id of user_arr)
+    {
+        alt_str += `<@${id}> \n`
+    }
+
+    return alt_str
 }
