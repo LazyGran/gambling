@@ -50,6 +50,10 @@ module.exports =
         user_str = await api(user_arr, user_str)
         alt_str = await alternative(user_arr, alt_str)
 
+        dev.log(user_str)
+        dev.log(alt_str)
+        dev.log(val_str)
+
         const embed = new EmbedBuilder()
         .setTitle("Leaderboard")
         .addFields(
