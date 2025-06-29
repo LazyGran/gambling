@@ -94,8 +94,6 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips 		= userStats.chips + reward
 
-			dev.log(userStats.chips)
-
 			await xh.leveling(userStats, xp_rew)
 		}
 		else 
