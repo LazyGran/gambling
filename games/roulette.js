@@ -187,11 +187,13 @@ async function getwinners(players, field, winners)
 			winners.push(name)
 
 			await xh.leveling(s, xp_rew)
+			await xh.achievements(s, s.chips - reward, true, 2, reward)
 		}
 
 		s.active_game = false
 
 		await dh.userSave(id, s)
+		await xh.achievements(s, s.chips, false, 2, 0)
 	}
 }
 

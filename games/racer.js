@@ -82,6 +82,7 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips 		= userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
+			await xh.achievements(userStats, userStats.chips - reward, true, 6, reward)
 
 			return pressed.stop()
 		}
@@ -106,6 +107,8 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You lost!`)
 			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
 			.setFooter({ text: `The house gives you double the race length to react` });	
+
+			await xh.achievements(userStats, userStats.chips, false, 6, 0)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }

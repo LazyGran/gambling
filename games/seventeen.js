@@ -107,6 +107,8 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You lost!`)
 			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
 			.setFooter({ text: `The house gives you thirty seconds` });
+
+			await xh.achievements(userStats, userStats.chips, false, 3, 0)
 		}
 
 		while(dealer_points < 17)
@@ -122,6 +124,8 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You lost!`)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${bet} Chips*`)
 			.setFooter({ text: `The house always wins...` });
+
+			await xh.achievements(userStats, userStats.chips, false, 3, 0)
 		}
 		else if(dealer_points > 21)
 		{
@@ -132,6 +136,7 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
+			await xh.achievements(userStats, userStats.chips - reward, true, 3, reward)
 		}
 		else if(points > dealer_points)
 		{
@@ -142,6 +147,7 @@ async function main(interaction, bet, userStats, UID)
 
 			userStats.chips = userStats.chips + reward
 			await xh.leveling(userStats, xp_rew)
+			await xh.achievements(userStats, userStats.chips - reward, true, 3, reward)
 		}
 		else
 		{
@@ -150,6 +156,8 @@ async function main(interaction, bet, userStats, UID)
 			.setTitle(`You lost!`)
 			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${bet} Chips*`)
 			.setFooter({ text: `The house always wins...` });
+
+			await xh.achievements(userStats, userStats.chips, false, 3, 0)
 		}
 
 		try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}

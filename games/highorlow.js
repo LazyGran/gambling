@@ -95,10 +95,13 @@ async function main(interaction, bet, userStats, UID)
 			userStats.chips 		= userStats.chips + reward
 
 			await xh.leveling(userStats, xp_rew)
+			await xh.achievements(userStats, userStats.chips - reward, true, 1, reward)
 		}
 		else 
 		{
 			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${card}** \nThe dealer drew a **${dealer_card}** \n\n-# *You lost ${bet} Chips*`).setFooter({ text: `The house always wins...` });
+
+			await xh.achievements(userStats, userStats.chips, false, 1, 0)
 		}
 
 		try 	{ await interaction.editReply({ embeds: [embed], components: [row] }).then(game.deferUpdate())	 }
