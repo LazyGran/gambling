@@ -19,7 +19,7 @@ function userGet(id)
 			lastbeg: 0,
 			inventory: {},
 			games: {},
-			achievements: {},
+			achievements: [],
 			custom: {},
 		}
 
