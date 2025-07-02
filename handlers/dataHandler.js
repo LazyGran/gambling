@@ -18,6 +18,8 @@ function userGet(id)
 			active_game: false,
 			lastbeg: 0,
 			inventory: {},
+			games: {},
+			achievements: {},
 			custom: {},
 		}
 
