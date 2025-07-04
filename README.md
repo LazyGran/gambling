@@ -5,6 +5,7 @@ Game ID's
 4. Blackjack
 5. Horse
 6. Racer
+7. Slots
 
 
 Command ID's
