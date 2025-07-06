@@ -62,14 +62,16 @@ function achievements(userStats, pre, won, gameID, reward)
 			game.played ++
 			game.earned += reward
 
-	dev.log(game)
-
 	for(const con of games_con)
 	{
 		if(gameID === con.gameID && game.played >= con.plays && game.won >= con.wins && game.earned >= con.earnings && !userStats.achievements.includes(con.achievementID))
 		{
-			dev.log("balls")
-			userStats.achievements.push(con.achievementID)
+			const obj =
+			{
+				[con.achievementID]: { unlocked: `${Date.now()}` }
+			}
+
+			userStats.achievements.push(obj)
 		}
 	}
 
