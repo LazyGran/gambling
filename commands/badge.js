@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")	
 const dev   = require('../handlers/dev.js')
 
-const emojis =
+const badges =
 {
     11: "<:11:1391490739262718183>",
     12: "<:12:1391490745550245939>",
@@ -61,7 +61,7 @@ const titles =
     701: { name: "Leave My Gold Alone",                 description: "Play 10 games of 'Slots'" }
 }
 
-const publics = [ 11, 12, 13, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701{ name: "", description: "" }]
+const publics = [ 11, 12, 13, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701 ]
 const secrets = [ 14, 15, 50, 69, 204, 404, 502, 503 ]
 
 module.exports = 
@@ -74,15 +74,48 @@ module.exports =
 	{
 		await interaction.deferReply()
 
+        const earned = []
+
+        let public_str      = ""
+        let private_str     = ""
+        let description_str = "Badges with a ❓ are Badges you haven't earned yet. \n-# There are also a few *secret* badges that only show up once earned \n\n"
+
         for(const badge of userStats.achievements)
         {
-            dev.log(Object.keys(badge)[0])
+            earned.push(Number(Object.keys(badge)[0]))
+        }
+        
+        for(const badge of publics)
+        {
+            if(earned.includes(badge))
+            {
+                const b         = (userStats.achievements.find(obj => obj.hasOwnProperty(badge)))
+                const unlocked  = b[badge].unlocked
+
+                public_str += `${emojis[badge]} ${titles[badge].name} *<t:${Math.floor(unlocked / 1000)}:F>* \n-# ${titles[badge].description} \n`
+            }
+            else
+            {
+                public_str += `❓ ${titles[badge].name} \n-# ${titles[badge].description} \n`
+            }
         }
 
-        
+        for(const badge of secrets)
+        {
+            if(earned.includes(badge))
+            {
+                const b         = (userStats.achievements.find(obj => obj.hasOwnProperty(badge)))
+                const unlocked  = b[badge].unlocked
+
+                private_str += `${emojis[badge]} ${titles[badge].name} *<t:${Math.floor(unlocked / 1000)}:F>* \n-# ${titles[badge].description} \n`
+            }
+        }
+
+        description_str = description_str + public_str + private_str
+
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s badges:`)
-        .setDescription("Badges with a ❓ are Badges you haven't earned yet. \nThere are more under the 'Secret Badges' tab, but those only show up once earned..!")
+        .setDescription(description_str)
 
         try     { await interaction.editReply({ embeds: [embed] }) }
         catch   { dev.log("Failed to respond \n cmdID: 8, Error: 1", 2) }
