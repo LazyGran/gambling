@@ -16,3 +16,4 @@ Command ID's
 5. Customize
 6. Donate
 7. Leaderboard
+8. Badge
