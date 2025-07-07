@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")	
 const dev   = require('../handlers/dev.js')
 
-const badges =
+const emojis =
 {
     11: "<:11:1391490739262718183>",
     12: "<:12:1391490745550245939>",
@@ -33,32 +33,32 @@ const badges =
 
 const titles =
 {
-    11: { name: "Mr. Moneybags",                        description: "Have over 10.000 Chips" },
-    12: { name: "Scrooge McDuck",                       description: "Have over 100.000 Chips" },
-    13: { name: "One Chiptillion",                      description: "Have over 1.000.000 Chips" },
-    14: { name: "Lose It All",                          description: "Lose all your money in a single bet" },
-    15: { name: "Menace To Society",                    description: "Use /crime over 100 times" },
-    50: { name: "Five Hundred Cigarettes",              description: "Have a total of 500 Cigarettes" },
-    69: { name: "Funny Number",                         description: "Have exactly 69.420 Chips" },
-    101: { name: "I'm A Good Guesser (bronze)",         description: "Play 5 games of 'High Or Low'" },
-    102: { name: "I'm A Good Guesser (silver)",         description: "Play 25 games of 'High Or Low'" },
-    103: { name: "I'm A Good Guesser (gold)",           description: "Play 100 games of 'High Or Low'" },
-    201: { name: "My Head Is Spinning (bronze)",        description: "Play 5 games of 'Roulette'" },
-    202: { name: "My Head Is Spinning (silver)",        description: "Play 25 games of 'Roulette'" },
-    203: { name: "My Head Is Spinning (gold)",          description: "Play 100 games of 'Roulette'" },
-    204: { name: "Go Big Or Go Home",                   description: "Put in the maximum bet & lose in 'Roulette'" },
-    301: { name: "My Friends Love Me (bronze)",         description: "Play 5 games of 'Seventeen + Four'" },
-    302: { name: "My Friends Love Me (silver)",         description: "Play 25 games of 'Seventeen + Four'" },
-    303: { name: "My Friends Love Me (gold)",           description: "Play 100 games of 'Seventeen + Four'" },
-    401: { name: "Basic Strategy, Trust Me (bronze)",   description: "Play 5 games of 'Blackjack'" },
-    402: { name: "Basic Strategy, Trust Me (silver)",   description: "Play 25 games of 'Blackjack'" },
-    403: { name: "Basic Strategy, Trust Me (gold)",     description: "Play 100 games of 'Blackjack'" },
-    404: { name: "I Have No Clue",                      description: "In 'Blackjack', hit when having 17 points" },
-    501: { name: "Steroids",                            description: "Win when betting on horse" },
-    502: { name: "Glue Factory",                        description: "Bet over 1.000 Chips on a horse & lose" },
-    503: { name: "My Brain Is Dead I Fear",             description: "Win when betting on horse 'Giggle' (yellow)" },
-    601: { name: "Max Vertrucken",                      description: "Play 10 games of 'Racer'" },
-    701: { name: "Leave My Gold Alone",                 description: "Play 10 games of 'Slots'" }
+    11: { name: "Mr. Moneybags",                description: "Have over 10.000 Chips" },
+    12: { name: "Scrooge McDuck",               description: "Have over 100.000 Chips" },
+    13: { name: "One Chiptillion",              description: "Have over 1.000.000 Chips" },
+    14: { name: "Lose It All",                  description: "Lose all your money in a single bet" },
+    15: { name: "Menace To Society",            description: "Use /crime over 100 times" },
+    50: { name: "Five Hundred Cigarettes",      description: "Have a total of 500 Cigarettes" },
+    69: { name: "Funny Number",                 description: "Have exactly 69.420 Chips" },
+    101: { name: "I'm A Good Guesser 🥉",       description: "Play 5 games of 'High Or Low'" },
+    102: { name: "I'm A Good Guesser 🥈",       description: "Play 25 games of 'High Or Low'" },
+    103: { name: "I'm A Good Guesser 🥇",       description: "Play 100 games of 'High Or Low'" },
+    201: { name: "My Head Is Spinning 🥉",      description: "Play 5 games of 'Roulette'" },
+    202: { name: "My Head Is Spinning 🥈",      description: "Play 25 games of 'Roulette'" },
+    203: { name: "My Head Is Spinning 🥇",      description: "Play 100 games of 'Roulette'" },
+    204: { name: "Go Big Or Go Home",           description: "Put in the maximum bet & lose in 'Roulette'" },
+    301: { name: "My Friends Love Me 🥉",       description: "Play 5 games of 'Seventeen + Four'" },
+    302: { name: "My Friends Love Me 🥈",       description: "Play 25 games of 'Seventeen + Four'" },
+    303: { name: "My Friends Love Me 🥇",       description: "Play 100 games of 'Seventeen + Four'" },
+    401: { name: "Basic Strategy, Trust Me 🥉", description: "Play 5 games of 'Blackjack'" },
+    402: { name: "Basic Strategy, Trust Me 🥈", description: "Play 25 games of 'Blackjack'" },
+    403: { name: "Basic Strategy, Trust Me 🥇", description: "Play 100 games of 'Blackjack'" },
+    404: { name: "I Have No Clue",              description: "In 'Blackjack', hit when having 17 points" },
+    501: { name: "Steroids",                    description: "Win when betting on horse" },
+    502: { name: "Glue Factory",                description: "Bet over 1.000 Chips on a horse & lose" },
+    503: { name: "My Brain Is Dead I Fear",     description: "Win when betting on horse 'Giggle' (yellow)" },
+    601: { name: "Max Vertrucken",              description: "Play 10 games of 'Racer'" },
+    701: { name: "Leave My Gold Alone",         description: "Play 10 games of 'Slots'" }
 }
 
 const publics = [ 11, 12, 13, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701 ]
