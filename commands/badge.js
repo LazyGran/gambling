@@ -82,17 +82,14 @@ module.exports =
 
         for(const badge of userStats.achievements)
         {
-            earned.push(Number(Object.keys(badge)[0]))
+            earned.push(Number(badge))
         }
         
         for(const badge of publics)
         {
             if(earned.includes(badge))
             {
-                const b         = (userStats.achievements.find(obj => obj.hasOwnProperty(badge)))
-                const unlocked  = b[badge].unlocked
-
-                public_str += `${emojis[badge]} ${titles[badge].name} *<t:${Math.floor(unlocked / 1000)}:F>* \n-# ${titles[badge].description} \n`
+                public_str += `${emojis[badge]} ${titles[badge].name} \n-# ${titles[badge].description} \n`
             }
             else
             {
@@ -104,10 +101,8 @@ module.exports =
         {
             if(earned.includes(badge))
             {
-                const b         = (userStats.achievements.find(obj => obj.hasOwnProperty(badge)))
-                const unlocked  = b[badge].unlocked
 
-                private_str += `${emojis[badge]} ${titles[badge].name} *<t:${Math.floor(unlocked / 1000)}:F>* \n-# ${titles[badge].description} \n`
+                private_str += `${emojis[badge]} ${titles[badge].name} \n-# ${titles[badge].description} \n`
             }
         }
 

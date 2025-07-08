@@ -55,7 +55,7 @@ module.exports =
 
         for(const badge of userStats.achievements)
         {
-            badge_str += `${badges[Object.keys(badge)[0]]}`
+            badge_str += `${badges[badge]}`
         }
 
         for(i = 0; i < progress; i++)

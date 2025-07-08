@@ -64,14 +64,9 @@ function achievements(userStats, pre, won, gameID, reward)
 
 	for(const con of games_con)
 	{
-		if(gameID === con.gameID && game.played >= con.plays && game.won >= con.wins && game.earned >= con.earnings && !userStats.achievements.some(obj => Object.prototype.hasOwnProperty.call(obj, con.achievementID)))
+		if(gameID === con.gameID && game.played >= con.plays && game.won >= con.wins && game.earned >= con.earnings && !userStats.achievements.includes(con.achievementID))
 		{
-			const obj =
-			{
-				[con.achievementID]: { unlocked: `${Date.now()}` }
-			}
-
-			userStats.achievements.push(obj)
+			userStats.achievements.push(con.achievementID)
 		}
 	}
 
