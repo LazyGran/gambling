@@ -41,7 +41,7 @@ function leveling(userStats, reward)
 	dh.userSave(userStats)
 }
 
-function achievements(userStats, pre, won, gameID, reward)
+function achievements(userStats, pre, won, gameID, reward, bet)
 {
 	gameID = Number(gameID)
 	if(!userStats.games[gameID])
@@ -69,6 +69,22 @@ function achievements(userStats, pre, won, gameID, reward)
 			userStats.achievements.push(con.achievementID)
 		}
 	}
+
+	//11-13, 69
+	if(userStats.chips >= 10000 && !userStats.achievements.includes("11"))							userStats.achievements.push("11")
+	if(userStats.chips >= 100000 && !userStats.achievements.includes("12"))							userStats.achievements.push("12")
+	if(userStats.chips >= 1000000 && !userStats.achievements.includes("13"))						userStats.achievements.push("13")
+	if(userStats.chips === 69420 && !userStats.achievements.includes("69"))							userStats.achievements.push("69")
+
+	//14
+	if(pre === 0 && won === false && !userStats.achievements.includes("14")) 						userStats.achievements.push("14");
+
+	//204
+	if(gameID === 2 && won === false && bet === 5000 && !userStats.achievements.includes("204")) 	userStats.achievements.push("204")
+
+	//502
+	if(gameID === 5 && won === false && bet >= 1000 && !userStats.achievements.includes("502"))		userStats.achievements.push("502")
+
 
 	dh.userSave(userStats)
 }
