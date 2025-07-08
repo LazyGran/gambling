@@ -180,11 +180,14 @@ async function getwinners(players, horse, winners, bet)
             await xh.leveling(s, xp_rew)
             await xh.achievements(s, s.chips - reward, true, 5, reward)
         }
+        else
+        {
+            await xh.achievements(s, s.chips, false, 5, 0, bet)
+        }
 
         s.active_game = false
 
         await dh.userSave(id, s)
-        await xh.achievements(s, s.chips, false, 5, 0)
     }
 }
 
