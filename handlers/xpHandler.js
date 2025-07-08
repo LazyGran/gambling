@@ -89,7 +89,10 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	if(gameID === 0 && !userStats.achievements.includes("15"))										userStats.achievements.push("15")
 
 	//404
-	if(gameID === 4 && additional === true && !userStats.achievements.includes("404"))				userStats.achievements.push("404")
+	if(gameID === 404 && additional === true && !userStats.achievements.includes("404"))			userStats.achievements.push("404")
+
+	//503
+	if(gameID === 503 && additional === true && !userStats.achievements.includes("503"))			userStats.achievements.push("503")
 
 	dh.userSave(userStats)
 }

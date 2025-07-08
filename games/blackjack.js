@@ -82,7 +82,7 @@ async function main(interaction, bet, userStats, UID)
 			return pressed.stop()	
 		}
 
-		if(points === 17) await xh.achievements(userStats, userStats.chips, false, 4, 0, 0, true)
+		if(points === 17) await xh.achievements(userStats, userStats.chips, false, 404, 0, 0, true)
 
 		points 		= await player_draw(UID, hand, points)
 		hand_str 	= hand.join(", ")
