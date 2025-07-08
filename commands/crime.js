@@ -2,7 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")
 const { Random }                             = require("random-js")
 const fs    = require('fs')
 const path  = require('path')
-const eh    = require('../handlers/errorHandler.js')    
+const eh    = require('../handlers/errorHandler.js')   
+const xh    = require('../handlers/xpHandler.js') 
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
 
@@ -55,6 +56,8 @@ module.exports = {
             desc                = `${response} \n-# Gained **${n}** Chips`
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
+
+            await xh.achievements(userStats, userStats.chips, true, 0, n)
         }
 
         else if(userStats.chips < n)    

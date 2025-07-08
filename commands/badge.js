@@ -37,7 +37,7 @@ const titles =
     12: { name: "Scrooge McDuck",               description: "Have over 100.000 Chips" },
     13: { name: "One Chiptillion",              description: "Have over 1.000.000 Chips" },
     14: { name: "Lose It All",                  description: "Lose all your money in a single bet" },
-    15: { name: "Menace To Society",            description: "Use /crime" },
+    15: { name: "Menace To Society",            description: "Use /crime & succeed" },
     50: { name: "Five Hundred Cigarettes",      description: "Buy 500 Cigarettes at once" },
     69: { name: "Funny Number",                 description: "Have exactly 69.420 Chips" },
     101: { name: "I'm A Good Guesser 🥉",       description: "Play 5 games of 'High Or Low'" },

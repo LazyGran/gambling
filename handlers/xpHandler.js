@@ -41,7 +41,7 @@ function leveling(userStats, reward)
 	dh.userSave(userStats)
 }
 
-function achievements(userStats, pre, won, gameID, reward, bet)
+function achievements(userStats, pre, won, gameID, reward, bet, additional)
 {
 	gameID = Number(gameID)
 	if(!userStats.games[gameID])
@@ -85,6 +85,10 @@ function achievements(userStats, pre, won, gameID, reward, bet)
 	//502
 	if(gameID === 5 && won === false && bet >= 1000 && !userStats.achievements.includes("502"))		userStats.achievements.push("502")
 
+	//15
+	if(gameID === 0 && !userStats.achievements.includes("15"))										userStats.achievements.push("15")
+
+	//
 
 	dh.userSave(userStats)
 }
