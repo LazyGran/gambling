@@ -2,6 +2,7 @@ require("dotenv").config()
 
 const fs 	= require("node:fs")
 const path 	= require("node:path")
+const dev   = require("./handlers/dev.js")
 
 const { Client, GatewayIntentBits, Collection } 	= require("discord.js")
 const { DISCORD_TOKEN: token }						= process.env
@@ -41,6 +42,17 @@ for(const file of cmdFiles)
 	if("data" in command && "execute" in command) client.commands.set(command.data.name, command)
 		else console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property`);
 }
+
+process.on("unhandledRejection", (reason, promise) =>
+{
+	dev.log(("(1) Major error:", promise, '\nReason', reason), 2)
+})
+
+process.on("uncaughtException", (err) =>
+{
+	dev.log(("(2) Major error:", err), 2)
+})
+
 
 client.login(token)
 
