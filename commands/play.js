@@ -115,7 +115,7 @@ module.exports =
 			if(bet > userStats.chips) 	{ return eh.error(interaction, "You don't have enough chips!") }
 			if(bet > 5000)				{ return eh.error(interaction, "You can only bet up to 5.000 chips!") }
 
-			userStats.active_game 	= true
+//			userStats.active_game 	= true
 			userStats.chips 		= userStats.chips - bet
 
 			game.main(interaction, bet, userStats, UID, chosen)
