@@ -92,6 +92,10 @@ module.exports =
 	.addSubcommand(subcommand => subcommand
 		.setName("racer")
 		.setDescription("Don't crash!")
+	)
+	.addSubcommand(subcommand => subcommand
+		.setName("slots")
+		.setDescription("Pretty lights!")
 	),
 
 	async execute(interaction, userStats)
