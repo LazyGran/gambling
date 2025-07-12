@@ -41,26 +41,56 @@ async function devTools()
                 else if(!isNaN(value))      parsedVal = Number(value)
                 else                        parsedVal = value
             
-                const userStats = dh.devGet(UID)
 
-                if (userStats === 0) 
+                if(UID === "all")
                 {
-                    log("User not found!", 5)
+                    const database = dh.devGlobal()
+
+                    let updated = 0
+
+                    for(const userID in database)
+                    {
+                        const userStats = database[userID]
+
+                        if (!(key in userStats))
+                        {
+                            log("Key not found!", 5)
+                            break;
+                        }
+
+                        userStats[key] = parsedVal;
+                        updated++
+
+                        dh.userSave(userStats)
+                    }
+
+                    log(`Successfully set ${key} to ${parsedVal}`, 3)
+
                     break;
                 }
-                else if(!(key in userStats))
+                else
                 {
-                    log("Key not found!", 5)
+                    const userStats = dh.devGet(UID)
+
+                    if (userStats === 0) 
+                    {
+                        log("User not found!", 5)
+                        break;
+                    }
+                    else if(!(key in userStats))
+                    {
+                        log("Key not found!", 5)
+                        break;
+                    }
+
+                    userStats[key] = parsedVal
+
+                    dh.userSave(userStats)
+
+                    log(`Successfully set ${userStats.userID}.${key} to ${userStats[key]}`, 3)
+
                     break;
                 }
-
-                userStats[key] = parsedVal
-
-                dh.userSave(userStats)
-
-                log(`Successfully set ${userStats.userID}.${key} to ${userStats[key]}`, 3)
-
-                break;
             }
 
             case "get":

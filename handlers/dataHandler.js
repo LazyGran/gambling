@@ -58,7 +58,14 @@ function devGet(id)
 	else 							return userdata[id]
 }
 
+function devGlobal()
+{
+	userdata = jsonfile.readFileSync("database/userdata.json")
+
+	return userdata;
+}
+
 module.exports =
 {
-	userGet, sort, userSave, devGet	
+	userGet, sort, userSave, devGet, devGlobal
 }
