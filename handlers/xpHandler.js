@@ -25,7 +25,7 @@ const games_con = [
 	//racer
 	{ gameID: 6, plays: 10, wins: 0, earnings: 0, achievementID: "601" },
 	//slots
-	{ gameID: 7, plays: 1, wins: 1, earnings: 10, achievementID: "701"}
+	{ gameID: 7, plays: 10, wins: 0, earnings: 0, achievementID: "701"}
 ]
 
 
