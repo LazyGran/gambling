@@ -8,19 +8,20 @@ const dev   = require('../handlers/dev.js')
 
 const random 	= new Random()
 
-const emojis	= [ "<a:slots3f:1393285737432092793>", "<a:slots3:1393285730658156625>", "<a:slots2f:1393285725491036250>", "<a:slots2:1393285719426076682>", "<a:slots1f:1393285701948412015>", "<a:slots1:1393285701948412015>" ]
-
-//for(let i = 0; i < 7; i++) emojis.push("<a:slots3f:1393285737432092793>", "<a:slots3:1393285730658156625>", "<a:slots2f:1393285725491036250>", "<a:slots2:1393285719426076682>", "<a:slots1f:1393285701948412015>", "<a:slots1:1393285701948412015>");
+const gifs 		= [ "<a:slots3f:1393285737432092793>", "<a:slots3:1393285730658156625>", "<a:slots2f:1393285725491036250>", "<a:slots2:1393285719426076682>", "<a:slots1f:1393285701948412015>", "<a:slots1:1393285701948412015>" ]
+const emojis	= [ "💣", "✅", "❌", "🔥", "💯" ]
 
 async function main(interaction, bet, userStats)
 {
-	var reels = ""
+	var reels 	= ""
+	var final 	= ""
+	var payline	= []
 
 	const used = []
 
 	for(i = 0; i < 3; i++) 
 	{
-		let n = random.integer(0, emojis.length - 1)
+		let n = random.integer(0, gifs.length - 1)
 
 		if(used.includes(n)) 
 		{
@@ -28,12 +29,12 @@ async function main(interaction, bet, userStats)
 
 			while(selected) 
 			{
-				n = random.integer(0, emojis.length - 1)
+				n = random.integer(0, gifs.length - 1)
 
 				if(!used.includes(n)) selected = false;
 			}
 		}
-		reels += emojis[n]
+		reels += gifs[n]
 
 		used.push(n)
 	}
@@ -41,15 +42,63 @@ async function main(interaction, bet, userStats)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Slots")
-	.setDescription(reels)
+	.setDescription(reels + "\n-# Two equal ones: 75 Chips \n-# Three equal ones: 500 Chips")
 
 	try 	{ initial = await interaction.editReply({ embeds: [embed] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 7, Error: 1", 2) }
+
+	reels = ""
+
+	for(i = 0; i < 3; i++)
+	{
+		const n = random.integer(0, emojis.length - 1)
+
+		final += emojis[n]
+
+		payline.push(n)
+	}
+
+	const reward = await wincon(payline)
+	const xp_rew = Math.floor(reward / 7)
+
+    setTimeout(() => 
+    {
+    	embed.setDescription(final + "\n-# Two equal ones: 75 Chips \n-# Three equal ones: 500 Chips")
+
+    	if(reward > 0) 	
+    	{
+    		embed.setColor("#1aa32a")
+
+    		userStats.chips 		+= (reward + 50) 
+    		userStats.active_game 	= false
+
+    		xh.leveling(userStats, xp_rew)
+    		xh.achievements(userStats, userStats - reward, true, 7, reward)
+    	}
+    	else 
+    	{
+    		embed.setColor("#e80400")
+
+    		userStats.active_game 	= false
+
+    		xh.achievements(userStats, userStats - reward, false, 7, reward)
+    	}
+
+    	dh.userSave(UID, userStats)
+
+        try     { interaction.editReply({ embeds: [embed] }) }
+        catch   { dev.log("Failed to respond \n GameID: 7, Error: 2", 2) }
+    }, 2000)
+
 }
 
-async function spin()
+async function wincon(payline)
 {
+	const [a, b, c] = payline
 
+	if(a === b && a === c)				return 500;
+	if( a === b || b === c || a === c) 	return 75;
+	else  								return 0;
 }
 
 
