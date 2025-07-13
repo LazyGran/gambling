@@ -84,7 +84,7 @@ async function main(interaction, bet, userStats)
     		xh.achievements(userStats, userStats - reward, false, 7, reward)
     	}
 
-    	dh.userSave(UID, userStats)
+    	dh.userSave(interaction.user.id, userStats)
 
         try     { interaction.editReply({ embeds: [embed] }) }
         catch   { dev.log("Failed to respond \n GameID: 7, Error: 2", 2) }
