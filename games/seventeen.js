@@ -23,9 +23,11 @@ async function main(interaction, bet, userStats, UID)
 	if(!deck.success) return eh.error(interaction, deck.reason)
 
 	var	hand			= []
+	var hand_em			= []
 	var hand_str 		= ""
 	var points			= 0
 	var dealer_hand		= []
+	var dealer_hand_em	= []
 	var dealer_hand_str	= ""
 	var dealer_points	= 0
 	var played 			= false
@@ -35,12 +37,12 @@ async function main(interaction, bet, userStats, UID)
 
 	for(let i = 0; i < 2; i++)
 	{
-		points 			= await player_draw(UID, hand, points, hand_str)
-		dealer_points 	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_str)
+		points 			= await player_draw(UID, hand, points, hand_em)
+		dealer_points 	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_em)
 	} 
 
-	hand_str 		= hand.join(", ")
-	dealer_hand_str = dealer_hand.join(", ")
+	hand_str 		= hand_em.join("")
+	dealer_hand_str = dealer_hand_em.join("")
 
 	const hit = new ButtonBuilder()
 	.setCustomId("b_hit")
@@ -80,10 +82,10 @@ async function main(interaction, bet, userStats, UID)
 			return pressed.stop()	
 		}
 
-		points 		= await player_draw(UID, hand, points)
-		hand_str 	= hand.join(", ")
+		points 		= await player_draw(UID, hand, points, hand_em)
+		hand_str 		= hand_em.join("")
 
-		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand[1]}**`)
+		embed.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **??, ${dealer_hand_em[1]}**`)
 		try 	{ await interaction.editReply({ embeds: [embed] }) }
 		catch 	{ dev.log("Failed to respond \n GameID: 3, Error: 2", 2) }
 
@@ -113,8 +115,8 @@ async function main(interaction, bet, userStats, UID)
 
 		while(dealer_points < 17)
 		{
-			dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points)
-			dealer_hand_str = dealer_hand.join(", ")
+			dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_em)
+			dealer_hand_str = dealer_hand_em.join("")
 		}
 
 		if(busted)
@@ -170,22 +172,24 @@ async function main(interaction, bet, userStats, UID)
 	})
 }
 
-async function player_draw(UID, hand, points)
+async function player_draw(UID, hand, points, hand_em)
 {
 	const drawn = await ch.draw(UID)
 
 	hand.push(drawn.card)
+	hand_em.push(drawn.emoji)
 
     points 		+= values[drawn.card] || drawn.card
 
 	return(points)
 }
 
-async function dealer_draw(UID, dealer_hand, dealer_points)
+async function dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_em)
 {
 	const drawn = await ch.draw(UID)
 
 	dealer_hand.push(drawn.card)
+	dealer_hand_em.push(drawn.emoji)
 
 	dealer_points 	+= values[drawn.card] || drawn.card
 
