@@ -155,13 +155,12 @@ async function draw(ID)
         if (deck.length < 1) return{ success: false, reason: "No more cards remaining in deck" }
 
         const n     = random.integer(0, deck.length - 1)
-        const card  = cards[deck[n]]
         const emoji = `<:${deck[n]}:${emojis[deck[n]]}>`
 
         deck.splice(n, 1)
         jsonfile.writeFileSync(`database/deck_${ID}`, deck)
 
-        return{ success: true, card: card, remaining: deck.length, emoji: emoji }
+        return{ success: true, card: cards[deck[n]], remaining: deck.length, emoji: emoji, suited: deck[n] }
     }
     catch   
     { 
