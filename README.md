@@ -6,6 +6,7 @@ Game ID's
 5. Horse
 6. Racer
 7. Slots
+8. Poker (Casino Hold'em)
 
 
 Command ID's
