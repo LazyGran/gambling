@@ -21,7 +21,7 @@ const fields 		=
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
-	const close 		= Math.floor(Date.now() / 1000) + 8
+	const close 		= Math.floor(Date.now() / 1000) + 13
 	const wheel 		= []
 	const winners 		= []
 	const p_names		= []
@@ -63,7 +63,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
 
-	const selected	= await initial.createMessageComponentCollector({ time: 10_000 })
+	const selected	= await initial.createMessageComponentCollector({ time: 15_000 })
 
 	setTimeout(() => 
 	{
@@ -72,7 +72,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 		try 	{ interaction.editReply({ components: [row] }) }
 		catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 2", 2) }
-	}, 8000)
+	}, 13000)
 
 	selected.on('collect', async selection =>
 	{
