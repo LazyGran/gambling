@@ -5,26 +5,15 @@ const ch    = require('../handlers/cardHandler.js')
 const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 
-const values = 
-{
-	"Ace": 	11,
-	"Jack": 10,
-	"Queen": 10,
-	"King": 10
-}
-const facecards	= [	"Jack", "Queen","King" ]
-
 async function main(interaction, bet, userStats, UID)
 {
-	dev.log(userStats.chips)
-
 	if(userStats.chips < bet * 2) 
 	{
 		userStats.chips 		+= bet
 		userStats.active_game 	= false
 
 		dh.userSave(UID, userStats)
-		return eh.error("You need at least 3x your bet to play this game! \n-# Example: You bet 50, you need 150, since calling requires you to put in double your bet");
+		return eh.error(interaction, "You need at least 3x your bet to play this game! \n-# Example: You bet 50, you need 150, since calling requires you to put in double your bet");
 	}
 
 
@@ -40,7 +29,9 @@ async function main(interaction, bet, userStats, UID)
 	var dealer_hand_str		= ""
 	var community_hand		= []
 	var community_hand_str 	= ""
-	var played 			= false
+	var played 				= false
+	var folded 				= false
+	var won 				= 0
 
 	let inital;
 
@@ -83,21 +74,33 @@ async function main(interaction, bet, userStats, UID)
 		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true })
 
 		game.deferUpdate()
+		played = true
 
 		if(game.customId === "b_fold")	
 		{
-			played = true
+			folded = true
 
 			return pressed.stop()	
 		}
 
+		await ch.burn(UID)
 
+		for(let i = 0; i < 2; i++)
+		{
+			community_hand_str = await community_draw(UID, community_hand, community_hand_str)
+		}
+
+		embed.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str}`)
+
+		pressed.stop()
 	})
 
 	pressed.on('end', async collected =>
 	{
 		call.setDisabled(true)
 		fold.setDisabled(true)
+
+		await ch.remove(UID)
 
 		if(!played)
 		{
@@ -108,6 +111,25 @@ async function main(interaction, bet, userStats, UID)
 			.setFooter({ text: `The house gives you thirty seconds` });
 
 			await xh.achievements(userStats, userStats.chips, false, 8, 0)
+		}
+		else if(folded)
+		{
+			embed 	
+			.setColor('#e80400')
+			.setTitle(`You lost!`)
+			.setDescription(`You folded, probably for the better.. \n\n-# *You've lost ${bet} Chips*`)
+			.setFooter({ text: `Calling isn't always a good move!` });
+
+			await xh.achievements(userStats, userStats.chips, false, 8, 0)
+		}
+		else
+		{
+			userStats.chips -= bet * 2
+
+			//call calc function and do win conditions here
+			dev.log("Player: " + hand)
+			dev.log("Dealer: " + dealer_hand)
+			dev.log("Community: " + community_hand)
 		}
 
 		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
