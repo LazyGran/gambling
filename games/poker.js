@@ -5,6 +5,23 @@ const ch    = require('../handlers/cardHandler.js')
 const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 
+const values = 
+{
+	"Ace": 		14,
+	"2": 		2,
+	"3": 		3,
+	"4": 		4,
+	"5": 		5,
+	"6": 		6,
+	"7": 		7,
+	"8": 		8,
+	"9": 		9,
+	"10": 		10,
+	"jack": 	11,
+	"queen": 	12,
+	"king": 	13
+}
+
 async function main(interaction, bet, userStats, UID)
 {
 	if(userStats.chips < bet * 2) 
@@ -126,10 +143,20 @@ async function main(interaction, bet, userStats, UID)
 		{
 			userStats.chips -= bet * 2
 
-			//call calc function and do win conditions here
+			const player_cards = [...hand, ...community_hand]
+			const dealer_cards = [...dealer_hand, ...community_hand]
+
 			dev.log("Player: " + hand)
 			dev.log("Dealer: " + dealer_hand)
 			dev.log("Community: " + community_hand)
+			dev.log("Player Cards: " + player_cards)
+			dev.log("Dealer Cards: " + dealer_cards)
+
+			const player_final = await calculate(interaction, player_cards)
+			const dealer_final = await calculate(interaction, dealer_cards)
+
+			dev.log(player_final)
+			dev.log(dealer_final)
 		}
 
 		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
@@ -167,12 +194,125 @@ async function community_draw(UID, community_hand, community_hand_str)
 	return community_hand_str
 }
 
-async function calculate()
+async function calculate(interaction, cards)
 { 
+	const sorted = cards.map(card =>
+	{
+		const suit = card.slice(-1)
+		const rank = card.slice(0, -1).toLowerCase()
 
+		return{ suit: suit, rank: rank, value: values[rank] }
+	})
+
+	const counts 	= {}
+	const suits 	= { h: [], s: [], d: [], c: [] }
+
+	for(const card of sorted) 
+	{
+		counts[card.value] = (counts[card.value] || 0) + 1
+		suits[card.suit].push(card.value)
+	}
+
+	const valuesSorted = sorted.map(c => c.value).sort((a, b) => b - a)
+	const countsSorted = Object.entries(counts).sort((a, b) => b[1] - a[1] || b[0] - a[0])
+
+	if (valuesSorted.includes(undefined)) 
+	{
+  		dev.log("Undefined in valuesSorted: " + valuesSorted)
+
+  		return eh.error(interaction, "❌ Error with calculate function")
+	}
+
+	//flush
+	let fSuit = null
+
+	for(const suit in suits)
+	{
+		if(suits[suit].length >= 5)
+		{
+			fSuit = suit
+		}
+	}
+
+	//stragit + straight flush
+	const straight = (valuesSorted) =>
+	{
+		const unique = [...new Set(valuesSorted)].sort((a, b) => a - b)
+ 
+		for(let i = 0; i <= unique.length - 5; i++)
+		{
+			const sequence = unique.slice(i, i + 5)
+
+			if(sequence[4] - sequence[0] === 4) return sequence[4]
+		}
+
+		if(unique.includes(14) && unique.includes(2) && unique.includes(3) && unique.includes(4) && unique.includes(5)) return 5;
+
+		return null;
+	}
+
+	let hand = "High Card", rank = 1, kickers = valuesSorted.slice(0, 5)
+
+	const sFlush = fSuit ? straight(suits[fSuit]) : null
+
+	if(sFlush) return { hand: "Straight Flush", rank: 9, kickers: [sFlush]}
+
+	if(countsSorted[0][1] === 4)
+	{
+		hand 	= "Four Of A Kind"
+		rank 	= 8
+		kickers = [Number(countsSorted[0][0])]
+	}
+	else if(countsSorted[0][1] == 3 && countsSorted[1]?.[1] > 2)
+	{
+		hand 	= "Full House"
+		rank 	= 7
+		kickers = [Number(countsSorted[0][0]), Number(countsSorted[1][0])]
+	}
+	else if(fSuit)
+	{
+		hand 	= "Flush"
+		rank 	= 6
+		kickers = suits[fSuit].sort((a, b) => b - a).slice(0, 5)
+	}
+	else
+	{
+		const straightHigh = straight(valuesSorted)
+
+		if(straightHigh)
+		{
+			hand 	= "Straight"
+			rank 	= 5
+			kickers = [straightHigh]
+		}
+		else if(countsSorted[0][1] === 3)
+		{
+			hand 	= "Three Of A Kind"
+			rank 	= 4
+			kickers = [Number(countsSorted[0][0]), ...valuesSorted.filter(value => value !== Number(countsSorted[0][0])).slice(0, 2)];
+		}
+		else if(countsSorted[0][1] === 2 && countsSorted[1]?.[1] === 2)
+		{
+			hand 	= "Two Pair"
+			rank 	= 3
+			
+			const pair1 = Number(countsSorted[0][0])
+			const pair2 = Number(countsSorted[1][0])
+			kickers 	= [pair1, pair2, ...valuesSorted.filter(value => value !== pair1 && value !== pair2).slice(0, 1)];
+		}
+		else if(countsSorted[0][1] === 2)
+		{
+			hand 	= "Pair"
+			rank 	= 2
+			kickers = [Number(countsSorted[0][0]), ...valuesSorted.filter(value => value !== Number(countsSorted[0][0])).sort((a, b) => b - a).slice(0, 3)]
+		}
+	}
+
+	return { hand, rank, kickers }
 }
 
 module.exports =
 {
+
     main,
 }
