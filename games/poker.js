@@ -7,7 +7,7 @@ const dev   = require('../handlers/dev.js')
 
 const values = 
 {
-	"Ace": 		14,
+	"ace": 		14,
 	"2": 		2,
 	"3": 		3,
 	"4": 		4,
@@ -152,11 +152,9 @@ async function main(interaction, bet, userStats, UID)
 			dev.log("Player Cards: " + player_cards)
 			dev.log("Dealer Cards: " + dealer_cards)
 
-			const player_final = await calculate(interaction, player_cards)
-			const dealer_final = await calculate(interaction, dealer_cards)
+			won = await wincon(interaction, player_cards, dealer_cards)
 
-			dev.log(player_final)
-			dev.log(dealer_final)
+			dev.log(won)
 		}
 
 		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
@@ -198,10 +196,13 @@ async function calculate(interaction, cards)
 { 
 	const sorted = cards.map(card =>
 	{
-		const suit = card.slice(-1)
-		const rank = card.slice(0, -1).toLowerCase()
+		const suit 	= card.slice(-1)
+		const rank 	= card.slice(0, -1).toLowerCase()
+		const value = values[rank]
 
-		return{ suit: suit, rank: rank, value: values[rank] }
+		if(value === undefined) dev.log(`Unknown rank: "${rank}" from card: "${card}"`)
+
+		return { suit, rank, value }
 	})
 
 	const counts 	= {}
@@ -220,7 +221,7 @@ async function calculate(interaction, cards)
 	{
   		dev.log("Undefined in valuesSorted: " + valuesSorted)
 
-  		return eh.error(interaction, "❌ Error with calculate function")
+  		return eh.error(interaction, "❌ Error with calculate function");
 	}
 
 	//flush
@@ -261,7 +262,9 @@ async function calculate(interaction, cards)
 	{
 		hand 	= "Four Of A Kind"
 		rank 	= 8
-		kickers = [Number(countsSorted[0][0])]
+		const fourKindValue = Number(countsSorted[0][0])
+		const kicker = valuesSorted.filter(v => v !== fourKindValue)[0]
+		kickers = [fourKindValue, kicker]
 	}
 	else if(countsSorted[0][1] == 3 && countsSorted[1]?.[1] > 2)
 	{
@@ -304,11 +307,35 @@ async function calculate(interaction, cards)
 		{
 			hand 	= "Pair"
 			rank 	= 2
-			kickers = [Number(countsSorted[0][0]), ...valuesSorted.filter(value => value !== Number(countsSorted[0][0])).sort((a, b) => b - a).slice(0, 3)]
+
+			const pairVal		= Number(countsSorted[0][0])
+			const uniqueKickers = valuesSorted.filter(value => value !== pairVal)
+
+			kickers = [pairVal, ...uniqueKickers.slice(0, 3)]
 		}
 	}
 
 	return { hand, rank, kickers }
+}
+
+async function wincon(interaction, player_cards, dealer_cards)
+{
+	const playerFinal = await calculate(interaction, player_cards)
+	const dealerFinal = await calculate(interaction, dealer_cards)
+
+	dev.log("Player: " + playerFinal)
+	dev.log("Dealer: " + dealerFinal)
+
+	if(playerFinal.rank > dealerFinal.rank) return 1;
+	if(playerFinal.rank	< dealerFinal.rank) return 0;
+
+	for(let i = 0; i < Math.min(playerFinal.kickers.length, dealerFinal.kickers.length); i++)
+	{
+		if(playerFinal.kickers[i] > dealerFinal.kickers[i]) return 1;
+		if(playerFinal.kickers[i] < dealerFinal.kickers[i]) return 0;
+	}
+
+	return 2;
 }
 
 module.exports =
