@@ -323,8 +323,8 @@ async function wincon(interaction, player_cards, dealer_cards)
 	const playerFinal = await calculate(interaction, player_cards)
 	const dealerFinal = await calculate(interaction, dealer_cards)
 
-	dev.log("Player: " + playerFinal)
-	dev.log("Dealer: " + dealerFinal)
+	dev.log("Player: " + playerFinal.hand)
+	dev.log("Dealer: " + dealerFinal.hand)
 
 	if(playerFinal.rank > dealerFinal.rank) return 1;
 	if(playerFinal.rank	< dealerFinal.rank) return 0;
