@@ -35,7 +35,7 @@ async function main(interaction, bet, userStats, UID)
 
 
 	const deck 		= await ch.create(UID)
-	const reward 	= bet * 2
+	const reward 	= 0
 	const xp_rew	= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
@@ -46,6 +46,7 @@ async function main(interaction, bet, userStats, UID)
 	var dealer_hand_str		= ""
 	var community_hand		= []
 	var community_hand_str 	= ""
+	var winning_hand        = { string: "", name: "" }
 	var played 				= false
 	var folded 				= false
 	var won 				= 0
@@ -107,7 +108,7 @@ async function main(interaction, bet, userStats, UID)
 			community_hand_str = await community_draw(UID, community_hand, community_hand_str)
 		}
 
-		embed.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str}`)
+		embed.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *Evaluating...*`)
 
 		pressed.stop()
 	})
@@ -116,8 +117,6 @@ async function main(interaction, bet, userStats, UID)
 	{
 		call.setDisabled(true)
 		fold.setDisabled(true)
-
-		await ch.remove(UID)
 
 		if(!played)
 		{
@@ -141,6 +140,9 @@ async function main(interaction, bet, userStats, UID)
 		}
 		else
 		{
+			try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
+			catch 	{ dev.log("Failed to respond \n GameID: 8, Error: 2", 2) }
+
 			userStats.chips -= bet * 2
 
 			const player_cards = [...hand, ...community_hand]
@@ -154,7 +156,52 @@ async function main(interaction, bet, userStats, UID)
 
 			won = await wincon(interaction, player_cards, dealer_cards)
 
-			dev.log(won)
+			if(won === 0)
+			{
+				embed 	
+				.setColor('#e80400')
+				.setTitle(`You lost!`)
+				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You've lost ${bet * 3} Chips*`)
+				.setFooter({ text: `Calling isn't always a good move!` });
+
+				await xh.achievements(userStats, userStats.chips, false, 8, 0)
+			}
+			if(won === 1)
+			{
+				embed 	
+				.setColor('#1aa32a')
+				.setTitle(`You won!`)
+				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
+
+				userStats.chips = userStats.chips + reward
+				await xh.leveling(userStats, xp_rew)
+				await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
+			}
+			if(won === 2)
+			{
+				embed 	
+				.setColor('#f58916')
+				.setTitle(`Tied!`)
+				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You didn't lose any Chips*`)
+				.setFooter({ text: `Lucky...` });
+
+				userStats.chips = userStats.chips + (bet * 3)
+				await xh.achievements(userStats, userStats.chips, false, 4, 0)
+			}
+			if(won === 3)
+			{
+				embed 	
+				.setColor('#f58916')
+				.setTitle(`Tied!`)
+				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
+				.setFooter({ text: `Lucky...` });
+
+				userStats.chips = userStats.chips + (bet * 3)
+				await xh.achievements(userStats, userStats.chips, false, 4, 0)
+			}
+
+			await dh.userSave(UID, userStats)
+			await ch.remove(UID)
 		}
 
 		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
@@ -309,7 +356,7 @@ async function calculate(interaction, cards)
 			rank 	= 2
 
 			const pairVal		= Number(countsSorted[0][0])
-			const uniqueKickers = valuesSorted.filter(value => value !== pairVal)
+			const uniqueKickers = [...new Set(valuesSorted.filter(value => value !== pairVal))]
 
 			kickers = [pairVal, ...uniqueKickers.slice(0, 3)]
 		}
@@ -326,16 +373,36 @@ async function wincon(interaction, player_cards, dealer_cards)
 	dev.log("Player: " + playerFinal.hand)
 	dev.log("Dealer: " + dealerFinal.hand)
 
+	const qualified = qualifier(dealerFinal)
+
+	if(!qualified)
+	{
+		return 3;
+	}
+
 	if(playerFinal.rank > dealerFinal.rank) return 1;
 	if(playerFinal.rank	< dealerFinal.rank) return 0;
 
 	for(let i = 0; i < Math.min(playerFinal.kickers.length, dealerFinal.kickers.length); i++)
 	{
 		if(playerFinal.kickers[i] > dealerFinal.kickers[i]) return 1;
+
+
 		if(playerFinal.kickers[i] < dealerFinal.kickers[i]) return 0;
 	}
 
 	return 2;
+}
+
+function qualifier(dealerFinal) {
+	if (dealerFinal.rank > 2) return true;
+
+	if (dealerFinal.hand === "Pair")
+	{
+		const pairVal = dealerFinal.kickers[0]
+		if(pairVal >= 4)	return true;
+		else  				return false;
+	}
 }
 
 module.exports =
