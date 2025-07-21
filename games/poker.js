@@ -49,7 +49,6 @@ async function main(interaction, bet, userStats, UID)
 	var winning_hand        = { string: "", name: "" }
 	var played 				= false
 	var folded 				= false
-	var won 				= 0
 
 	let inital;
 
@@ -154,50 +153,51 @@ async function main(interaction, bet, userStats, UID)
 			dev.log("Player Cards: " + player_cards)
 			dev.log("Dealer Cards: " + dealer_cards)
 
-			won = await wincon(interaction, player_cards, dealer_cards)
+			const final = await wincon(interaction, player_cards, dealer_cards)
+			dev.log(final)
 
-			if(won === 0)
+			if(final.won === 0)
 			{
 				embed 	
 				.setColor('#e80400')
 				.setTitle(`You lost!`)
-				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You've lost ${bet * 3} Chips*`)
+				.setDescription(`Dealer: ${dealer_hand_str} *(${final.hands[1]})*, You: ${hand_str} *(${final.hands[0]})* \n Community cards: ${community_hand_str} \n\n-# *You've lost ${bet * 3} Chips*`)
 				.setFooter({ text: `Calling isn't always a good move!` });
 
 				await xh.achievements(userStats, userStats.chips, false, 8, 0)
 			}
-			if(won === 1)
+			if(final.won === 1)
 			{
 				embed 	
 				.setColor('#1aa32a')
 				.setTitle(`You won!`)
-				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
+				.setDescription(`Dealer: ${dealer_hand_str} *(${final.hands[1]})*, You: ${hand_str} *(${final.hands[0]})* \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
 
 				userStats.chips = userStats.chips + reward
 				await xh.leveling(userStats, xp_rew)
-				await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
+				await xh.achievements(userStats, userStats.chips - reward, true, 8, reward)
 			}
-			if(won === 2)
+			if(final.won === 2)
 			{
 				embed 	
 				.setColor('#f58916')
 				.setTitle(`Tied!`)
-				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You didn't lose any Chips*`)
+				.setDescription(`Dealer: ${dealer_hand_str} *(${final.hands[1]})*, You: ${hand_str} *(${final.hands[0]})* \n Community cards: ${community_hand_str} \n\n-# *You didn't lose any Chips*`)
 				.setFooter({ text: `Lucky...` });
 
 				userStats.chips = userStats.chips + (bet * 3)
-				await xh.achievements(userStats, userStats.chips, false, 4, 0)
+				await xh.achievements(userStats, userStats.chips, false, 8, 0)
 			}
-			if(won === 3)
+			if(final.won === 3)
 			{
 				embed 	
 				.setColor('#f58916')
-				.setTitle(`Tied!`)
-				.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
+				.setTitle(`Dealer didn't qualify!`)
+				.setDescription(`Dealer: ${dealer_hand_str} *(${final.hands[1]})*, You: ${hand_str} *(${final.hands[0]})* \n Community cards: ${community_hand_str} \n\n-# *You won ${reward} Chips*`)
 				.setFooter({ text: `Lucky...` });
 
 				userStats.chips = userStats.chips + (bet * 3)
-				await xh.achievements(userStats, userStats.chips, false, 4, 0)
+				await xh.achievements(userStats, userStats.chips, false, 8, 0)
 			}
 
 			await dh.userSave(UID, userStats)
@@ -313,7 +313,7 @@ async function calculate(interaction, cards)
 		const kicker = valuesSorted.filter(v => v !== fourKindValue)[0]
 		kickers = [fourKindValue, kicker]
 	}
-	else if(countsSorted[0][1] == 3 && countsSorted[1]?.[1] > 2)
+	else if(countsSorted[0][1] == 3 && countsSorted[1]?.[1] >= 2)
 	{
 		hand 	= "Full House"
 		rank 	= 7
@@ -377,21 +377,27 @@ async function wincon(interaction, player_cards, dealer_cards)
 
 	if(!qualified)
 	{
-		return 3;
+		return { won: 3, hands: [playerFinal.hand, dealerFinal.hand] };
 	}
 
-	if(playerFinal.rank > dealerFinal.rank) return 1;
-	if(playerFinal.rank	< dealerFinal.rank) return 0;
+	if(playerFinal.rank > dealerFinal.rank) return { won: 1, hands: [playerFinal.hand, dealerFinal.hand] }
+	if(playerFinal.rank	< dealerFinal.rank) return { won: 0, hands: [playerFinal.hand, dealerFinal.hand] }
 
 	for(let i = 0; i < Math.min(playerFinal.kickers.length, dealerFinal.kickers.length); i++)
 	{
-		if(playerFinal.kickers[i] > dealerFinal.kickers[i]) return 1;
+		if(playerFinal.kickers[i] > dealerFinal.kickers[i]) 
+		{
+			return {won: 1, hands: [playerFinal.hand, dealerFinal.hand] }
+		}
 
 
-		if(playerFinal.kickers[i] < dealerFinal.kickers[i]) return 0;
+		if(playerFinal.kickers[i] < dealerFinal.kickers[i]) 
+		{
+			return { won: 0, hands: [playerFinal.hand, dealerFinal.hand] }
+		}
 	}
 
-	return 2;
+	return { won: 2, hands: [playerFinal.hand, dealerFinal.hand] }
 }
 
 function qualifier(dealerFinal) {
