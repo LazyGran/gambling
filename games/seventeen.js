@@ -36,7 +36,7 @@ async function main(interaction, bet, userStats, UID)
 	for(let i = 0; i < 2; i++)
 	{
 		({ points, hand_str } 					= await player_draw(UID, hand, points, hand_str));
-		({ dealer_points, dealer_hand_str } 	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_str))
+		({ dealer_points, dealer_hand_str } 	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_str));
 	} 
 
 	const hit = new ButtonBuilder()
