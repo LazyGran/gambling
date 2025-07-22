@@ -29,7 +29,17 @@ const emojis =
     502: "<:502:1391793662287155302>",
     503: "<:503:1391793672982499378>",
     601: "<:601:1391483456680235139>",
-    701: "<:701:1391487659465248849>"
+    701: "<:701:1391487659465248849>",
+    801: "<:801:1397206591375147182>",
+    802: "<:802:1397206600631980064>",
+    803: "<:803:1397206608756346932>",
+    804: "<:804:1397206616344105021>",
+    805: "<:805:1397206623793057873>",
+    806: "<:806:1397206629640048691>",
+    807: "<:807:1397206636082364426>",
+    808: "<:808:1397206643196035217>",
+    809: "<:809:1397206649772445736>",
+    810: "<:810:1397206657611858070>",
 }
 
 const titles =
@@ -59,11 +69,21 @@ const titles =
     502: { name: "Glue Factory",                description: "Bet over 1.000 Chips on a horse & lose" },
     503: { name: "My Brain Is Dead I Fear",     description: "Win when betting on horse 'Giggle' (yellow)" },
     601: { name: "Max Vertrucken",              description: "Play 10 games of 'Racer'" },
-    701: { name: "Leave My Gold Alone",         description: "Play 10 games of 'Slots'" }
+    701: { name: "Leave My Gold Alone",         description: "Play 10 games of 'Slots'" },
+    801: { name: "Amateur",                     description: "In 'Casino Holdem', win with 'High Card'"},
+    802: { name: "Pair",                        description: "In 'Casino Holdem', win with 'Pair'"},
+    803: { name: "Two Pair",                    description: "In 'Casino Holdem', win with 'Two Pair'"},
+    804: { name: "Three Of A Kind",             description: "In 'Casino Holdem', win with 'Three Of A Kind'"},
+    805: { name: "Straight",                    description: "In 'Casino Holdem', win with 'Straight'"},
+    806: { name: "Flush",                       description: "In 'Casino Holdem', win with 'Flush'"},
+    807: { name: "Doctor House",                description: "In 'Casino Holdem', win with 'Full House'"},
+    808: { name: "Lucky Man",                   description: "In 'Casino Holdem', win with 'Four Of A Kind'"},
+    809: { name: "Twitter",                     description: "In 'Casino Holdem', win with 'Straigh Flush'"},
+    810: { name: "Majesty",                     description: "In 'Casino Holdem', win with 'Royal Flush'"},
 }
 
 const publics = [ 11, 12, 13, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701 ]
-const secrets = [ 14, 15, 50, 69, 204, 404, 502, 503 ]
+const secrets = [ 14, 15, 50, 69, 204, 404, 502, 503, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810 ]
 
 module.exports = 
 {

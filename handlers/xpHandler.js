@@ -95,6 +95,18 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	//503
 	if(gameID === 503 && additional === true && !userStats.achievements.includes("503"))			userStats.achievements.push("503")
 
+	//801-810
+	if(gameID === 8 && additional === "High Card" 		&& !userStats.achievements.includes("801"))		userStats.achievements.push("801")
+	if(gameID === 8 && additional === "Pair" 			&& !userStats.achievements.includes("802"))		userStats.achievements.push("802")
+	if(gameID === 8 && additional === "Two Pair" 		&& !userStats.achievements.includes("803"))		userStats.achievements.push("803")
+	if(gameID === 8 && additional === "Three Of A Kind" && !userStats.achievements.includes("804"))		userStats.achievements.push("804")
+	if(gameID === 8 && additional === "Straight" 		&& !userStats.achievements.includes("805"))		userStats.achievements.push("805")
+	if(gameID === 8 && additional === "Flush" 			&& !userStats.achievements.includes("806"))		userStats.achievements.push("806")
+	if(gameID === 8 && additional === "Full House" 		&& !userStats.achievements.includes("807"))		userStats.achievements.push("807")
+	if(gameID === 8 && additional === "Four Of A Kind" 	&& !userStats.achievements.includes("808"))		userStats.achievements.push("808")
+	if(gameID === 8 && additional === "Straight Flush" 	&& !userStats.achievements.includes("809"))		userStats.achievements.push("809")
+	if(gameID === 8 && additional === "Royal Flush" 	&& !userStats.achievements.includes("810"))		userStats.achievements.push("810")
+
 	dh.userSave(userStats)
 }
 
