@@ -93,7 +93,7 @@ async function main(interaction, bet, userStats, UID)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Casino Hold'em")
-	.setDescription(`Dealer: ${dealer_hand_str}, You: ${hand_str} \n Community cards: ${community_hand_str}`)
+	.setDescription(`Dealer: **?? ??**, You: ${hand_str} \n Community cards: ${community_hand_str}`)
 	
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 8, Error: 1", 2) }
