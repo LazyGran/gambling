@@ -17,11 +17,13 @@ const facecards	= [	"Jack", "Queen","King" ]
 async function main(interaction, bet, userStats, UID)
 {
 	const deck 		= await ch.create(UID)
-	const reward 	= bet * 2
 	const xp_rew	= Math.floor(bet / 7)
+	const possible  = userStats.chips >= bet
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
 
+	var reward 			= bet * 2
+  	var lost  			= bet
 	var	hand			= []
 	var hand_em			= []
 	var hand_str 		= ""
@@ -32,6 +34,9 @@ async function main(interaction, bet, userStats, UID)
 	var dealer_points	= 0
 	var played 			= false
 	var busted			= false
+    var doubled 		= false
+
+    dev.log(reward)
 
 	let inital;
 
@@ -54,13 +59,18 @@ async function main(interaction, bet, userStats, UID)
 	.setLabel("Stand")
 	.setStyle(ButtonStyle.Success)
 
+	const double = new ButtonBuilder()
+	.setCustomId("b_double")
+	.setLabel("Double Down")
+	.setStyle(ButtonStyle.Secondary)
+
 	const again = new ButtonBuilder()
 	.setCustomId('b_again')
 	.setEmoji('🔁')
 	.setLabel('Play again?')
 	.setStyle(ButtonStyle.Primary)
 
-	const row 	= new ActionRowBuilder().addComponents(hit, stand)
+	const row 	= new ActionRowBuilder().addComponents(hit, stand, double)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Blackjack")
@@ -73,7 +83,16 @@ async function main(interaction, bet, userStats, UID)
 
 	pressed.on('collect', async game =>
 	{
-		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true })
+		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true });
+
+		if(game.customId === "b_double")
+		{
+			if(!possible) return game.reply({ content: "You can't afford that!", ephemeral: true });
+
+			userStats.chips -= bet
+			
+			doubled = true
+		}
 
 		game.deferUpdate()
 
@@ -98,7 +117,14 @@ async function main(interaction, bet, userStats, UID)
 		{
 			played = true
 			busted = true
-			pressed.stop()
+
+			return pressed.stop()
+		}
+		else if(doubled)
+		{
+			played = true
+
+			return pressed.stop()
 		}
 	})
 
@@ -126,16 +152,20 @@ async function main(interaction, bet, userStats, UID)
 
 		if(busted)
 		{
+			if(doubled) lost = lost * 2;
+
 			embed 	
 			.setColor('#e80400')
 			.setTitle(`You lost!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
 			.setFooter({ text: `The house always wins...` });
 
 			await xh.achievements(userStats, userStats.chips, false, 4, 0)
 		}
 		else if(dealer_points > 21)
 		{
+			if(doubled) reward = reward * 2;
+
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
@@ -147,6 +177,8 @@ async function main(interaction, bet, userStats, UID)
 		}
 		else if(points > dealer_points)
 		{
+			if(doubled) reward = reward * 2;
+
 			embed 	
 			.setColor('#1aa32a')
 			.setTitle(`You won!`)
@@ -169,10 +201,12 @@ async function main(interaction, bet, userStats, UID)
 		}
 		else
 		{
+			if(doubled) lost = lost * 2;
+
 			embed 	
 			.setColor('#e80400')
 			.setTitle(`You lost!`)
-			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${bet} Chips*`)
+			.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str}** *(${dealer_points}p)* \n\n-# *You lost ${lost} Chips*`)
 			.setFooter({ text: `The house always wins...` });
 
 			await xh.achievements(userStats, userStats.chips, false, 4, 0)
