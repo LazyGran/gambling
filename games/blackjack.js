@@ -36,8 +36,6 @@ async function main(interaction, bet, userStats, UID)
 	var busted			= false
     var doubled 		= false
 
-    dev.log(reward)
-
 	let inital;
 
 	for(let i = 0; i < 2; i++)
