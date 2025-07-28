@@ -7,7 +7,8 @@ Game ID's
 6. Racer
 7. Slots
 8. Poker (Casino Hold'em)
-
+9. Card Rush
+   
 
 Command ID's
 1. Stats
