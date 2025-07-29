@@ -105,6 +105,15 @@ module.exports =
 			.setDescription("Your bet (you will need 3x your bet!)")
 			.setRequired(false)
 		)
+	)
+	.addSubcommand(subcommand => subcommand 
+		.setName("cardrush")
+		.setDescription("Can't stop now!")
+		.addIntegerOption(option => option
+			.setName("bet")
+			.setDescription("Your initial bet")
+			.setRequired(false)
+		)
 	),
 
 	async execute(interaction, userStats)
@@ -124,7 +133,7 @@ module.exports =
 			if(bet > userStats.chips) 	{ return eh.error(interaction, "You don't have enough chips!") }
 			if(bet > 10000)				{ return eh.error(interaction, "You can only bet up to 10.000 chips!") }
 
-			userStats.active_game 	= true
+//			userStats.active_game 	= true
 			userStats.chips 		= userStats.chips - bet
 
 			game.main(interaction, bet, userStats, UID, chosen)
