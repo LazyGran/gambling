@@ -17,6 +17,7 @@ var games =
     { name: "Racer", value: "6"},
     { name: "Slots", value: "7"},
     { name: "Poker", value: "8"},
+    { name: "Card Rush", value: "9"},
 ]
 
 module.exports = 
