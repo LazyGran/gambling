@@ -38,6 +38,9 @@ function leveling(userStats, reward)
 
 	if(xpreq <= 0) userStats.level ++;
 
+	if(userStats.level === 10) await achievements(userStats, userStats.chips, true, 0, 0, 0, 21)
+	if(userStats.level === 100) await achievements(userStats, userStats.chips, true, 0, 0, 0, 22)
+
 	dh.userSave(userStats)
 }
 
@@ -87,7 +90,7 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	if(gameID === 5 && won === false && bet >= 1000 && !userStats.achievements.includes("502"))		userStats.achievements.push("502")
 
 	//15
-	if(gameID === 0 && !userStats.achievements.includes("15"))										userStats.achievements.push("15")
+	if(gameID === 0 && additional === 15 && !userStats.achievements.includes("15"))					userStats.achievements.push("15")
 
 	//404
 	if(gameID === 404 && additional === true && !userStats.achievements.includes("404"))			userStats.achievements.push("404")
@@ -107,6 +110,9 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	if(gameID === 8 && additional === "Straight Flush" 	&& !userStats.achievements.includes("809"))		userStats.achievements.push("809")
 	if(gameID === 8 && additional === "Royal Flush" 	&& !userStats.achievements.includes("810"))		userStats.achievements.push("810")
 
+	//1 & 2
+	if(gameID === 0 && additional === 21 && !userStats.achievements.includes("21"))					userStats.achievements.push("21")
+	if(gameID === 0 && additional === 22 && !userStats.achievements.includes("22"))					userStats.achievements.push("22")
 	dh.userSave(userStats)
 }
 

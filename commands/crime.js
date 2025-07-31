@@ -57,7 +57,7 @@ module.exports = {
             userStats.chips     = userStats.chips + n
             userStats.lastcrime = Date.now()
 
-            await xh.achievements(userStats, userStats.chips, true, 0, n)
+            await xh.achievements(userStats, userStats.chips, true, 0, n, 0, 15)
         }
 
         else if(userStats.chips < n)    
