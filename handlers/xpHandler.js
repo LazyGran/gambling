@@ -25,7 +25,11 @@ const games_con = [
 	//racer
 	{ gameID: 6, plays: 10, wins: 0, earnings: 0, achievementID: "601" },
 	//slots
-	{ gameID: 7, plays: 10, wins: 0, earnings: 0, achievementID: "701"}
+	{ gameID: 7, plays: 10, wins: 0, earnings: 0, achievementID: "701"},
+	//cardrush
+	{ gameID: 9, plays: 5, wins: 0, earnings: 0, achievementID: "901" },
+	{ gameID: 9, plays: 25, wins: 0, earnings: 0, achievementID: "902" },
+	{ gameID: 9, plays: 100, wins: 0, earnings: 0, achievementID: "903" },
 ]
 
 
@@ -38,8 +42,8 @@ function leveling(userStats, reward)
 
 	if(xpreq <= 0) userStats.level ++;
 
-	if(userStats.level === 10) await achievements(userStats, userStats.chips, true, 0, 0, 0, 21)
-	if(userStats.level === 100) await achievements(userStats, userStats.chips, true, 0, 0, 0, 22)
+	if(userStats.level === 10) achievements(userStats, userStats.chips, true, 0, 0, 0, 21)
+	if(userStats.level === 100) achievements(userStats, userStats.chips, true, 0, 0, 0, 22)
 
 	dh.userSave(userStats)
 }
