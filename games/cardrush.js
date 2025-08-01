@@ -126,6 +126,9 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 	{
 		if(!played)
 		{
+			userStats.active_game = false
+
+			dh.userSave(userStats)
 			ch.remove(UID)
 			xh.achievements(userStats, userStats.chips, false, 9, 0)
 
@@ -142,6 +145,9 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		}
 		if(!won)
 		{
+			userStats.active_game = false
+
+			dh.userSave(userStats)
 			ch.remove(UID)
 			xh.achievements(userStats, userStats.chips, false, 9, 0)
 
@@ -214,6 +220,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 6", 2) }
 
 				userStats.chips += reward
+				userStats.active_game = false
 
 				ch.remove(UID)
 				dh.userSave(userStats)
