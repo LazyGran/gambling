@@ -53,6 +53,8 @@ const titles =
     12: { name: "Scrooge McDuck",                  description: "Have over 100.000 Chips" },
     13: { name: "One Chiptillion",                 description: "Have over 1.000.000 Chips" },
     14: { name: "Lose It All",                     description: "Lose all your money in a single bet" },
+    21: { name: "Amateur Gambler",                 description: "Reach level 10"},
+    22: { name: "Ranked Gambler",                  description: "Reach level 100"},
     15: { name: "Menace To Society",               description: "Use /crime & succeed" },
     50: { name: "Five Hundred Cigarettes",         description: "Buy 500 Cigarettes at once" },
     69: { name: "Funny Number",                    description: "Have exactly 69.420 Chips" },
@@ -97,14 +99,24 @@ module.exports =
 {
 	data: new SlashCommandBuilder()
 	.setName("badges")
-	.setDescription("Check out (almost) all the badges"),
+	.setDescription("Check out (almost) all the badges")       
+    .addStringOption(option => option
+            .setName("type")
+            .setDescription("What type of badges do you want to see?")
+            .setRequired(true)
+            .addChoices(
+                { name: "Public Badges", value: "public"},
+                { name: "Secret Badges", value: "secret"})
+        ),
 
 	async execute(interaction, userStats)
 	{
 		await interaction.deferReply()
 
         const earned = []
+        const chosen = interaction.options.getString("type")
 
+        let unlocked        = 0
         let public_str      = ""
         let private_str     = ""
         let description_str = "Badges with a ❓ are Badges you haven't earned yet. \n-# There are also a few *secret* badges that only show up once earned \n\n"
@@ -130,12 +142,15 @@ module.exports =
         {
             if(earned.includes(badge))
             {
-
+                unlocked++
                 private_str += `${emojis[badge]} ${titles[badge].name} \n-# ${titles[badge].description} \n`
             }
         }
 
-        description_str = description_str + public_str + private_str
+        const totals = `${unlocked}/${secrets.length}`
+
+        if(chosen === "public")    description_str += public_str
+        else                        description_str += private_str + totals
 
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s badges:`)
