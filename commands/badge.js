@@ -119,7 +119,7 @@ module.exports =
         let unlocked        = 0
         let public_str      = ""
         let private_str     = ""
-        let description_str = "Badges with a ❓ are Badges you haven't earned yet. \n-# There are also a few *secret* badges that only show up once earned \n\n"
+        let description_str = "Badges with a ❓ are Badges you haven't earned yet. \n-# There are also a few *secret* badges that only show up in /badges secrets once earned\n\n"
 
         for(const badge of userStats.achievements)
         {
@@ -150,7 +150,7 @@ module.exports =
         const totals = `\nUnlocked: ${unlocked}/${secrets.length}`
 
         if(chosen === "public")    description_str += public_str
-        else                        description_str += private_str + totals
+        else                        description_str = private_str + totals
 
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s badges:`)
