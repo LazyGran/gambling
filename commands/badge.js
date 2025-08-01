@@ -147,7 +147,7 @@ module.exports =
             }
         }
 
-        const totals = `${unlocked}/${secrets.length}`
+        const totals = `\nUnlocked: ${unlocked}/${secrets.length}`
 
         if(chosen === "public")    description_str += public_str
         else                        description_str += private_str + totals
