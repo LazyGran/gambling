@@ -62,12 +62,6 @@ async function main(interaction, bet, userStats, UID)
 	.setLabel("Double Down")
 	.setStyle(ButtonStyle.Secondary)
 
-	const again = new ButtonBuilder()
-	.setCustomId('b_again')
-	.setEmoji('🔁')
-	.setLabel('Play again?')
-	.setStyle(ButtonStyle.Primary)
-
 	const row 	= new ActionRowBuilder().addComponents(hit, stand, double)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
@@ -130,6 +124,7 @@ async function main(interaction, bet, userStats, UID)
 	{
 		hit		.setDisabled(true)
 		stand	.setDisabled(true)
+		double	.setDisabled(true)
 
 		if(!played)
 		{
