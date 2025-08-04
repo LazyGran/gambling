@@ -19,3 +19,4 @@ Command ID's
 6. Donate
 7. Leaderboard
 8. Badge
+9. Russian Roulette
