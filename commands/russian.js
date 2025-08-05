@@ -7,6 +7,8 @@ const xh    = require('../handlers/xpHandler.js')
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
 
+const random = new Random()
+
 module.exports = 
 {
     data: new SlashCommandBuilder()
@@ -17,9 +19,13 @@ module.exports =
     {
         await interaction.deferReply()
 
+        var dead 	= false
+        var pulled 	= false
+
 		let initial;
 
-        if((Date.now() - userStats.lastrussian) < 300000) return eh.error(interaction, "Don't be so risky... Chill out for a while");
+		if(userStats.dead) 									return eh.error(interaction, `You've used this before... And died. \n-# Died: <t:${Math.floor(Date.now() / 1000)}:F>`);
+        if((Date.now() - userStats.lastrussian) < 300000) 	return eh.error(interaction, "Don't be so risky... Chill out for a while");
 
         const trigger = new ButtonBuilder()
 		.setCustomId("b_trigger")
@@ -29,8 +35,8 @@ module.exports =
 		trigger.setDisabled(true)
 
         const embed = new EmbedBuilder()
-        .setTitle(`Test`)
-        .setDescription("Testicles")
+        .setTitle(`Russian Roulette`)
+        .setDescription("Six chambers, one bullet. Do you pull the trigger? \n *The cylinder is spinning..*")
 
         const row 	= new ActionRowBuilder().addComponents(trigger)
 
@@ -44,16 +50,65 @@ module.exports =
 
 		const pressed = await initial.createMessageComponentCollector({ time: 7_000 })
 
-		pressed.on('collect', async pressed =>
+		pressed.on('collect', async press =>
 		{
-			pressed.deferUpdate()
+			press.deferUpdate()
 
-			dev.log("1")
+			const n = await random.integer(1, 6)
+
+			if(n === 6) dead = true;
+
+			pulled = true
+
+			return pressed.stop()	
+
 		})
 
 		pressed.on('end', async collected =>
 		{
-			dev.log("2")
+			trigger.setDisabled(true)
+
+			if(!pulled)
+			{
+				embed
+				.setTitle("Coward.")
+				.setColor("#f58916")
+				.setDescription("You didn't pull the trigger.")
+
+				try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
+				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 3", 2) }
+			}
+			else
+			{
+				if(dead)
+				{
+					userStats.dead 			= true
+					userStats.lastrussian 	= Date.now()
+
+					embed
+					.setTitle("You died.")
+					.setColor("#e80400")
+					.setDescription("You will no longer be able to use this command for free money. \n-# As compensation, you've earned a new *secret* Badge!")
+
+					await xh.achievements(userStats, userStats.chips, true, 0, 0, 0, 90)
+				}
+				else
+				{
+					userStats.chips += 200
+					userStats.lastrussian 	= Date.now()
+
+					embed
+					.setTitle("You survived.")
+					.setColor("#1aa32a")
+					.setDescription("You've been given 200 Chips. \n-# Remember, every time you do this there's a chance it'll be your last!")
+				}
+
+				await xh.leveling(userStats, 7)
+				await dh.userSave(userStats)
+
+				try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
+				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 4", 2) }
+			}
 		})
     }
 }
@@ -61,6 +116,7 @@ module.exports =
 async function disable(interaction, embed, row, trigger)
 {
 	trigger.setDisabled(false)
+	embed.setDescription("Six chambers, one bullet. Do you pull the trigger?")
 
 	try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 2", 2) }
