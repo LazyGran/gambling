@@ -88,7 +88,7 @@ module.exports =
 					embed
 					.setTitle("You died.")
 					.setColor("#e80400")
-					.setDescription("You will no longer be able to use this command for free money. \n-# As compensation, you've earned a new *secret* Badge!")
+					.setDescription("You will no longer be able to use this command for free money. \n-# You've earned a new Badge!")
 
 					await xh.achievements(userStats, userStats.chips, true, 0, 0, 0, 90)
 				}

@@ -13,6 +13,7 @@ const emojis =
     22: "<:22:1400541737604091974>",
     50: "<:50:1391788739755245659>",
     69: "<:69:1391788746604675184>",
+    90: "<:90:1402639786967044196>",
     101: "<:101:1395372911682129920>",
     102: "<:102:1391414174344679435>",
     103: "<:103:1391414182137565257>",
@@ -58,6 +59,7 @@ const titles =
     15: { name: "Menace To Society",               description: "Use /crime & succeed" },
     50: { name: "Five Hundred Cigarettes",         description: "Buy 500 Cigarettes at once" },
     69: { name: "Funny Number",                    description: "Have exactly 69.420 Chips" },
+    90: { name: "Final Solution",                  description: "Try 'Russian Roulette' and lose"},
     101: { name: "I'm A Good Guesser 🥉",       description: "Play 5 games of 'High Or Low'" },
     102: { name: "I'm A Good Guesser 🥈",       description: "Play 25 games of 'High Or Low'" },
     103: { name: "I'm A Good Guesser 🥇",       description: "Play 100 games of 'High Or Low'" },
@@ -92,7 +94,7 @@ const titles =
     903: { name: "In a hurry! 🥇",               description: "Play 100 games of 'Card Rush'" },
 }
 
-const publics = [ 11, 12, 13, 21, 22, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701, 901, 902, 903 ]
+const publics = [ 11, 12, 13, 21, 22, 90, 101, 102, 103, 201, 202, 203, 301, 302, 303, 401, 402, 403, 501, 601, 701, 901, 902, 903 ]
 const secrets = [ 14, 15, 50, 69, 204, 404, 405, 502, 503, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810 ]
 
 module.exports = 
