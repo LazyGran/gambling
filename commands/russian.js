@@ -24,7 +24,7 @@ module.exports =
 
 		let initial;
 
-		if(userStats.dead) 									return eh.error(interaction, `You've used this before... And died. \n-# Died: <t:${Math.floor(Date.now() / 1000)}:F>`);
+		if(userStats.dead) 									return eh.error(interaction, `You've used this before... And died. \n-# Final round: <t:${Math.floor(userStats.lastrussian / 1000)}:F>`);
         if((Date.now() - userStats.lastrussian) < 300000) 	return eh.error(interaction, "Don't be so risky... Chill out for a while");
 
         const trigger = new ButtonBuilder()

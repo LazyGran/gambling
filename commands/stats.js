@@ -66,8 +66,8 @@ module.exports =
         const progress                      = Math.floor(xp / one_per)
         const thumb							= custom.thumbnail || interaction.user.displayAvatarURL({ dynamic: true }) 
 
-        let badge_str = ""
-        let bar       = "" 
+        let badge_str   = ""
+        let bar         = ""
         let remaining = 10
 
         for(const badge of userStats.achievements)
@@ -84,7 +84,7 @@ module.exports =
         {
             bar += "⬛"
         }
-        
+
         const embed = new EmbedBuilder()
         .setTitle(`${interaction.user.username}'s stats:`)
         .setThumbnail(thumb)
@@ -92,6 +92,8 @@ module.exports =
         .addFields(
             { name: "Badges", value: badge_str, inline: true },
         )
+
+        if(userStats.dead) embed.setFooter({ text: `Died` }).setTimestamp(new Date(userStats.lastrussian));
 
         try     { await interaction.editReply({ embeds: [embed] }) }
         catch   { dev.log("Failed to respond \n cmdID: 1, Error: 1", 2) }
