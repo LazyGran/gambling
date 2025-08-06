@@ -12,8 +12,8 @@ const random = new Random()
 module.exports = 
 {
     data: new SlashCommandBuilder()
-        .setName("russian")
-        .setDescription("The ultimate test"),
+        .setName("rr")
+        .setDescription("Russian Roulette, are you really this broke?"),
                     
     async execute(interaction, userStats)
     {
@@ -37,6 +37,7 @@ module.exports =
         const embed = new EmbedBuilder()
         .setTitle(`Russian Roulette`)
         .setDescription("Six chambers, one bullet. Do you pull the trigger? \n *The cylinder is spinning..*")
+        .setThumbnail('https://cdn.discordapp.com/attachments/1242636042469642300/1402661726964416562/cylinder.gif?ex=6894ba07&is=68936887&hm=5fc48932e85b48811b78aec12388cea24e69ae99a8effcc071c1ee6a2ae22f23&')
 
         const row 	= new ActionRowBuilder().addComponents(trigger)
 
@@ -117,6 +118,7 @@ async function disable(interaction, embed, row, trigger)
 {
 	trigger.setDisabled(false)
 	embed.setDescription("Six chambers, one bullet. Do you pull the trigger?")
+	embed.setThumbnail(null)
 
 	try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 2", 2) }
