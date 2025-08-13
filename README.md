@@ -20,3 +20,4 @@ Command ID's
 7. Leaderboard
 8. Badge
 9. Russian Roulette
+10. Feedback
