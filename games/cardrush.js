@@ -158,7 +158,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		reward 	+= last_rew
 		last_rew = reward
 
-		if(round - 1 < 2) 
+		if(round - 1 < 3) 
 		{
 			return game(interaction, bet, userStats, UID, round, reward, last_rew, xp_rew)
 		}
