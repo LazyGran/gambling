@@ -66,7 +66,7 @@ async function main(interaction, bet, userStats, UID)
 	const embed = new EmbedBuilder()
 	.setColor("#259dd9")
 	.setTitle("Blackjack")
-	.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand[0]}, ??**`)
+	.setDescription(`Your hand: **${hand_str}** *(${points}p)* \nDealer's hand: **${dealer_hand_str.split('>')[0]}>, ??**`)
 	
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 4, Error: 1", 2) }
