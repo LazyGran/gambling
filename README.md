@@ -21,3 +21,4 @@ Command ID's
 8. Badge
 9. Russian Roulette
 10. Feedback
+11. Vote
