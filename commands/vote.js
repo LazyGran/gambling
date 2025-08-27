@@ -32,7 +32,7 @@ module.exports =
         	.setTitle(`Thank you for voting!`)
         	.setDescription("You have been given **5.000 Chips** as a bonus.")
 
-        	userStats.chips 	+= 5000
+        	userStats.chips 	+= 2000
         	userStats.lastvote  = Date.now()
 
         	dh.userSave(userStats)
