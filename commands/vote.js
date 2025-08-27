@@ -52,7 +52,7 @@ module.exports =
 
 async function check(last, userStats)
 {
-	if((Date.now() - last) < 86400000) return false;	//user claimed within last 24h
+	if((Date.now() - last) < 43200000) return false;	//user claimed within last 24h
 
 	const url = `https://top.gg/api/bots/1373621336982949992/check?userId=${userStats.userID}`
 
