@@ -124,6 +124,10 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 
 	pressed.on('end', async collected =>
 	{
+		low		.setDisabled(true)
+		equal	.setDisabled(true)
+		high 	.setDisabled(true)
+
 		if(!played)
 		{
 			userStats.active_game = false
