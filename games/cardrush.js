@@ -110,6 +110,8 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		}
 		else 
 		{
+			await end(userStats)
+			
 			embed.setColor('#e80400').setTitle(`You lost!`).setDescription(`You drew a **${emoji}** \nThe dealer drew a **${dealer_emoji}** \n\n-# *You lost ${bet} Chips on Round ${round}*`).setFooter({ text: `The house always wins...` });
 		}
 
@@ -130,8 +132,6 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 
 		if(!played)
 		{
-			userStats.active_game = false
-
 			dh.userSave(userStats)
 			ch.remove(UID)
 			xh.achievements(userStats, userStats.chips, false, 9, 0)
@@ -142,6 +142,8 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 			.setDescription(`You didn't react in time \n\n-# *You lost ${bet} Chips on Round ${round}*`)
 			.setFooter({ text: `The house gives you five seconds` });	
 
+			await end(userStats)
+
 			try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
 			catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 3", 2) }
 
@@ -149,8 +151,6 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		}
 		if(!won)
 		{
-			userStats.active_game = false
-
 			dh.userSave(userStats)
 			ch.remove(UID)
 			xh.achievements(userStats, userStats.chips, false, 9, 0)
@@ -200,7 +200,6 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 			stop.setDisabled(true)
 			next.setDisabled(true)
 
-
 			try 	{ await interaction.editReply({ embeds: [embed], components: [row] }).then(press.deferUpdate())	 }
 			catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 5", 2) }
 
@@ -219,12 +218,13 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 				.setDescription(`You cashed out & won ${reward}`)
 
 				if(force) embed.setFooter({ text: `You did it, the stack was done.` });
+				
+				await end(userStats)
 
 				try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
 				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 6", 2) }
 
 				userStats.chips += reward
-				userStats.active_game = false
 
 				ch.remove(UID)
 				dh.userSave(userStats)
@@ -237,6 +237,15 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 			}
 		})
 	})
+}
+
+async function end(userStats)
+{
+	userStats.active_game = false;
+
+	dh.userSave(userStats)
+
+	return;
 }
 
 module.exports =
