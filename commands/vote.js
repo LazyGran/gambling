@@ -41,7 +41,7 @@ module.exports =
         {
         	embed
         	.setTitle(`Hold up!`)
-        	.setDescription("Looks like you haven't voted yet \nor already claimed your bonus today. \n-# Bonus available every 24h")
+        	.setDescription("Looks like you haven't voted yet \nor already claimed your bonus today. \n-# Bonus available every 12h")
         }
         
 
