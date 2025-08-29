@@ -43,7 +43,7 @@ module.exports =
         	.setTitle(`Hold up!`)
         	.setDescription("Looks like you haven't voted yet \nor already claimed your bonus today. \n-# Bonus available every 12h")
 
-        	if(last) embed.setFooter({ text: `You can vote again:` }).setTimestamp(new Date(last + 43200000));
+        	if((Date.now() - last) < 43200000) embed.setFooter({ text: `You can vote again:` }).setTimestamp(new Date(last + 43200000));
         }
         
 
