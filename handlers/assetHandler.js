@@ -236,7 +236,7 @@ function static(name)
     {
         return "https://xgraron.github.io/chippy_site/resources/chippy.png"
     }
-    elses
+    else
     {
         return `https://xgraron.github.io/chippy_site/resources/chippy_assets/${name}.png`
     }
@@ -373,5 +373,5 @@ function items()
 
 module.exports =
 {
-    badges, cards, gif, slots, items
+    badges, cards, gif, static, slots, items,
 }

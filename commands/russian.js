@@ -10,6 +10,8 @@ const ah	= require('../handlers/assetHandler.js')
 
 const random	= new Random()
 const gif		= ah.gif("cylinder_spin")
+const dead 		= ah.static("dead")
+const blank		= ah.static("blank")
 
 module.exports = 
 {
@@ -32,15 +34,13 @@ module.exports =
 		.setDisabled(true)
 
 		const container = new ContainerBuilder()
-		.addSectionComponents((section) =>
-		section
-        .addTextDisplayComponents((textDisplay) => textDisplay.setContent('A round of Russian Roulette. \nWin big or lose it all... \n-# If you lose, you lose all your money, xp & level! \n-# If you win, you get 500 Chips'))
-		.setThumbnailAccessory((thumbnail) => thumbnail.setURL(gif))
+		.addSectionComponents((section) => section
+			.addTextDisplayComponents((textDisplay) => textDisplay.setContent('A round of Russian Roulette. \nWin big or lose it all... \n-# If you lose, you lose all your money, xp & level! \n-# If you win, you get 500 Chips'))
+			.setThumbnailAccessory((thumbnail) => thumbnail.setURL(gif))
 		 )
-		.addSectionComponents((section) =>
-		section
-		.addTextDisplayComponents((textDisplay) => textDisplay.setContent('*Do it, coward.*'))
-		.setButtonAccessory(trigger)
+		.addSectionComponents((section) => section
+			.addTextDisplayComponents((textDisplay) => textDisplay.setContent('*Do it, coward.*'))
+			.setButtonAccessory(trigger)
 		)
 
 		await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2, ephemeral: true })
@@ -80,7 +80,11 @@ module.exports =
 			{
 				userStats.inventory.splice(userStats.inventory.indexOf("i1"), 1)
 
-				container.addTextDisplayComponents((textDisplay) => textDisplay.setContent('**Well well well...** \nYour blank saved you!'))
+
+				container.addSectionComponents((section) => section
+					.addTextDisplayComponents((textDisplay) => textDisplay.setContent('**Well well well...** \nYour blank saved you!'))
+					.setThumbnailAccessory((thumbnail) => thumbnail.setURL(blank))
+				)
 			}
 			else if(random.bool(0.16))
 			{
@@ -99,7 +103,10 @@ module.exports =
 					custom: {},
 				}
 
-				container.addTextDisplayComponents((textDisplay) => textDisplay.setContent('## Truth is, the game was rigged from the start. \n-#  *Your progress has been reset*'))
+				container.addSectionComponents((section) => section
+					.addTextDisplayComponents((textDisplay) => textDisplay.setContent('## Truth is, the game was rigged from the start. \n-#  *Your progress has been reset*'))
+					.setThumbnailAccessory((thumbnail) => thumbnail.setURL(dead))
+				)
 			}
 			else
 			{
