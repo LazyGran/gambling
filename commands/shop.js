@@ -32,8 +32,8 @@ module.exports =
         {
             menu.addOptions(
                 new StringSelectMenuOptionBuilder()
-                .setLabel(item.name)
-                .setDescription(`Costs ${item.price} Chips`)
+                .setLabel(`${item.name} - ${item.price} Chips`)
+                .setDescription(item.description)
                 .setValue(item.id)
                 .setEmoji(emojis[item.id])
             )

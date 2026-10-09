@@ -2,9 +2,9 @@ const dev = require('../handlers/dev.js')
 
 const items =
 [   //array of all items
-    {"name":"Blank Round", "price": 99,     "id": "i1"},
-    {"name":"Platinum Chip", "price": 99,   "id": "i2"},
-    {"name":"Golden Carrot", "price": 99,  "id": "i3"},
+    {"name":"Blank Round", "price": 500, "id": "i1", "description": "Let's you play Russian Roulette without the risk of dying."},
+    {"name":"Platinum Chip", "price": 99,   "id": "i2", "description": "!WIP! Doubles your bet on Roulette for free "},
+    {"name":"Golden Carrot", "price": 99,  "id": "i3", "description": "!WIP! Raises the chance of your horse to win the race"},
 ]
 
 
