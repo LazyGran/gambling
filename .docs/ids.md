@@ -2,7 +2,6 @@
 11:      "Mr. Moneybags",                   "Have over 1.000 Chips" 
 12:     "Scrooge McDuck",                   "Have over 10.000 Chips" 
 13:     "Big Bibi",                         "Have over 100.000 Chips" 
-15:     "Menace To Society",                "Use /crime & succeed" 
 14:     "Lose It All",                      "Lose all your money in a single bet" 
 16:     "I Dont Want To Be Here Anymore",   "Reset your progress using /reset"
 21:     "Amateur Gambler",                  "Reach level 10"

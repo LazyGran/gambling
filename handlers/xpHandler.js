@@ -88,9 +88,6 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	//502
 	if(gameID === 5 && won === false && bet >= 1000 && !userStats.achievements.includes("502"))		userStats.achievements.push("502")
 
-	//15
-	if(gameID === 0 && additional === 15 && !userStats.achievements.includes("15"))					userStats.achievements.push("15")
-
 	//404
 	if(gameID === 404 && additional === true && !userStats.achievements.includes("404"))			userStats.achievements.push("404")
 
