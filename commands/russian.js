@@ -25,8 +25,6 @@ module.exports =
 
 		let initial;
 
-		if(userStats.dead) return eh.error(interaction, `Dead. \n-# Final round: <t:${Math.floor(userStats.lastrussian / 1000)}:F>`);
-
         const trigger = new ButtonBuilder()
 		.setCustomId("b_trigger")
 		.setLabel("Trigger")
