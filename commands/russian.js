@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js")    
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ContainerBuilder, MessageFlags } = require("discord.js")
 const { Random }                             = require("random-js")
 const fs    = require('fs')
 const path  = require('path')
@@ -6,121 +6,119 @@ const eh    = require('../handlers/errorHandler.js')
 const xh    = require('../handlers/xpHandler.js') 
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
+const ah	= require('../handlers/assetHandler.js')
 
-const random = new Random()
+const random	= new Random()
+const gif		= ah.gif("cylinder_spin")
+const dead 		= ah.static("dead")
+const blank		= ah.static("blank")
 
 module.exports = 
 {
     data: new SlashCommandBuilder()
-        .setName("rr")
+        .setName("russian")
         .setDescription("Russian Roulette, are you really this broke?"),
                     
     async execute(interaction, userStats)
     {
         await interaction.deferReply()
 
-        var dead 	= false
-        var pulled 	= false
+		var pulled = false
 
 		let initial;
 
-		if(userStats.dead) 									return eh.error(interaction, `You've used this before... And died. \n-# Final round: <t:${Math.floor(userStats.lastrussian / 1000)}:F>`);
-        if((Date.now() - userStats.lastrussian) < 300000) 	return eh.error(interaction, "Don't be so risky... Chill out for a while");
-
         const trigger = new ButtonBuilder()
 		.setCustomId("b_trigger")
-		.setLabel("Do it..?")
+		.setLabel("Trigger")
 		.setStyle(ButtonStyle.Danger)
+		.setDisabled(true)
 
-		trigger.setDisabled(true)
+		const container = new ContainerBuilder()
+		.addSectionComponents((section) => section
+			.addTextDisplayComponents((textDisplay) => textDisplay.setContent('A round of Russian Roulette. \nWin big or lose it all... \n-# If you lose, you lose all your money, xp & level! \n-# If you win, you get 500 Chips'))
+			.setThumbnailAccessory((thumbnail) => thumbnail.setURL(gif))
+		 )
+		.addSectionComponents((section) => section
+			.addTextDisplayComponents((textDisplay) => textDisplay.setContent('*Do it, coward.*'))
+			.setButtonAccessory(trigger)
+		)
 
-        const embed = new EmbedBuilder()
-        .setTitle(`Russian Roulette`)
-        .setDescription("Six chambers, one bullet. Do you pull the trigger? \n *The cylinder is spinning..*")
-        .setThumbnail('https://cdn.discordapp.com/attachments/1242636042469642300/1402661726964416562/cylinder.gif?ex=6894ba07&is=68936887&hm=5fc48932e85b48811b78aec12388cea24e69ae99a8effcc071c1ee6a2ae22f23&')
+		await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2, ephemeral: true })
 
-        const row 	= new ActionRowBuilder().addComponents(trigger)
-
-		try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
-        catch   { dev.log("Failed to respond \n cmdID: 9, Error: 1", 2) }
- 
-	    setTimeout(() => 
+		setTimeout(async () =>
 		{
-			disable(interaction, embed, row, trigger)
-		}, 2000)
+			trigger.setDisabled(false)
+			initial = await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
 
-		const pressed = await initial.createMessageComponentCollector({ time: 7_000 })
+			const pull = await new Promise(resolve =>
+			{
+				const collector = initial.createMessageComponentCollector({ time: 3_000 })
 
-		pressed.on('collect', async press =>
-		{
-			press.deferUpdate()
+				collector.on("collect", async selection =>
+				{
+					pulled = true
 
-			const n = await random.integer(1, 6)
+					selection.deferUpdate()
+					resolve("player")
+				})
 
-			if(n === 6) dead = true;
+				collector.on("end", (collected, reason) =>
+				{
+					resolve(null)
+				})
+			})
 
-			pulled = true
-
-			return pressed.stop()	
-
-		})
-
-		pressed.on('end', async collected =>
-		{
-			trigger.setDisabled(true)
+			container.components.splice(0, 2)
 
 			if(!pulled)
 			{
-				embed
-				.setTitle("Coward.")
-				.setColor("#f58916")
-				.setDescription("You didn't pull the trigger.")
+				container.addTextDisplayComponents((textDisplay) => textDisplay.setContent('**Coward.** \nProbably the right choice...'))
 
-				try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
-				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 3", 2) }
+				return interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
+			}
+			else if(userStats.inventory.includes("i1"))
+			{
+				userStats.inventory.splice(userStats.inventory.indexOf("i1"), 1)
+
+
+				container.addSectionComponents((section) => section
+					.addTextDisplayComponents((textDisplay) => textDisplay.setContent('**Well well well...** \nYour blank saved you!'))
+					.setThumbnailAccessory((thumbnail) => thumbnail.setURL(blank))
+				)
+			}
+			else if(random.bool(0.16))
+			{
+				userStats =
+				{
+					userID: userStats.userID,
+					registered: Date.now(),
+					xp: 0,
+					level: 1,
+					chips: 500,
+					active_game: false,
+					lastbeg: 0,
+					inventory: [],
+					games: {},
+					achievements: ["90"],
+					custom: {},
+				}
+
+				container.addSectionComponents((section) => section
+					.addTextDisplayComponents((textDisplay) => textDisplay.setContent('## Truth is, the game was rigged from the start. \n-#  *Your progress has been reset*'))
+					.setThumbnailAccessory((thumbnail) => thumbnail.setURL(dead))
+				)
 			}
 			else
 			{
-				if(dead)
-				{
-					userStats.dead 			= true
-					userStats.lastrussian 	= Date.now()
+				userStats.chips += 500
 
-					embed
-					.setTitle("You died.")
-					.setColor("#e80400")
-					.setDescription("You will no longer be able to use this command for free money. \n-# You've earned a new Badge!")
-
-					await xh.achievements(userStats, userStats.chips, true, 0, 0, 0, 90)
-				}
-				else
-				{
-					userStats.chips += 200
-					userStats.lastrussian 	= Date.now()
-
-					embed
-					.setTitle("You survived.")
-					.setColor("#1aa32a")
-					.setDescription("You've been given 200 Chips. \n-# Remember, every time you do this there's a chance it'll be your last!")
-				}
-
-				await xh.leveling(userStats, 7)
-				await dh.userSave(userStats)
-
-				try 	{ interaction.editReply({ embeds: [embed], components: [row] })	}
-				catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 4", 2) }
+				container.addTextDisplayComponents((textDisplay) => textDisplay.setContent('**Lucky bastard.** \nYou made it! Here, have your reward.'))
 			}
-		})
+
+			interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 })
+
+			dh.userSave(userStats.userID, userStats)
+		}, 3_000)
     }
-}
-
-async function disable(interaction, embed, row, trigger)
-{
-	trigger.setDisabled(false)
-	embed.setDescription("Six chambers, one bullet. Do you pull the trigger?")
-	embed.setThumbnail(null)
-
-	try 	{ await interaction.editReply({ embeds: [embed], components: [row] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 9, Error: 2", 2) }
 }
 

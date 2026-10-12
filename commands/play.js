@@ -42,8 +42,8 @@ module.exports =
 		)
 	)
 	.addSubcommand(subcommand => subcommand
-		.setName("seventeen")
-		.setDescription("Blackjack, but different.")
+		.setName("blackjack")
+		.setDescription("A casino classic!")
 		.addIntegerOption(option => option
 			.setName("bet")
 			.setDescription("Your bet")
@@ -51,8 +51,8 @@ module.exports =
 		)
 	)
 	.addSubcommand(subcommand => subcommand
-		.setName("blackjack")
-		.setDescription("A casino classic!")
+		.setName("baccarat")
+		.setDescription("Lucky number, 9?!")
 		.addIntegerOption(option => option
 			.setName("bet")
 			.setDescription("Your bet")
@@ -90,10 +90,6 @@ module.exports =
 		)
 	)
 	.addSubcommand(subcommand => subcommand
-		.setName("racer")
-		.setDescription("Don't crash!")
-	)
-	.addSubcommand(subcommand => subcommand
 		.setName("slots")
 		.setDescription("Pretty lights!")
 	)	
@@ -102,7 +98,7 @@ module.exports =
 		.setDescription("Casino Hold'em.")
 		.addIntegerOption(option => option
 			.setName("bet")
-			.setDescription("Your bet (you will need 3x your bet!)")
+			.setDescription("Your bet")
 			.setRequired(false)
 		)
 	)
@@ -111,7 +107,7 @@ module.exports =
 		.setDescription("Can't stop now!")
 		.addIntegerOption(option => option
 			.setName("bet")
-			.setDescription("Your initial bet")
+			.setDescription("Your bet")
 			.setRequired(false)
 		)
 	),
