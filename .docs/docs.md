@@ -17,6 +17,9 @@
     >animated: if  animated emojis are being requested
     - Returns array of (animated-)emojis
     
+    colors()
+    - Returns all colors that can be used for embeds etc.
+    
 #Card Handler (handling cards & their emojis)
     create(UID, size, template)
     >UID: Discord ID of user associated with the deck
