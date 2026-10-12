@@ -51,6 +51,15 @@ module.exports =
 		)
 	)
 	.addSubcommand(subcommand => subcommand
+		.setName("baccarat")
+		.setDescription("Lucky number, 9?!")
+		.addIntegerOption(option => option
+			.setName("bet")
+			.setDescription("Your bet")
+			.setRequired(false)
+		)
+	)
+	.addSubcommand(subcommand => subcommand
 		.setName("roulette")
 		.setDescription("Where will the ball land?")
 		.addStringOption(option => option
