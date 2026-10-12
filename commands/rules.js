@@ -10,6 +10,8 @@ const rules =
 
     '**Blackjack** \nYour goal is to get as close to 21 as possible *without* going over \nIn order to win you must have: \n- More than the dealer, or \n- The dealer "busts" (goes over 21) or \n- You get an Ace & 10 as your initial two cards. \nAt the start, you get two cards. So does the dealer, but you can only see one of his. \nYou may then "Hit", getting dealt another card, or "Stand", making it the dealers turn. \nIf you go over 21, you immediately lose. \nThe values are: 2-10/Jack/Queen/King, Ace = 2 or 11, \nwhichever benefits you most. \n-# Played with a standard deck of 52 cards',
 
+    '**Baccarat** \nChoose the winning side. \nOne card gets drawn, that determins how many cards are discarded from the pile. \nThen, each side gets two cards. \nNow, each side will continue to get two cards until one side has at least 8 points (if neither do already) \nThe trick: only the last digit in a number counts. \nSo if the cards add up to 18, that side only has 8 points. \nThis means that the highest amount is 9. \nIf it lands on a tie, you still lose. \n*Note:* \n"Banker" and "Player" have no affiliation with you or the house. \n Think of them as side A and side B. \nAll you must do is guess the winning side\n-# Played with a standard deck of 52 cards',
+
     '**Horse Races** \nThe horse you place your bet on must win the race. \n-# Essentially a 1/7 chance to win',
 
     '**Slots** \nYou must get at least two of the same symbols in order to win money. \nThey do not have to be next to each other',
