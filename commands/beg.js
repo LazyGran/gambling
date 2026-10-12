@@ -7,19 +7,6 @@ const eh    = require('../handlers/errorHandler.js')
 const dh    = require('../handlers/dataHandler.js')
 const dev   = require('../handlers/dev.js')
 
-const filePath      = path.join("database/", 'beg.txt')   
-const fileContent   = fs.readFileSync(filePath, 'utf-8')   
-const lines         = fileContent.split('\n')  
-const array         = []
-
-for(i = 0; i < lines.length; i += 2)
-{
-    const first     = lines[i]
-    const second    = lines[i + 1] 
-
-    array.push(`${first}\n${second}`)
-}
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("beg")
