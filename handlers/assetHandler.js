@@ -371,7 +371,17 @@ function items()
     return items[i]
 }
 
+function colors()
+{
+    const blue      = "#259dd9"
+    const green     = "#1aa32a"
+    const red       = "#e80400"
+    const orange    = "#f58916"
+
+    return{ blue, green, red, orange }
+}
+
 module.exports =
 {
-    badges, cards, gif, static, slots, items,
+    badges, cards, gif, static, slots, items, colors,
 }
