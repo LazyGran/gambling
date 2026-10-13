@@ -20,8 +20,6 @@ module.exports = {
 
         const random    = new Random()
         const lucky     = random.integer(1, 10)
-        const r         = random.integer(0, array.length - 1)
-        const response  = array[r]
 
         let n               = random.integer(10, 100)
         if(lucky === 7) n   = n*2;
@@ -31,7 +29,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
         .setTitle(`Brokey...`)
-        .setDescription(`${response} \n-# Gained **${n}** Chips`)
+        .setDescription(`You begged a stranger for some money \n-# Gained **${n}** Chips`)
 
         await xh.leveling(userStats, 5)
         await dh.userSave(userStats)
