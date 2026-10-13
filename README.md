@@ -1,14 +1,11 @@
-Game ID's
-1. Horl
-2. Roulette
-3. Sevnteen
-4. Blackjack
-5. Horse
-6. Racer
-7. Slots
-8. Poker (Casino Hold'em)
-9. Card Rush
-   
+Play known games like Baccarat & Blackjack, or engage in betting on horses together with your friends!
+Bet *exclusively* "Chips", Chippy's currency. There is no way to acquire currency via money, making the bot 100% free!
 
-Command ID's
-stats, guide, beg, crime, custom, donate, board, badge, roulette, feedback, vote
+With many unique badges, some of which hidden, you can compare yourself to other players & make your own personalized challenges.
+Theres also Russian Roulette, in case you run out of money. But be careful with that...
+
+Got an idea or found a bug? Please open an Issue on [Github](https://github.com/xgraron/gambling/issues)
+If you'd like, feel free to contribute to the project or clone it & make your own version (credit appreciated)
+
+Chippy is and always will be ad-free & 100% open-source. 
+For any concerns, ideas or other things contact me on discord, @xgraron
