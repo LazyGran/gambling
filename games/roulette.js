@@ -64,7 +64,7 @@ async function main(interaction, bet, userStats, UID, chosen)
 	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
 	catch 	{ dev.log("Failed to respond \n GameID: 2, Error: 1", 2) }
 
-	const selected	= await initial.createMessageComponentCollector({ time: 15_000 })
+	const selected	= await initial.createMessageComponentCollector({ time: 7_000 })
 
 	setTimeout(() => 
 	{

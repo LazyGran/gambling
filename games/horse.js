@@ -1,6 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } 	= require("discord.js")
 const { Random }														= require("random-js")
-const cnvs  = require('@napi-rs/canvas');
 const dh 	= require("../handlers/dataHandler.js")
 const eh 	= require("../handlers/errorHandler.js")
 const xh	= require('../handlers/xpHandler.js')
@@ -51,7 +50,7 @@ async function main(interaction, bet, userStats, UID, chosen)
     try     { initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
     catch   { dev.log("Failed to respond \n GameID: 5, Error: 1", 2) }
 
-    const selected  = await initial.createMessageComponentCollector({ time: 14_000 })
+    const selected  = await initial.createMessageComponentCollector({ time: 7_000 })
 
     setTimeout(() => 
     {
@@ -120,26 +119,17 @@ async function race(interaction, embed)
 {
     const n         = random.integer(0, 6)
     const horse     = horses[n]
-    const canvas    = cnvs.createCanvas(256, 256);
-    const context   = canvas.getContext('2d');
     const colors    = ["#000000", "#ff0000", "#ffea00", "c800ff", "#ff8800", "#00c903", "#6e4927"]
-    
-    context.fillStyle       = colors[n]
-    context.font            = '40pt Ubuntu Sans'
-    context.textAlign       = 'center'
-    context.textBaseline    = 'middle'
-    context.fillText(`${(horse.name).slice(2)}`, 128, 64)
+    const thumb     = await ah.static(`h_winner_${n+1}`)
 
-    context.fillText("wins!", 128, 128)
-
-    const b = canvas.toBuffer('image/png') 
+    dev.log(thumb)
 
     embed 
     .setColor(colors[n])
-    .setThumbnail("attachment://image.png")
+    .setThumbnail(thumb)
     .setDescription(`**Winners:** \n-# *Checking for winners*`)
 
-    try     { await interaction.editReply({embeds: [embed], files: [{attachment:b, name:'image.png'}], components: [] }) }
+    try     { await interaction.editReply({embeds: [embed], components: [] }) }
     catch   { dev.log("Failed to respond \n GameID: 5, Error: 6", 2) }
 
     return horse;
