@@ -6,6 +6,7 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors = ah.colors()
 const values = 
 {
 	"Ace": 	2,
