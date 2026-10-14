@@ -57,7 +57,6 @@ async function main(interaction, bet, userStats, UID, chosen)
 
 	const row 	= new ActionRowBuilder().addComponents(menu)
 	const embed = new EmbedBuilder()
-	.setColor("#259dd9")
 	.setTitle("Roulette")
 	.setDescription(`*The wheel is spinning* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet} *(close <t:${close}:R>)*`)
 	.setThumbnail(gif)
@@ -153,7 +152,7 @@ async function wheelspin(interaction, wheel, embed)
 	const b = canvas.toBuffer('image/png') 
 
 	embed 
-	.setColor("#259dd9")
+	.setColor(colors[field.type])
 	.setDescription(`**Winners:** \n-# *Checking for winners*`)
     .setThumbnail("attachment://image.png")
 
