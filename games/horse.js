@@ -135,7 +135,7 @@ async function race(interaction, embed)
     const b = canvas.toBuffer('image/png') 
 
     embed 
-    .setColor(h_colors[n])
+    .setColor(colors[n])
     .setThumbnail("attachment://image.png")
     .setDescription(`**Winners:** \n-# *Checking for winners*`)
 
