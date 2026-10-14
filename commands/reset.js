@@ -2,6 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRow
 const eh    = require("../handlers/errorHandler.js")
 const dh    = require("../handlers/dataHandler.js")
 const dev   = require('../handlers/dev.js')
+const ah    = require('../handlers/assetHandler.js')
+
+const colors = ah.colors()
 
 module.exports =
 {
@@ -19,7 +22,7 @@ module.exports =
         .setStyle(ButtonStyle.Danger)
         const embed     = new EmbedBuilder()
         .setTitle(`ATTENTION`)
-        .setColor("#1aa32a")
+        .setColor(colors.red)
         .setDescription(`THIS IS IRREVERSIBLE. \n Clicking the button below will delete your *entire* progress!`)
         const row       = new ActionRowBuilder().addComponents(button)
 
@@ -54,7 +57,7 @@ module.exports =
             button.setStyle(ButtonStyle.Success)
             embed
             .setTitle(`SUCCESS`)
-            .setColor("#1aa32a")
+            .setColor(colors.green)
             .setDescription(`Your progress has been reset.`)
 
             return pressed.stop()
