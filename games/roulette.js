@@ -23,7 +23,7 @@ const fields 		=
 
 async function main(interaction, bet, userStats, UID, chosen)
 {
-	const close 		= Math.floor(Date.now() / 1000) + 13
+	const close 		= Math.floor(Date.now() / 1000) + 7
 	const wheel 		= []
 	const winners 		= []
 	const p_names		= []
