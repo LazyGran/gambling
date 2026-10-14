@@ -158,6 +158,16 @@ async function main(interaction, bet, userStats, UID)
 
 			await xh.achievements(userStats, userStats.chips, false, 4, 0)
 		}
+		else if(dealer_points === 21 && dealer_hand.length === 2)
+		{
+			embed 	
+			.setColor(colors.red)
+			.setTitle(`Dealer has a Blackjack!`)
+			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
+			.setFooter({ text: `The house always wins...` });
+
+			await xh.achievements(userStats, userStats.chips, false, 4, 0)
+		}
 		else if(dealer_points > 21)
 		{
 			if(doubled) reward = reward * 2;
@@ -186,27 +196,14 @@ async function main(interaction, bet, userStats, UID)
 		}
 		else if(points === dealer_points)
 		{
-			if(dealer_points === 21 && dealer_hand.length === 2)
-			{
-				embed 	
-				.setColor(colors.red)
-				.setTitle(`Dealer has a Blackjack!`)
-				.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
-				.setFooter({ text: `The house always wins...` });
+			embed 				
+			.setColor(colors.orange)
+			.setTitle(`Push!`)
+			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
+			.setFooter({ text: `Lucky...` });
 
-				await xh.achievements(userStats, userStats.chips, false, 4, 0)
-			}
-			else
-			{
-				embed 	
-				.setColor(colors.orange)
-				.setTitle(`Push!`)
-				.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
-				.setFooter({ text: `Lucky...` });
-
-				userStats.chips = userStats.chips + bet
-				await xh.achievements(userStats, userStats.chips, false, 4, 0)
-			}
+			userStats.chips = userStats.chips + bet
+			await xh.achievements(userStats, userStats.chips, false, 4, 0)
 		}
 		else
 		{
