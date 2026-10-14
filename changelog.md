@@ -1,0 +1,13 @@
+- Cardrush embed no longer colored (until you lose/win)
+- High or Low embed no longer colored (until you lose/win)
+- Horse Betting embed no longer colored (until end)
+- Horse Betting embed now has color of winning horse at the end
+- Horse Betting thumnbail now has a new asset
+- Poker embed no longer colored (until you lose/win)
+- Blackjack embed no longer colored (until you lose/win)
+- Roulette embed no longer colored (until end)
+- Roulette embed now has the winning color at the end
+- Dealer Blackjacks now top player Blackjack/21 (used to be push)
+- Time to react in Blackjack reduced to 10s (was 30s)
+- Fixed a bug causing /beg not to work
+
