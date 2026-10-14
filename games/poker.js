@@ -6,6 +6,7 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors = ah.colors()
 const values = 
 {
 	"ace": 		14,
@@ -83,7 +84,6 @@ async function main(interaction, bet, userStats, UID)
 
 	const row 	= new ActionRowBuilder().addComponents(call, fold)
 	const embed = new EmbedBuilder()
-	.setColor("#259dd9")
 	.setTitle("Casino Hold'em")
 	.setDescription(`Dealer: **${secretcard}${secretcard}**, You: ${hand_str} \n Community cards: ${community_hand_str}`)
 	
@@ -125,7 +125,7 @@ async function main(interaction, bet, userStats, UID)
 	if(!press)
 	{
 		embed
-		.setColor('#e80400')
+		.setColor(colors.red)
 		.setTitle(`You lost!`)
 		.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
 		.setFooter({ text: `The house gives you seven seconds` });

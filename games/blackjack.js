@@ -6,6 +6,7 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors = ah.colors()
 const values = 
 {
 	"Ace": 	11,
@@ -66,7 +67,7 @@ async function main(interaction, bet, userStats, UID)
 
 	const row 	= new ActionRowBuilder().addComponents(hit, stand, double)
 	const embed = new EmbedBuilder()
-	.setColor("#259dd9")
+	.setColor(colors.blue)
 	.setTitle("Blackjack")
 	.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str.split('>')[0]}>${secretcard}`)
 	
@@ -131,7 +132,7 @@ async function main(interaction, bet, userStats, UID)
 		if(!played)
 		{
 			embed 	
-			.setColor('#e80400')
+			.setColor(colors.red)
 			.setTitle(`You lost!`)
 			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
 			.setFooter({ text: `The house gives you thirty seconds` });
@@ -150,7 +151,7 @@ async function main(interaction, bet, userStats, UID)
 			if(doubled) lost = lost * 2;
 
 			embed 	
-			.setColor('#e80400')
+			.setColor(colors.red)
 			.setTitle(`You lost!`)
 			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
 			.setFooter({ text: `The house always wins...` });
@@ -162,7 +163,7 @@ async function main(interaction, bet, userStats, UID)
 			if(doubled) reward = reward * 2;
 
 			embed 	
-			.setColor('#1aa32a')
+			.setColor(colors.green)
 			.setTitle(`You won!`)
 			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
@@ -175,7 +176,7 @@ async function main(interaction, bet, userStats, UID)
 			if(doubled) reward = reward * 2;
 
 			embed 	
-			.setColor('#1aa32a')
+			.setColor(colors.green)
 			.setTitle(`You won!`)
 			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
@@ -186,7 +187,7 @@ async function main(interaction, bet, userStats, UID)
 		else if(points === dealer_points)
 		{
 			embed 	
-			.setColor('#f58916')
+			.setColor(colors.orange)
 			.setTitle(`Push!`)
 			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
 			.setFooter({ text: `Lucky...` });
@@ -199,7 +200,7 @@ async function main(interaction, bet, userStats, UID)
 			if(doubled) lost = lost * 2;
 
 			embed 	
-			.setColor('#e80400')
+			.setColor(colors.red)
 			.setTitle(`You lost!`)
 			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You lost ${lost} Chips*`)
 			.setFooter({ text: `The house always wins...` });

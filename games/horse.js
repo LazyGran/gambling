@@ -8,7 +8,6 @@ const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
 const random    = new Random()
-
 const gifs      = [ah.gif("horses"), ah.gif("loading")]
 const horses    =
 [
@@ -45,7 +44,6 @@ async function main(interaction, bet, userStats, UID, chosen)
 
     const row   = new ActionRowBuilder().addComponents(menu)
     const embed = new EmbedBuilder()
-    .setColor("#259dd9")
     .setTitle("Horse race")
     .setThumbnail(gifs[0])
     .setDescription(`*The horses are getting into starting position* \n**Players:** \n${p_names.join(", ")} \n\nBet: ${bet} *(close <t:${close}:R>)*`)
@@ -126,7 +124,7 @@ async function race(interaction, embed)
     const context   = canvas.getContext('2d');
     const colors    = ["#000000", "#ff0000", "#ffea00", "c800ff", "#ff8800", "#00c903", "#6e4927"]
     
-    context.fillStyle       = colors[n]    
+    context.fillStyle       = colors[n]
     context.font            = '40pt Ubuntu Sans'
     context.textAlign       = 'center'
     context.textBaseline    = 'middle'
@@ -137,7 +135,7 @@ async function race(interaction, embed)
     const b = canvas.toBuffer('image/png') 
 
     embed 
-    .setColor("#259dd9")
+    .setColor(colors[n])
     .setThumbnail("attachment://image.png")
     .setDescription(`**Winners:** \n-# *Checking for winners*`)
 

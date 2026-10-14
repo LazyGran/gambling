@@ -2,6 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder, } = require("discord.js")
 const eh    = require("../handlers/errorHandler.js")
 const dh    = require("../handlers/dataHandler.js")
 const dev   = require('../handlers/dev.js')
+const ah    = require('../handlers/assetHandler.js')
+
+const colors = ah.colors()
 
 module.exports =
 {
@@ -29,7 +32,7 @@ module.exports =
             const embed = new EmbedBuilder()
             .setTitle(`Success`)
             .setThumbnail(thumb)
-            .setColor("#1aa32a")
+            .setColor(colors.green)
             .setDescription(`Changed your embed's image`)
 
             try     { await interaction.editReply({ embeds: [embed] }) }
