@@ -23,6 +23,8 @@
 501:    "Steroids",                         "Win when betting on horse" 
 502:    "Glue Factory",                     "Bet over 1.000 Chips on a horse & lose" 
 503:    "My Brain Is Dead I Fear",          "Win when betting on horse 'Giggle' (yellow)" 
+601:    "Beheadding",                       "Win when betting on 'Heads'"
+602:    "Shot through the- coin?!"          "Win when betting on 'Tails'"
 701:    "Retirement Defund",                "Play 10 games of 'Slots'" 
 802:    "Pair",                             "In 'Poker', win with 'Pair'"
 803:    "Two Pair",                         "In 'Poker', win with 'Two Pair'"
