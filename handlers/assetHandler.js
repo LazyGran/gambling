@@ -400,5 +400,5 @@ function colors()
 
 module.exports =
 {
-    badges, cards, gif, static, slots, items, colors,
+    badges, cards, gif, static, slots, items, colors, coins
 }
