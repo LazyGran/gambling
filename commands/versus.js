@@ -34,7 +34,7 @@ module.exports =
 
 			const embed = new EmbedBuilder()
 			.setTitle(`Them vs You`)
-			.setDescription(`${interaction.user} challenges the chat! \n**Game:** "${subcommand}" \n**Wager:** ${bet}`)
+			.setDescription(`${interaction.user} challenges the chat! \n**Game:** ${subcommand} \n**Wager:** ${bet} Chips`)
 
 		    const accept = new ButtonBuilder()
 		    .setCustomId("b_accept")
@@ -43,25 +43,31 @@ module.exports =
 
 		    const row = new ActionRowBuilder().addComponents(accept)
 
-			const initial = await interaction.editReply({ embeds: [embed], row: [row] })
-			const pressed = await initial.createMessageComponentCollector({ time: 30_000 })
+			const initial = await interaction.editReply({ embeds: [embed], components: [row] })
+			const pressed = await initial.createMessageComponentCollector({ time: 10_000 })
 
 			pressed.on('collect', async button =>
 			{
 				const opponentStats = dh.userGet(button.user.id)
-				if(opponentStats.active_game) return button.reply({ content: "You are already playing a game!", ephemeral: true })
-				if(opponentStats.chips < bet) return button.reply({ content: "You can not afford that", ephemeral: true })
+				if(button.user.id === UID)		return button.reply({ content: "You can't play against yourself!", ephemeral: true})
+				if(opponentStats.active_game) 	return button.reply({ content: "You are already playing a game!", ephemeral: true })
+				if(opponentStats.chips < bet)	return button.reply({ content: "You can not afford that", ephemeral: true })
 
-				await game.deferUpdate()
+				await button.deferUpdate()
 
-				final(userStats, opponentStats, interaction, embed, bet)
+				final(userStats, opponentStats, interaction, embed, bet, game)
 
 				pressed.stop("joined")
 			})
 
-			pressed.on('end', async collected =>
+			pressed.on('end', async (collected, reason) =>
 			{
-				dev.log(collected)
+				if(reason !== "joined")
+				{
+					embed.setDescription(`Nobody wanted to play with ${interaction.user}`)
+
+					interaction.editReply({ embeds: [embed], components:[] })
+				}
 			})	
         }
 		else
@@ -71,7 +77,7 @@ module.exports =
 	}
 }
 
-async function final(userStats, opponentStats, interaction, embed, bet)
+async function final(userStats, opponentStats, interaction, embed, bet, game)
 {
 	userStats.active_game 		= true
 	opponentStats.active_game 	= true
@@ -79,6 +85,6 @@ async function final(userStats, opponentStats, interaction, embed, bet)
 	opponentStats.chips			= opponentStats.chips - bet 
 
 	await dh.userSave(interaction.user.id, userStats)	
-	await dh.userSave(opponentID, opponentStats)
+	await dh.userSave(opponentStats.userID, opponentStats)
 	game.main(userStats, opponentStats, interaction, embed, bet)
 }
