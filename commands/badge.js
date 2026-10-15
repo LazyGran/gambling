@@ -31,6 +31,7 @@ const titles =
     502: { name: "Glue Factory",                   description: "Bet over 1.000 Chips on a horse & lose" },
     601: { name: "Beheadding",                     description: "Win when betting on 'Heads"},
     602: { name: "Shot through the- coin?!",       description: "Win when betting on 'Tails"},
+    603: { name: "What the flip",                  description: "Play 'Coinflip' at least 100 times"},
     503: { name: "My Brain Is Dead I Fear",        description: "Win when betting on horse 'Giggle' (yellow)" },
     701: { name: "Retirement Defund",            description: "Play 10 games of 'Slots'" },
     702: { name: "We Need To Build A Pond",      description: "Find the secret in 'Slots'" },
@@ -49,7 +50,7 @@ const titles =
 }
 
 const publics = [ 11, 12, 13, 21, 22, 90, 101, 102, 103, 201, 202, 203, 401, 402, 403, 501, 601, 602, 701, 702, 901, 902, 903 ]
-const secrets = [ 14, 15, 16, 50, 67, 69, 204, 404, 405, 502, 503, 802, 803, 804, 805, 806, 807, 808, 809, 810 ]
+const secrets = [ 14, 15, 16, 50, 67, 69, 204, 404, 405, 502, 503, 603, 802, 803, 804, 805, 806, 807, 808, 809, 810 ]
 
 module.exports = 
 {

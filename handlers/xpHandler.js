@@ -18,6 +18,8 @@ const games_con = [
 	{ gameID: 4, plays: 100, wins: 0, earnings: 0, achievementID: "403 "},
 	//horse
 	{ gameID: 5, plays: 1, wins: 1, earnings: 0, achievementID: "501" },
+	//coinflip-secret
+	{ gameID: 6, plays: 100, wins: 0, earnings: 0, achievementID: "603"},
 	//slots
 	{ gameID: 7, plays: 10, wins: 0, earnings: 0, achievementID: "701"},
 	//cardrush
