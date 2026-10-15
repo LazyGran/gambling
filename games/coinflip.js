@@ -49,7 +49,7 @@ async function main(interaction, bet, userStats, UID)
             if(button.user.id !== UID) return button.reply({content: "This isn't your game!", ephemeral: true})
             
             if(resolved) return
-            resolved = true
+            resolved = true5
 
             collector.stop("player")
 
@@ -68,46 +68,39 @@ async function main(interaction, bet, userStats, UID)
     if(!press)                              chosen = random.integer(0, 1)
     else if(press.customId === "b_tails")   chosen = 1
 
-    //embed.setThumbnail(gifs[1])
-    embed.setTitle("INSERT FLIP THUMBNAIL")
-    interaction.editReply({ embeds: [embed], componens: [] })
-
     const n = random.integer(0, 1)
     if(n === chosen) reward = bet * 0.5
 
-    setTimeout(() =>
+    embed.setTitle("INSERT FINAL THUMBNAIL")
+    //embed.setThumbnail(statics[n])
+
+    if(reward > 0)
     {
-        embed.setTitle("INSERT FINAL THUMBNAIL")
-        //embed.setThumbnail(statics[n])
+        const xp_rew    = Math.floor(reward / 7)
+        foot            = `You won ${reward} Chips`
 
-        if(reward > 0)
-        {
-            const xp_rew    = Math.floor(reward / 7)
-            foot            = `You won ${reward} Chips`
+        embed
+        .setColor(colors.green)
+        .setFooter({ text: foot });
 
-            embed
-            .setColor(colors.green)
-            .setFooter({ text: foot });
+        userStats.chips 		+= reward
+        userStats.active_game 	= false
 
-            userStats.chips 		+= reward
-            userStats.active_game 	= false
+        xh.leveling(userStats, xp_rew)
+        xh.achievements(userStats, userStats - reward, true, 6, reward)
+    }
+    else
+    {
+        embed
+        .setColor(colors.red)
+        .setFooter({ text: "One more flip..."})
 
-            xh.leveling(userStats, xp_rew)
-            xh.achievements(userStats, userStats - reward, true, 6, reward)
-        }
-        else
-        {
-            embed
-            .setColor(colors.red)
-            .setFooter({ text: "One more flip..."})
+        userStats.active_game 	= false
 
-            userStats.active_game 	= false
+        xh.achievements(userStats, userStats - reward, false, 6, reward)
+    }
 
-            xh.achievements(userStats, userStats - reward, false, 6, reward)
-        }
-
-        end(userStats, interaction, embed, bet, UID)
-    }, 1500)
+    end(userStats, interaction, embed, bet, UID)
 }
 
 async function end(userStats, interaction, embed, bet, UID)
