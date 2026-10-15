@@ -10,7 +10,7 @@ const ah	= require('../handlers/assetHandler.js')
 const colors	= ah.colors()
 const random 	= new Random()
 const statics	= [ah.static("coin0"), ah.static("coin1")]
-const gifs		= [ah.gif("coinflip1"), ah.gif("coinflip2")]
+const gif		= ah.gif("coins")
 
 async function main(interaction, bet, userStats, UID)
 {
@@ -20,7 +20,7 @@ async function main(interaction, bet, userStats, UID)
 
     const embed = new EmbedBuilder()
     .setTitle("Coinflip")
-    //.setThumbnail(gif[0])
+    .setThumbnail(gif)
     .setFooter({ text: foot });
 
     const heads = new ButtonBuilder()
@@ -49,7 +49,7 @@ async function main(interaction, bet, userStats, UID)
             if(button.user.id !== UID) return button.reply({content: "This isn't your game!", ephemeral: true})
             
             if(resolved) return
-            resolved = true5
+            resolved = true
 
             collector.stop("player")
 
@@ -65,16 +65,21 @@ async function main(interaction, bet, userStats, UID)
         })
     })
 
-    if(press) press.deferUpdate()
-        
-    if(!press)                              chosen = random.integer(0, 1)
-    else if(press.customId === "b_tails")   chosen = 1
+    if(!press)                          
+    {
+        chosen = random.integer(0, 1)
+        embed.setDescription("You didn't react, \nso Chippy chose for you")
+    }
+    else 
+    {
+        press.deferUpdate()
+        if(press.customId === "b_tails") chosen = 1
+    }
 
     const n = random.integer(0, 1)
     if(n === chosen) reward = bet + 10
 
-    embed.setTitle("INSERT FINAL THUMBNAIL")
-    //embed.setThumbnail(statics[n])
+    embed.setThumbnail(statics[n])
 
     if(reward > 0)
     {
