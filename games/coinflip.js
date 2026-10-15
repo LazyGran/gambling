@@ -65,11 +65,13 @@ async function main(interaction, bet, userStats, UID)
         })
     })
 
+    if(press) press.deferUpdate()
+        
     if(!press)                              chosen = random.integer(0, 1)
     else if(press.customId === "b_tails")   chosen = 1
 
     const n = random.integer(0, 1)
-    if(n === chosen) reward = bet * 0.5
+    if(n === chosen) reward = bet + 10
 
     embed.setTitle("INSERT FINAL THUMBNAIL")
     //embed.setThumbnail(statics[n])
