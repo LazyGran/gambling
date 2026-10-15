@@ -9,21 +9,78 @@ const ah	= require('../handlers/assetHandler.js')
 
 const colors	= ah.colors()
 const random 	= new Random()
-const statics	= ah.slots()
-const gifs 		= ah.slots(true)
+const statics	= [ah.static("coin0"), ah.static("coin1")]
+const gifs		= [ah.gif("coinflip1"), ah.gif("coinflip2")]
 
-async function main(interaction, bet, userStats)
+async function main(interaction, bet, userStats, UID)
 {
-    var foot	= "Flipping the lucky coin"
+    var foot	= "Which side will it land on?"
+    var chosen  = 0
+    var reward  = 0
+
     const embed = new EmbedBuilder()
-    .setThumbnail("TEMP")
+    .setTitle("Coinflip")
+    //.setThumbnail(gif[0])
     .setFooter({ text: foot });
+
+    const heads = new ButtonBuilder()
+    .setCustomId("b_heads")
+    .setLabel("Heads")
+    //.setEmoji('')
+    .setStyle(ButtonStyle.Secondary)
+
+    const tails = new ButtonBuilder()
+    .setCustomId("b_tails")
+    .setLabel("Tails")
+    //.setEmoji('')
+    .setStyle(ButtonStyle.Secondary)
+
+    const row       = new ActionRowBuilder().addComponents(heads, tails)
+    const initial   = await interaction.editReply({ embeds: [embed], components: [row] })
+
+    const press = await new Promise(resolve => 
+    {
+        const collector = initial.createMessageComponentCollector({ time: 5_000 })
+
+        let resolved = false
+
+        collector.on("collect", async button => 
+        {
+            if(button.user.id !== UID) return button.reply({content: "This isn't your game!", ephemeral: true})
+            
+            if(resolved) return
+            resolved = true
+
+            collector.stop("player")
+
+            resolve(button)
+        })
+
+        collector.on("end", (collected, reason) => 
+        {
+            if(resolved) return
+
+            resolved = true
+            resolve(null)
+        })
+    })
+
+    if(!press)                              chosen = random.integer(0, 1)
+    else if(press.customId === "b_tails")   chosen = 1
+
+    //embed.setThumbnail(gifs[1])
+    embed.setTitle("INSERT FLIP THUMBNAIL")
+    interaction.editReply({ embeds: [embed], componens: [] })
+
+    const n = random.integer(0, 1)
+    if(n === chosen) reward = bet * 0.5
 
     setTimeout(() =>
     {
-        embed.setThumbnail("TEMP")
+        embed.setTitle("INSERT FINAL THUMBNAIL")
+        //embed.setThumbnail(statics[n])
 
-        if(reward)
+        if(reward > 0)
         {
             const xp_rew    = Math.floor(reward / 7)
             foot            = `You won ${reward} Chips`
@@ -49,9 +106,8 @@ async function main(interaction, bet, userStats)
             xh.achievements(userStats, userStats - reward, false, 6, reward)
         }
 
-        end(userStats, interaction, embed, bet, interaction.user.id)
+        end(userStats, interaction, embed, bet, UID)
     }, 1500)
-
 }
 
 async function end(userStats, interaction, embed, bet, UID)
