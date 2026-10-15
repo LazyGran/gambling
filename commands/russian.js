@@ -99,7 +99,7 @@ module.exports =
 					lastbeg: 0,
 					inventory: [],
 					games: {},
-					achievements: ["90"],
+					achievements: userStats.achievements.push("90"),
 					custom: {},
 				}
 
