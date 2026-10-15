@@ -10,4 +10,5 @@
 - Dealer Blackjacks now top player Blackjack/21 (used to be push)
 - Time to react in Blackjack reduced to 10s (was 30s)
 - Fixed a bug causing /beg not to work
+- New game: Coinflip
 
