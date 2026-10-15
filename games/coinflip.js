@@ -10,6 +10,7 @@ const ah	= require('../handlers/assetHandler.js')
 const colors	= ah.colors()
 const random 	= new Random()
 const statics	= [ah.static("coin0"), ah.static("coin1")]
+const emojis    = ah.coins()
 const gif		= ah.gif("coins")
 
 async function main(interaction, bet, userStats, UID)
@@ -26,13 +27,13 @@ async function main(interaction, bet, userStats, UID)
     const heads = new ButtonBuilder()
     .setCustomId("b_heads")
     .setLabel("Heads")
-    //.setEmoji('')
+    .setEmoji(emojis[0])
     .setStyle(ButtonStyle.Secondary)
 
     const tails = new ButtonBuilder()
     .setCustomId("b_tails")
     .setLabel("Tails")
-    //.setEmoji('')
+    .setEmoji(emojis[1])
     .setStyle(ButtonStyle.Secondary)
 
     const row       = new ActionRowBuilder().addComponents(heads, tails)
