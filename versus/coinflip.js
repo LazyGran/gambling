@@ -16,7 +16,8 @@ const gif		= ah.gif("coins")
 async function main(userStats, opponentStats, interaction, embed, bet)
 {
     dev.log("Success")
-    end(userStats, opponentStats, interaction, embed, bet, UID)
+    dev.log(userStats.userID + " " + opponentStats.userID)
+    end(userStats, opponentStats, interaction, embed, bet)
 }
 
 async function end(userStats, opponentStats, interaction, embed)
