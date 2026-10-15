@@ -352,6 +352,23 @@ function slots(animated)
 
 }
 
+function coins()
+{
+    const statics = 
+    [
+        [   //live
+            "1560261856663175278",
+            "1560261872261931029"
+        ],
+        [   //dev
+            "1560261765227487313",
+            "1560261748957909183"
+        ]
+    ]
+
+    return statics[i]
+}
+
 function items()
 {
     const items =
