@@ -11,4 +11,5 @@
 - Time to react in Blackjack reduced to 10s (was 30s)
 - Fixed a bug causing /beg not to work
 - New game: Coinflip
+- Russian Roulette no longer resets badges
 
