@@ -11,5 +11,7 @@
 - Time to react in Blackjack reduced to 10s (was 30s)
 - Fixed a bug causing /beg not to work
 - New game: Coinflip
+- New badges: "Beheadding" and "Shot through the- coin?!", do /badges to find out how to earn
+- New secret badge: "What the flip"
 - Russian Roulette no longer resets badges
 
