@@ -43,7 +43,7 @@
 3: Baccarat
 4: Blackjack
 5: Horse Races
-6: Pinapple Poker
+6: Coinflip
 7: Slots
 8: Poker
 9: Card Rush

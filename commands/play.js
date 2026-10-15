@@ -90,6 +90,10 @@ module.exports =
 		)
 	)
 	.addSubcommand(subcommand => subcommand
+		.setName("coinflip")
+		.setDescription("Easy money, right?")
+	)
+	.addSubcommand(subcommand => subcommand
 		.setName("slots")
 		.setDescription("Pretty lights!")
 	)	
