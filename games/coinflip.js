@@ -95,7 +95,7 @@ async function main(interaction, bet, userStats, UID)
         userStats.active_game 	= false
 
         xh.leveling(userStats, xp_rew)
-        xh.achievements(userStats, userStats - reward, true, 6, reward)
+        xh.achievements(userStats, userStats - reward, true, 6, reward, bet, n)
     }
     else
     {

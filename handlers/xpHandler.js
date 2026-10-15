@@ -94,6 +94,9 @@ function achievements(userStats, pre, won, gameID, reward, bet, additional)
 	//503
 	if(gameID === 503 && additional === true && !userStats.achievements.includes("503"))			userStats.achievements.push("503")
 
+	if(gameID === 6 && additional === 0 && !userStats.achievements.includes("601"))					userStats.achievements.push("601")
+	if(gameID === 6 && additional === 1 && !userStats.achievements.includes("602"))					userStats.achievements.push("602")
+
 	//702
 	if(gameID === 7 && reward > 500 && !userStats.achievements.includes("702"))						userStats.achievements.push("702")
 
