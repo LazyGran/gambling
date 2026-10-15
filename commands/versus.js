@@ -36,15 +36,49 @@ module.exports =
 			.setTitle(`Them vs You`)
 			.setDescription(`${interaction.user} challenges the chat! \n**Game:** "${subcommand}" \n**Wager:** ${bet}`)
 
-			userStats.active_game 	= true
-			userStats.chips 		= userStats.chips - bet
+		    const accept = new ButtonBuilder()
+		    .setCustomId("b_accept")
+		    .setLabel("Accept")
+		    .setStyle(ButtonStyle.Secondary)
 
-			game.main(userStats, opponentStats, interaction, embed, bet)
-        	await dh.userSave(interaction.user.id, userStats)		
+		    const row = new ActionRowBuilder().addComponents(accept)
+
+			const initial = await interaction.editReply({ embeds: [embed], row: [row] })
+			const pressed = await initial.createMessageComponentCollector({ time: 30_000 })
+
+			pressed.on('collect', async button =>
+			{
+				const opponentStats = dh.userGet(button.user.id)
+				if(opponentStats.active_game) return button.reply({ content: "You are already playing a game!", ephemeral: true })
+				if(opponentStats.chips < bet) return button.reply({ content: "You can not afford that", ephemeral: true })
+
+				await game.deferUpdate()
+
+				final(userStats, opponentStats, interaction, embed, bet)
+
+				pressed.stop("joined")
+			})
+
+			pressed.on('end', async collected =>
+			{
+				dev.log(collected)
+			})	
         }
 		else
 		{
 			eh.error(interaction, "You are already playing a game!")
 		}
 	}
+}
+
+async function final(userStats, opponentStats, interaction, embed, bet)
+{
+	userStats.active_game 		= true
+	opponentStats.active_game 	= true
+	userStats.chips 			= userStats.chips - bet
+	opponentStats.chips			= opponentStats.chips - bet 
+
+	await dh.userSave(interaction.user.id, userStats)	
+	await dh.userSave(opponentID, opponentStats)
+	game.main(userStats, opponentStats, interaction, embed, bet)
 }
