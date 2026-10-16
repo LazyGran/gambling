@@ -16,3 +16,4 @@
 - Russian Roulette no longer resets badges
 - Fixed bug causing buttons to go unresponsive on blackjack
 - Fixed entry in /rule for High or Low and Cardrush
+- Removed play again (will return on a small number of games)
