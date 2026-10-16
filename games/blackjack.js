@@ -176,6 +176,18 @@ async function main(interaction, bet, userStats, UID)
 		await xh.leveling(userStats, xp_rew)
 		await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
 	}
+	else if(dealer_points === 21 && dealer_hand.length === 2)
+	{
+		if(doubled) lost = lost * 2;
+
+		embed
+		.setColor('#e80400')
+		.setTitle(`You lost!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You lost ${lost} Chips*`)
+		.setFooter({ text: `Dealer has a Blackjack!` });
+
+		await xh.achievements(userStats, userStats.chips, false, 4, 0)
+	}
 	else if(points > dealer_points)
 	{
 		if(doubled) reward = reward * 2;
