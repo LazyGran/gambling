@@ -19,25 +19,23 @@ const secretcard	= ah.cards(true)
 
 async function main(interaction, bet, userStats, UID)
 {
-	const deck = await ch.create(UID)
+	const deck 		= await ch.create(UID)
+	const xp_rew	= Math.floor(bet / 7)
 
 	let round 		= 1
-	let last_rew	= 0
-
-	var reward		= (bet * 2) + (bet * round)
-	var xp_rew		= Math.floor(bet / 7)
 
 	if(!deck.success) return eh.error(interaction, deck.reason)
 
-	game(interaction, bet, userStats, UID, round, reward, last_rew, xp_rew)
+	game(interaction, bet, userStats, UID, round, xp_rew)
 }
 
-async function game(interaction, bet, userStats, UID, round, reward, last_rew, xp_rew)
+async function game(interaction, bet, userStats, UID, round, xp_rew)
 {
 	var	drawn 	= await ch.draw(UID)
 	var played 	= false
 	var force 	= false
 	var cashout = true
+	var reward	= (bet * 2) + (bet * round)
 
 	let initial;
 	let repeat;
@@ -152,12 +150,10 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 	}
 
 	round++
-	reward 	+= last_rew
-	last_rew = reward
 
 	if(round - 1 < 3)
 	{
-		return game(interaction, bet, userStats, UID, round, reward, last_rew, xp_rew)
+		return game(interaction, bet, userStats, UID, round, xp_rew)
 	}
 	if(remaining <= 10)
 	{
@@ -239,7 +235,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 	}
 	else
 	{
-		return game(interaction, bet, userStats, UID, round, reward, last_rew, xp_rew)
+		return game(interaction, bet, userStats, UID, round, xp_rew)
 	}
 }
 
