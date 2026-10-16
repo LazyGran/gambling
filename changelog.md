@@ -14,4 +14,5 @@
 - New badges: "Beheadding" and "Shot through the- coin?!", do /badges to find out how to earn
 - New secret badge: "What the flip"
 - Russian Roulette no longer resets badges
-
+- Fixed bug causing buttons to go unresponsive on blackjack
+- Fixed entry in /rule for High or Low and Cardrush
