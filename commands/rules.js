@@ -6,7 +6,7 @@ const dev   = require('../handlers/dev.js')
 
 const rules =
 [
-    '**High or Low** \nYou draw a card, then you must guess whether the next card will be \n- Lower than, \n- Higher than, or \n- Equal to the first. \nThe values are: Ace/2-10, Jack, Queen, King \n-# Played with a standard deck of 52 cards',
+    '**High or Low** \nYou draw a card, then you must guess whether the next card will be \n- Lower than, \n- Higher than, or \n- Equal to the first. \nThe values are: Ace/2-9, 10=Jack=Queen=King \n-# Played with a standard deck of 52 cards',
 
     '**Blackjack** \nYour goal is to get as close to 21 as possible *without* going over \nIn order to win you must have: \n- More than the dealer, or \n- The dealer "busts" (goes over 21) or \n- You get an Ace & 10 as your initial two cards. \nAt the start, you get two cards. So does the dealer, but you can only see one of his. \nYou may then "Hit", getting dealt another card, or "Stand", making it the dealers turn. \nIf you go over 21, you immediately lose. \nThe values are: 2-10/Jack/Queen/King, Ace = 2 or 11, \nwhichever benefits you most. \n-# Played with a standard deck of 52 cards',
 
