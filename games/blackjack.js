@@ -69,156 +69,151 @@ async function main(interaction, bet, userStats, UID)
 	const embed = new EmbedBuilder()
 	.setTitle("Blackjack")
 	.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str.split('>')[0]}>${secretcard}`)
-	
-	try 	{ initial = await interaction.editReply({ embeds: [embed], components: [row] }) }
-	catch 	{ dev.log("Failed to respond \n GameID: 4, Error: 1", 2) }
 
-	const pressed	= await initial.createMessageComponentCollector({ time: 30_000 })
+	initial = await interaction.editReply({ embeds: [embed], components:[row] })
 
-	pressed.on('collect', async game =>
+	const press = await new Promise(resolve =>
 	{
-		if(game.user.id !== UID) return game.reply({ content: "This isn't your game!", ephemeral: true });
+		const collector = initial.createMessageComponentCollector({ time: 15_000 })
 
-		if(game.customId === "b_double")
+		let resolved = false
+
+		collector.on("collect", async button =>
 		{
-			if(!possible) return game.reply({ content: "You can't afford that!", ephemeral: true });
+			if(resolved) return
+			if(button.user.id !== UID) return button.reply({ content: "This isn't your game!", ephemeral: true })
 
-			userStats.chips -= bet
-			
-			doubled = true
-		}
+			button.deferUpdate()
 
-		game.deferUpdate()
+			if(button.customId === "b_double")
+			{
+				if(!possible) return button.reply({ content: "You can't afford that!", ephemeral: true });
 
-		if(game.customId === "b_stand")	
+				if(resolved) return
+
+				userStats.chips -= bet
+
+				doubled = true
+			}
+			else if(button.customId === "b_stand")
+			{
+				collector.stop("folded")
+
+				resolve(button)
+				return resolved = true
+			}
+
+			if(points === 17) await xh.achievements(userStats, userStats.chips, false, 404, 0, 0, true)
+
+			points 		= await player_draw(UID, hand, points, hand_em)
+			hand_str 	= hand_em.join("")
+
+			embed.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str.split('>')[0]}>${secretcard}`)
+
+			if(points > 21)
+			{
+				busted = true
+
+				collector.stop("busted")
+
+				resolve(button)
+				return resolved = true
+			}
+
+			await interaction.editReply({ embeds: [embed] })
+
+			if(doubled)
+			{
+				collector.stop("doubled")
+
+				resolve(button)
+				resolved = true
+			}
+		})
+
+		collector.on("end", (collected, reason) =>
 		{
-			played = true
+			if(resolved) return
 
-			return pressed.stop()	
-		}
-
-		if(points === 17) await xh.achievements(userStats, userStats.chips, false, 404, 0, 0, true)
-
-		points 		= await player_draw(UID, hand, points, hand_em)
-		hand_str 	= hand_em.join("")
-
-		embed.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str.split('>')[0]}>${secretcard}`)
-
-		try 	{ await interaction.editReply({ embeds: [embed] }) }
-		catch 	{ dev.log("Failed to respond \n GameID: 4, Error: 2", 2) }
-
-		if(points > 21)						
-		{
-			played = true
-			busted = true
-
-			return pressed.stop()
-		}
-		else if(doubled)
-		{
-			played = true
-
-			return pressed.stop()
-		}
+			resolved = true
+			resolve(null)
+		})
 	})
 
-	pressed.on('end', async collected =>
+
+	hit		.setDisabled(true)
+	stand	.setDisabled(true)
+	double	.setDisabled(true)
+
+	while(dealer_points < 17)
 	{
-		hit		.setDisabled(true)
-		stand	.setDisabled(true)
-		double	.setDisabled(true)
+		dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_em)
+		dealer_hand_str = dealer_hand_em.join("")
+	}
 
-		if(!played)
-		{
-			embed 	
-			.setColor(colors.red)
-			.setTitle(`You lost!`)
-			.setDescription(`You didn't react in time \n\n-# *You've lost ${bet} Chips*`)
-			.setFooter({ text: `The house gives you thirty seconds` });
+	if(busted)
+	{
+		if(doubled) lost = lost * 2;
 
-			await xh.achievements(userStats, userStats.chips, false, 4, 0)
-		}
+		embed
+		.setColor('#e80400')
+		.setTitle(`You lost!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
+		.setFooter({ text: `The house always wins...` });
 
-		while(dealer_points < 17)
-		{
-			dealer_points	= await dealer_draw(UID, dealer_hand, dealer_points, dealer_hand_em)
-			dealer_hand_str = dealer_hand_em.join("")
-		}
+		await xh.achievements(userStats, userStats.chips, false, 4, 0)
+	}
+	else if(dealer_points > 21)
+	{
+		if(doubled) reward = reward * 2;
 
-		if(busted)
-		{
-			if(doubled) lost = lost * 2;
+		embed
+		.setColor('#1aa32a')
+		.setTitle(`You won!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
-			embed 	
-			.setColor(colors.red)
-			.setTitle(`You lost!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
-			.setFooter({ text: `The house always wins...` });
+		userStats.chips = userStats.chips + reward
+		await xh.leveling(userStats, xp_rew)
+		await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
+	}
+	else if(points > dealer_points)
+	{
+		if(doubled) reward = reward * 2;
 
-			await xh.achievements(userStats, userStats.chips, false, 4, 0)
-		}
-		else if(dealer_points === 21 && dealer_hand.length === 2)
-		{
-			embed 	
-			.setColor(colors.red)
-			.setTitle(`Dealer has a Blackjack!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You've lost ${lost} Chips*`)
-			.setFooter({ text: `The house always wins...` });
+		embed
+		.setColor('#1aa32a')
+		.setTitle(`You won!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
 
-			await xh.achievements(userStats, userStats.chips, false, 4, 0)
-		}
-		else if(dealer_points > 21)
-		{
-			if(doubled) reward = reward * 2;
+		userStats.chips = userStats.chips + reward
+		await xh.leveling(userStats, xp_rew)
+		await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
+	}
+	else if(points === dealer_points)
+	{
+		embed
+		.setColor('#f58916')
+		.setTitle(`Push!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
+		.setFooter({ text: `Lucky...` });
 
-			embed 	
-			.setColor(colors.green)
-			.setTitle(`You won!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
+		userStats.chips = userStats.chips + bet
+		await xh.achievements(userStats, userStats.chips, false, 4, 0)
+	}
+	else
+	{
+		if(doubled) lost = lost * 2;
 
-			userStats.chips = userStats.chips + reward
-			await xh.leveling(userStats, xp_rew)
-			await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
-		}
-		else if(points > dealer_points)
-		{
-			if(doubled) reward = reward * 2;
+		embed
+		.setColor('#e80400')
+		.setTitle(`You lost!`)
+		.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You lost ${lost} Chips*`)
+		.setFooter({ text: `The house always wins...` });
 
-			embed 	
-			.setColor(colors.green)
-			.setTitle(`You won!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You won ${reward} Chips*`)
+		await xh.achievements(userStats, userStats.chips, false, 4, 0)
+	}
 
-			userStats.chips = userStats.chips + reward
-			await xh.leveling(userStats, xp_rew)
-			await xh.achievements(userStats, userStats.chips - reward, true, 4, reward)
-		}
-		else if(points === dealer_points)
-		{
-			embed 				
-			.setColor(colors.orange)
-			.setTitle(`Push!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You didn't lose any Chips*`)
-			.setFooter({ text: `Lucky...` });
-
-			userStats.chips = userStats.chips + bet
-			await xh.achievements(userStats, userStats.chips, false, 4, 0)
-		}
-		else
-		{
-			if(doubled) lost = lost * 2;
-
-			embed 	
-			.setColor(colors.red)
-			.setTitle(`You lost!`)
-			.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str} *(${dealer_points}p)* \n\n-# *You lost ${lost} Chips*`)
-			.setFooter({ text: `The house always wins...` });
-
-			await xh.achievements(userStats, userStats.chips, false, 4, 0)
-		}
-
-		end(userStats, interaction, embed, bet, UID)
-	})
+	end(userStats, interaction, embed, bet, UID)
 }
 
 async function player_draw(UID, hand, points, hand_em)
