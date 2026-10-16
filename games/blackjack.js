@@ -6,6 +6,7 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors = ah.colors()
 const values = 
 {
 	"Ace": 	11,
@@ -66,7 +67,6 @@ async function main(interaction, bet, userStats, UID)
 
 	const row 	= new ActionRowBuilder().addComponents(hit, stand, double)
 	const embed = new EmbedBuilder()
-	.setColor("#259dd9")
 	.setTitle("Blackjack")
 	.setDescription(`Your hand: ${hand_str} *(${points}p)* \nDealer's hand: ${dealer_hand_str.split('>')[0]}>${secretcard}`)
 

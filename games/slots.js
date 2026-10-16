@@ -7,8 +7,8 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors	= ah.colors()
 const random 	= new Random()
-
 const statics	= ah.slots()
 const gifs 		= ah.slots(true)
 
@@ -44,7 +44,7 @@ async function main(interaction, bet, userStats)
 		if(reward > 500) //rare badge
 		{
 			embed
-			.setColor("#1aa32a")
+			.setColor(colors.green)
 			.setTitle(`${statics[6]}${statics[6]}${statics[6]}`)
 			.setFooter({ text: `Found secret fih! You won ${reward} Chips` });
 
@@ -59,7 +59,7 @@ async function main(interaction, bet, userStats)
 			if(reward === 75)	foot = "Twins! "
 			else				foot = "Full row! "
     		embed
-    		.setColor("#1aa32a")
+    		.setColor(colors.green)
 			.setFooter({ text: foot + `You won ${reward} Chips` });
 
     		userStats.chips 		+= reward
@@ -71,7 +71,7 @@ async function main(interaction, bet, userStats)
     	else 
     	{
     		embed
-    		.setColor("#e80400")
+    		.setColor(colors.red)
 			.setFooter({ text: "One more spin..."})
 
     		userStats.active_game 	= false

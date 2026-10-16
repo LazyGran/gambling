@@ -6,6 +6,7 @@ const xh	= require('../handlers/xpHandler.js')
 const dev   = require('../handlers/dev.js')
 const ah	= require('../handlers/assetHandler.js')
 
+const colors = ah.colors()
 const values = 
 {
 	"Ace": 	2,
@@ -64,7 +65,6 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 
 	const row 	= new ActionRowBuilder().addComponents(low, equal, high)
 	const embed = new EmbedBuilder()
-	.setColor("#259dd9")
 	.setTitle("High or Low")
 	.setDescription(`1. Card: ${emoji} \n2. Card: ${secretcard}`)
 
@@ -106,7 +106,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		xh.achievements(userStats, userStats.chips, false, 9, 0)
 
 		embed
-		.setColor('#e80400')
+		.setColor(colors.red)
 		.setTitle(`You lost!`)
 		.setDescription(`You didn't react in time \n\n-# *You lost ${bet} Chips on Round ${round}*`)
 		.setFooter({ text: `The house gives you five seconds` });
@@ -141,7 +141,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 	else
 	{
 		embed
-		.setColor('#e80400')
+		.setColor(colors.red)
 		.setTitle(`You lost!`)
 		.setDescription(`1. Card ${emoji} \n2. Card ${dealer_emoji} \n\n-# *You lost ${bet} Chips on Round ${round}*`)
 		.setFooter({ text: `The house always wins...` });
@@ -226,7 +226,7 @@ async function game(interaction, bet, userStats, UID, round, reward, last_rew, x
 		}
 
 		embed
-		.setColor('#1aa32a')
+		.setColor(colors.green)
 		.setTitle(`Game's over`)
 		.setDescription(`You cashed out & won ${reward}`)
 

@@ -2,9 +2,10 @@ const { SlashCommandBuilder, EmbedBuilder, ContainerBuilder, MessageFlags } = re
 const fs    = require
 const eh    = require('../handlers/errorHandler.js')
 const dev   = require('../handlers/dev.js')
+const ah    = require('../handlers/assetHandler.js')
 
-
-const rules =
+const colors    = ah.colors()
+const rules     =
 [
     '**High or Low** \nYou draw a card, then you must guess whether the next card will be \n- Lower than, \n- Higher than, or \n- Equal to the first. \nThe values are: Ace/2-9, 10=Jack=Queen=King \n-# Played with a standard deck of 52 cards',
 
@@ -32,7 +33,7 @@ module.exports =
         await interaction.deferReply()
 
         const container = new ContainerBuilder()
-        .setAccentColor(0x0099ff)
+        .setAccentColor(colors.blue)
         .addTextDisplayComponents((textDisplay) => textDisplay.setContent('## Rules \n Maximum bet for each game is 1.000 Chips! \n You will lose if you fail to react in time!'))
 
         rules.forEach(rule =>

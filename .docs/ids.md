@@ -23,6 +23,9 @@
 501:    "Steroids",                         "Win when betting on horse" 
 502:    "Glue Factory",                     "Bet over 1.000 Chips on a horse & lose" 
 503:    "My Brain Is Dead I Fear",          "Win when betting on horse 'Giggle' (yellow)" 
+601:    "Beheadding",                       "Win when betting on 'Heads'"
+602:    "Shot through the- coin?!"          "Win when betting on 'Tails'"
+603:    "What the flip",                    "Play 'Coinflip' at least 100 times"
 701:    "Retirement Defund",                "Play 10 games of 'Slots'" 
 802:    "Pair",                             "In 'Poker', win with 'Pair'"
 803:    "Two Pair",                         "In 'Poker', win with 'Two Pair'"
@@ -43,7 +46,7 @@
 3: Baccarat
 4: Blackjack
 5: Horse Races
-6: Pinapple Poker
+6: Coinflip
 7: Slots
 8: Poker
 9: Card Rush
