@@ -115,7 +115,7 @@ module.exports =
 			.setRequired(false)
 		)
 	)
-	.addSubcommand(subcommand =>
+	.addSubcommand(subcommand => subcommand
 		.setName("diceroll")
 		.setDescription("Even, Odd, Anything?")
 		.addIntegerOption(option => option
